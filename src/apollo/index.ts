@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import {ApolloClient, InMemoryCache, createHttpLink} from '@apollo/client';
 import {setContext} from '@apollo/client/link/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -7,23 +6,26 @@ const httpLink = createHttpLink({
   uri: 'https://90b6-186-170-76-245.ngrok-free.app/graphql',
 });
 
+let token = '';
 const newToken = async () => {
   try {
-    const jsonValue = await AsyncStorage.getItem('token');
-    return jsonValue != null ? JSON.parse(jsonValue) : '';
+    const value = await AsyncStorage.getItem('token');
+    if (value !== null) {
+      const jwt = JSON.parse(value);
+      token = jwt.jwt;
+    }
   } catch (e) {
-    return '';
+    console.log('No se encontro el token');
   }
 };
 
-console.log(newToken(), 'newToken');
-const authLink = setContext((_, {headers}) => {
-  const token = '';
+newToken();
 
+const authLink = setContext((_, {headers}) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${newToken()}` : '',
+      authorization: token ? `Bearer ${token}` : '',
     },
   };
 });

@@ -21,7 +21,7 @@ export const useAuthServices = () => {
           res?.data?.login;
         return {res: true, response: dataLogin};
       } catch (error) {
-        return {res: false, response: 'Hubo un error al iniciar sesión'};
+        return {res: false, message: 'Hubo un error al iniciar sesión'};
       }
 
       // return {

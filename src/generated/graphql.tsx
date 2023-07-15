@@ -1213,6 +1213,11 @@ export type LoginMutationVariables = Exact<{
 
 export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UsersPermissionsLoginPayload', jwt?: string | null, user: { __typename?: 'UsersPermissionsMe', id: string, username: string, email?: string | null, confirmed?: boolean | null, blocked?: boolean | null } } };
 
+export type PedidosQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PedidosQuery = { __typename?: 'Query', pedidos?: { __typename?: 'PedidoEntityResponseCollection', data: Array<{ __typename?: 'PedidoEntity', id?: string | null, attributes?: { __typename?: 'Pedido', nombrePedido?: string | null, descripcion?: string | null, cliente?: string | null, fecha?: any | null, hora?: any | null, estacionInicio?: string | null, estacionFin?: string | null, fehcaInicio?: any | null, fechaFin?: any | null, cuantoTardoInicioFin?: string | null, createdAt?: any | null, updatedAt?: any | null } | null }> } | null };
+
 
 export const LoginDocument = gql`
     mutation Login($input: UsersPermissionsLoginInput!) {
@@ -1254,3 +1259,53 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const PedidosDocument = gql`
+    query Pedidos {
+  pedidos {
+    data {
+      attributes {
+        nombrePedido
+        descripcion
+        cliente
+        fecha
+        hora
+        estacionInicio
+        estacionFin
+        fehcaInicio
+        fechaFin
+        cuantoTardoInicioFin
+        createdAt
+        updatedAt
+      }
+      id
+    }
+  }
+}
+    `;
+
+/**
+ * __usePedidosQuery__
+ *
+ * To run a query within a React component, call `usePedidosQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePedidosQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePedidosQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePedidosQuery(baseOptions?: Apollo.QueryHookOptions<PedidosQuery, PedidosQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PedidosQuery, PedidosQueryVariables>(PedidosDocument, options);
+      }
+export function usePedidosLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PedidosQuery, PedidosQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PedidosQuery, PedidosQueryVariables>(PedidosDocument, options);
+        }
+export type PedidosQueryHookResult = ReturnType<typeof usePedidosQuery>;
+export type PedidosLazyQueryHookResult = ReturnType<typeof usePedidosLazyQuery>;
+export type PedidosQueryResult = Apollo.QueryResult<PedidosQuery, PedidosQueryVariables>;

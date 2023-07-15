@@ -1,0 +1,22 @@
+query Pedidos {
+  pedidos {
+    data {
+      attributes {
+        nombrePedido
+        descripcion
+        cliente
+        fecha
+        hora
+        estacionInicio
+        estacionFin
+        fehcaInicio
+        fechaFin
+        cuantoTardoInicioFin
+
+        createdAt
+        updatedAt
+      }
+      id
+    }
+  }
+}

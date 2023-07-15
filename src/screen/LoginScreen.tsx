@@ -7,20 +7,26 @@ import {StyleSheet} from 'react-native';
 import {useAuthServices} from '../services/useAuthServices';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {StackScreenProps} from '@react-navigation/stack';
+import {useSessionStore} from '../store/session';
 
 interface Props extends StackScreenProps<any, any> {}
 const LoginScreen = ({navigation}: Props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  // STORE
+  const sessionUpdate = useSessionStore(state => state.sessionUpdate);
+
   // LLAMADA DE GRAPHQL
   const {Login} = useAuthServices();
 
   const handleLogin = async () => {
     const res = await Login({identifier: email, password});
-    console.log(res);
     if (res.res) {
-      AsyncStorage.setItem('token', JSON.stringify(res?.response!));
+      await AsyncStorage.setItem('token', JSON.stringify(res?.response!)).then(
+        () => console.log('todo salio bien'),
+      );
+      sessionUpdate(res?.response!);
       navigation.navigate('Pedidos');
     }
   };
