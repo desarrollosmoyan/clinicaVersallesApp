@@ -1,17 +1,41 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
-import {Text, View} from 'react-native';
+import React, {useState} from 'react';
+import {View} from 'react-native';
 import {Button} from 'react-native-elements';
+import {Input} from '@rneui/themed';
+import {StyleSheet} from 'react-native';
+import {useAuthServices} from '../services/useAuthServices';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {StackScreenProps} from '@react-navigation/stack';
 
-const LoginScreen = () => {
+interface Props extends StackScreenProps<any, any> {}
+const LoginScreen = ({navigation}: Props) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  // LLAMADA DE GRAPHQL
+  const {Login} = useAuthServices();
+
+  const handleLogin = async () => {
+    const res = await Login({identifier: email, password});
+    console.log(res);
+    if (res.res) {
+      AsyncStorage.setItem('token', JSON.stringify(res?.response!));
+      navigation.navigate('Pedidos');
+    }
+  };
   return (
     <>
-      <View>
-        <Text>LoginScreen</Text>
+      <View style={styles.container}>
+        <Input placeholder="Email" onChangeText={text => setEmail(text)} />
+        <Input
+          placeholder="Password"
+          onChangeText={text => setPassword(text)}
+        />
         <Button
-          title="Funcione"
+          title="Entrar"
           buttonStyle={{
-            backgroundColor: 'black',
+            backgroundColor: '#7367F0',
             borderWidth: 2,
             borderColor: 'white',
             borderRadius: 30,
@@ -22,6 +46,7 @@ const LoginScreen = () => {
             marginVertical: 10,
           }}
           titleStyle={{fontWeight: 'bold'}}
+          onPress={handleLogin}
         />
       </View>
     </>
@@ -29,3 +54,10 @@ const LoginScreen = () => {
 };
 
 export default LoginScreen;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

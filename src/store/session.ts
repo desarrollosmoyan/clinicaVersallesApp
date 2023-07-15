@@ -3,6 +3,7 @@ import {UsersPermissionsLoginPayload} from '../generated/graphql';
 
 interface SessionState {
   session: UsersPermissionsLoginPayload;
+  sessionUpdate: (value: UsersPermissionsLoginPayload) => void;
 }
 export const useSessionStore = create<SessionState>()(set => ({
   session: {
@@ -16,5 +17,5 @@ export const useSessionStore = create<SessionState>()(set => ({
       username: '',
     },
   },
-  modalEstacionUpdate: value => set(() => ({modalEstacion: value})),
+  sessionUpdate: value => set(() => ({session: value})),
 }));
