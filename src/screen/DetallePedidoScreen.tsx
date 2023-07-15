@@ -1,5 +1,4 @@
 /* eslint-disable react-native/no-inline-styles */
-import {useRoute} from '@react-navigation/native';
 import {Button, Card} from '@rneui/themed';
 import React from 'react';
 import {Text} from 'react-native';
@@ -12,11 +11,8 @@ import {StackScreenProps} from '@react-navigation/stack';
 interface Props extends StackScreenProps<any, any> {}
 
 const DetallePedidoScreen = ({navigation}: Props) => {
-  const route = useRoute();
-  const {id} = route.params as any;
-
   const {Pedido} = usePedidosServices();
-  const {dataPedido} = Pedido({pedidoId: id! as string});
+  const {dataPedido} = Pedido({pedidoId: '5' as string});
 
   const handleClick = () => {
     navigation.navigate('Lectura-NFC');
@@ -24,7 +20,13 @@ const DetallePedidoScreen = ({navigation}: Props) => {
   return (
     <>
       <View>
-        <Text style={{fontSize: 40, textAlign: 'center', marginTop: 10}}>
+        <Text
+          style={{
+            fontSize: 40,
+            textAlign: 'center',
+            marginTop: 10,
+            color: 'black',
+          }}>
           Detalle pedido
         </Text>
         <View
@@ -42,7 +44,7 @@ const DetallePedidoScreen = ({navigation}: Props) => {
               borderRadius: 30,
             }}
             containerStyle={{
-              width: 200,
+              width: '45%',
               marginVertical: 10,
             }}
             titleStyle={{fontWeight: 'bold'}}
@@ -56,7 +58,7 @@ const DetallePedidoScreen = ({navigation}: Props) => {
               borderRadius: 30,
             }}
             containerStyle={{
-              width: 200,
+              width: '45%',
               marginVertical: 10,
             }}
             titleStyle={{fontWeight: 'bold'}}
@@ -164,9 +166,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginRight: 10,
+    color: 'black',
   },
   textSecond: {
     fontSize: 20,
     marginLeft: 5,
+    color: 'black',
   },
 });

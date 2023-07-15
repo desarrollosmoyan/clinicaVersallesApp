@@ -34,15 +34,27 @@ const PedidosScreen = ({navigation}: Props) => {
     <>
       <>
         <View>
-          <Text style={{fontSize: 40, textAlign: 'center', marginTop: 10}}>
+          <Text
+            style={{
+              fontSize: 40,
+              textAlign: 'center',
+              marginTop: 10,
+              color: 'black',
+            }}>
             Pedidos
           </Text>
           <View>
             {dataPedidos.map(pedido => (
               <Card key={pedido.id}>
-                <Text>{pedido.attributes?.cliente}</Text>
-                <Text>{pedido.attributes?.nombrePedido}</Text>
-                <Text>{pedido.attributes?.descripcion}</Text>
+                <Text style={{color: 'black'}}>
+                  {pedido.attributes?.cliente}
+                </Text>
+                <Text style={{color: 'black'}}>
+                  {pedido.attributes?.nombrePedido}
+                </Text>
+                <Text style={{color: 'black'}}>
+                  {pedido.attributes?.descripcion}
+                </Text>
                 <Button
                   size="sm"
                   type="clear"

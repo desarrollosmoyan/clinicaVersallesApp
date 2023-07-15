@@ -30,7 +30,7 @@ const LoginScreen = ({navigation}: Props) => {
       navigation.navigate('Pedidos');
     } else {
       console.log(res.message);
-      navigation.navigate('Lectura-NFC');
+      // navigation.navigate('Lectura-NFC');
     }
   };
 

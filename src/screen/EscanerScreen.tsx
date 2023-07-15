@@ -7,19 +7,19 @@ import {Button} from '@rneui/base';
 
 NfcManager.start();
 const EscanerScreen = () => {
-  const [Nfc, setNfc] = useState(false);
+  const [Nfc, setNfc] = useState('Escaneado....');
 
   async function readNdef() {
     try {
       console.log('registro');
-      setNfc(true);
+
       // register for the NFC tag with NDEF in it
       await NfcManager.requestTechnology(NfcTech.Ndef);
       // the resolved tag object will contain `ndefMessage` property
       try {
         const tag = await NfcManager.getTag();
         console.warn('Tag found', tag);
-        setNfc(false);
+        setNfc('Proceso terminado');
       } catch (error) {
         console.log('hubo un error ');
       }
@@ -47,22 +47,20 @@ const EscanerScreen = () => {
           Acerca tu celular al dispositivo NFC para realizar la lectura adecuada
         </Text>
         <View style={{alignItems: 'center', marginTop: 20}}>
-          {Nfc && (
-            <Button
-              title="Escaneado...."
-              buttonStyle={{
-                backgroundColor: '#7367F0',
-                borderWidth: 2,
-                borderColor: 'white',
-                borderRadius: 30,
-              }}
-              containerStyle={{
-                width: 200,
-                marginVertical: 10,
-              }}
-              titleStyle={{fontWeight: 'bold'}}
-            />
-          )}
+          <Button
+            title={Nfc}
+            buttonStyle={{
+              backgroundColor: '#7367F0',
+              borderWidth: 2,
+              borderColor: 'white',
+              borderRadius: 30,
+            }}
+            containerStyle={{
+              width: 200,
+              marginVertical: 10,
+            }}
+            titleStyle={{fontWeight: 'bold'}}
+          />
         </View>
       </View>
     </>
