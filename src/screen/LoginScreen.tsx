@@ -28,8 +28,12 @@ const LoginScreen = ({navigation}: Props) => {
       );
       sessionUpdate(res?.response!);
       navigation.navigate('Pedidos');
+    } else {
+      console.log(res.message);
+      navigation.navigate('Lectura-NFC');
     }
   };
+
   return (
     <>
       <View style={styles.container}>

@@ -7,14 +7,20 @@ import {View} from 'react-native';
 import {usePedidosServices} from '../services/usePedidosServices';
 import {StyleSheet} from 'react-native';
 import moment from 'moment';
+import {StackScreenProps} from '@react-navigation/stack';
 
-const DetallePedidoScreen = () => {
+interface Props extends StackScreenProps<any, any> {}
+
+const DetallePedidoScreen = ({navigation}: Props) => {
   const route = useRoute();
   const {id} = route.params as any;
-  console.log(id, 'id');
+
   const {Pedido} = usePedidosServices();
   const {dataPedido} = Pedido({pedidoId: id! as string});
-  console.log(dataPedido);
+
+  const handleClick = () => {
+    navigation.navigate('Lectura-NFC');
+  };
   return (
     <>
       <View>
@@ -138,6 +144,7 @@ const DetallePedidoScreen = () => {
               alignSelf: 'center',
             }}
             titleStyle={{fontWeight: 'bold', fontSize: 25}}
+            onPress={handleClick}
           />
         </View>
       </View>
