@@ -1,30 +1,34 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {Text, View} from 'react-native';
-// import {useSessionStore} from '../store/session';
+import {useSessionStore} from '../store/session';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import {usePedidosServices} from '../services/usePedidosServices';
 import {Card, Button} from '@rneui/themed';
+import {StackScreenProps} from '@react-navigation/stack';
 
-const PedidosScreen = () => {
+interface Props extends StackScreenProps<any, any> {}
+
+const PedidosScreen = ({navigation}: Props) => {
   // STORE
-  // const session = useSessionStore(state => state.session);
-  // const newToken = async () => {
-  //   try {
-  //     const value = await AsyncStorage.getItem('token');
-  //     if (value !== null) {
-  //       console.log(value, 'value');
-  //       // value previously stored
-  //     }
-  //   } catch (e) {
-  //     console.log('No se encontro el token');
-  //   }
-  // };
-  // Llama de graphql
+  const session = useSessionStore(state => state.session);
+
+  // LLAMADA A GRAPHQL
   const {Pedidos} = usePedidosServices();
-  const {dataPedidos, errorPedidos} = Pedidos();
-  console.log(dataPedidos, 'data');
-  console.log(errorPedidos);
+  const {dataPedidos} = Pedidos({
+    filters: {
+      user: {
+        email: {
+          eq: session.user.email,
+        },
+      },
+    },
+  });
+
+  // FUNCION PARA IR A LA PAGINA DE DETALLE
+  const handleDetalle = (id: string) => {
+    navigation.navigate('Detalle-pedido', {id});
+  };
 
   return (
     <>
@@ -39,7 +43,10 @@ const PedidosScreen = () => {
                 <Text>{pedido.attributes?.cliente}</Text>
                 <Text>{pedido.attributes?.nombrePedido}</Text>
                 <Text>{pedido.attributes?.descripcion}</Text>
-                <Button size="sm" type="clear">
+                <Button
+                  size="sm"
+                  type="clear"
+                  onPress={() => handleDetalle(pedido.id!)}>
                   Ver Detalle
                 </Button>
               </Card>

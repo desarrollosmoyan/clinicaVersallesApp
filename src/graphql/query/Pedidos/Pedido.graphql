@@ -1,6 +1,7 @@
-query Pedidos($filters: PedidoFiltersInput) {
-  pedidos(filters: $filters) {
+query Pedido($pedidoId: ID) {
+  pedido(id: $pedidoId) {
     data {
+      id
       attributes {
         nombrePedido
         descripcion
@@ -12,11 +13,10 @@ query Pedidos($filters: PedidoFiltersInput) {
         fehcaInicio
         fechaFin
         cuantoTardoInicioFin
-
+       
         createdAt
         updatedAt
       }
-      id
     }
   }
 }

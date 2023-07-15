@@ -1,8 +1,13 @@
-import {usePedidosQuery} from '../generated/graphql';
+import {
+  PedidoEntity,
+  PedidoFiltersInput,
+  usePedidoQuery,
+  usePedidosQuery,
+} from '../generated/graphql';
 
 export const usePedidosServices = () => {
   // PEDIDOS
-  const Pedidos = () => {
+  const Pedidos = ({filters}: {filters: PedidoFiltersInput}) => {
     const {
       data,
       loading: loadingPedidos,
@@ -10,6 +15,7 @@ export const usePedidosServices = () => {
       refetch,
     } = usePedidosQuery({
       fetchPolicy: 'network-only',
+      variables: {filters},
     });
     const dataPedidos = data?.pedidos?.data ?? [];
 
@@ -21,7 +27,29 @@ export const usePedidosServices = () => {
     };
   };
 
+  // PEDIDO
+  const Pedido = ({pedidoId}: {pedidoId: string}) => {
+    const {
+      data,
+      loading: loadingPedido,
+      error: errorPedido,
+      refetch,
+    } = usePedidoQuery({
+      fetchPolicy: 'network-only',
+      variables: {pedidoId},
+    });
+    const dataPedido: PedidoEntity = data?.pedido?.data ?? {};
+
+    return {
+      dataPedido,
+      loadingPedido,
+      errorPedido,
+      refetch,
+    };
+  };
+
   return {
     Pedidos,
+    Pedido,
   };
 };

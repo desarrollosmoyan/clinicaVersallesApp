@@ -1213,7 +1213,16 @@ export type LoginMutationVariables = Exact<{
 
 export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UsersPermissionsLoginPayload', jwt?: string | null, user: { __typename?: 'UsersPermissionsMe', id: string, username: string, email?: string | null, confirmed?: boolean | null, blocked?: boolean | null } } };
 
-export type PedidosQueryVariables = Exact<{ [key: string]: never; }>;
+export type PedidoQueryVariables = Exact<{
+  pedidoId?: InputMaybe<Scalars['ID']['input']>;
+}>;
+
+
+export type PedidoQuery = { __typename?: 'Query', pedido?: { __typename?: 'PedidoEntityResponse', data?: { __typename?: 'PedidoEntity', id?: string | null, attributes?: { __typename?: 'Pedido', nombrePedido?: string | null, descripcion?: string | null, cliente?: string | null, fecha?: any | null, hora?: any | null, estacionInicio?: string | null, estacionFin?: string | null, fehcaInicio?: any | null, fechaFin?: any | null, cuantoTardoInicioFin?: string | null, createdAt?: any | null, updatedAt?: any | null } | null } | null } | null };
+
+export type PedidosQueryVariables = Exact<{
+  filters?: InputMaybe<PedidoFiltersInput>;
+}>;
 
 
 export type PedidosQuery = { __typename?: 'Query', pedidos?: { __typename?: 'PedidoEntityResponseCollection', data: Array<{ __typename?: 'PedidoEntity', id?: string | null, attributes?: { __typename?: 'Pedido', nombrePedido?: string | null, descripcion?: string | null, cliente?: string | null, fecha?: any | null, hora?: any | null, estacionInicio?: string | null, estacionFin?: string | null, fehcaInicio?: any | null, fechaFin?: any | null, cuantoTardoInicioFin?: string | null, createdAt?: any | null, updatedAt?: any | null } | null }> } | null };
@@ -1259,9 +1268,60 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const PedidoDocument = gql`
+    query Pedido($pedidoId: ID) {
+  pedido(id: $pedidoId) {
+    data {
+      id
+      attributes {
+        nombrePedido
+        descripcion
+        cliente
+        fecha
+        hora
+        estacionInicio
+        estacionFin
+        fehcaInicio
+        fechaFin
+        cuantoTardoInicioFin
+        createdAt
+        updatedAt
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __usePedidoQuery__
+ *
+ * To run a query within a React component, call `usePedidoQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePedidoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePedidoQuery({
+ *   variables: {
+ *      pedidoId: // value for 'pedidoId'
+ *   },
+ * });
+ */
+export function usePedidoQuery(baseOptions?: Apollo.QueryHookOptions<PedidoQuery, PedidoQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PedidoQuery, PedidoQueryVariables>(PedidoDocument, options);
+      }
+export function usePedidoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PedidoQuery, PedidoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PedidoQuery, PedidoQueryVariables>(PedidoDocument, options);
+        }
+export type PedidoQueryHookResult = ReturnType<typeof usePedidoQuery>;
+export type PedidoLazyQueryHookResult = ReturnType<typeof usePedidoLazyQuery>;
+export type PedidoQueryResult = Apollo.QueryResult<PedidoQuery, PedidoQueryVariables>;
 export const PedidosDocument = gql`
-    query Pedidos {
-  pedidos {
+    query Pedidos($filters: PedidoFiltersInput) {
+  pedidos(filters: $filters) {
     data {
       attributes {
         nombrePedido
@@ -1295,6 +1355,7 @@ export const PedidosDocument = gql`
  * @example
  * const { data, loading, error } = usePedidosQuery({
  *   variables: {
+ *      filters: // value for 'filters'
  *   },
  * });
  */
