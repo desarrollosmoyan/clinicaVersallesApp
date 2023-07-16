@@ -8,6 +8,8 @@ import {useAuthServices} from '../services/useAuthServices';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {StackScreenProps} from '@react-navigation/stack';
 import {useSessionStore} from '../store/session';
+import {TextInput} from 'react-native-paper';
+import {theme} from '../theme/index';
 
 interface Props extends StackScreenProps<any, any> {}
 const LoginScreen = ({navigation}: Props) => {
@@ -41,6 +43,10 @@ const LoginScreen = ({navigation}: Props) => {
         <Input
           placeholder="Password"
           onChangeText={text => setPassword(text)}
+        />
+        <TextInput
+          label="Email"
+          theme={{colors: {primary: theme.colors.secondary}}}
         />
         <Button
           title="Entrar"

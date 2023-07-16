@@ -27,7 +27,7 @@ const PedidosScreen = ({navigation}: Props) => {
 
   // FUNCION PARA IR A LA PAGINA DE DETALLE
   const handleDetalle = (id: string) => {
-    navigation.navigate('Detalle-pedido', {id});
+    navigation.navigate('Detallepedido', {id});
   };
 
   return (

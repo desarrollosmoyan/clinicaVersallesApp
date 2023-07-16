@@ -1,21 +1,29 @@
 /* eslint-disable react-native/no-inline-styles */
-import {Button, Card} from '@rneui/themed';
 import React from 'react';
+
 import {Text} from 'react-native';
 import {View} from 'react-native';
-import {usePedidosServices} from '../services/usePedidosServices';
 import {StyleSheet} from 'react-native';
-import moment from 'moment';
+
 import {StackScreenProps} from '@react-navigation/stack';
+import {RootStackParams} from '../navigator/RouteScreen';
 
-interface Props extends StackScreenProps<any, any> {}
+import {Button, Card} from '@rneui/themed';
 
-const DetallePedidoScreen = ({navigation}: Props) => {
+import moment from 'moment';
+
+import {usePedidosServices} from '../services/usePedidosServices';
+
+interface Props extends StackScreenProps<RootStackParams, 'Detallepedido'> {}
+
+const DetallePedidoScreen = ({route, navigation}: Props) => {
+  const {id} = route.params;
+
   const {Pedido} = usePedidosServices();
-  const {dataPedido} = Pedido({pedidoId: '5' as string});
+  const {dataPedido} = Pedido({pedidoId: id});
 
   const handleClick = () => {
-    navigation.navigate('Lectura-NFC');
+    navigation.navigate('LecturaNFC');
   };
   return (
     <>

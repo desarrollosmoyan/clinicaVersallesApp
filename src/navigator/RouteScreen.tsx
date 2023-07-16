@@ -5,7 +5,14 @@ import PedidosScreen from '../screen/PedidosScreen';
 import DetallePedidoScreen from '../screen/DetallePedidoScreen';
 import EscanerScreen from '../screen/EscanerScreen';
 
-const Stack = createStackNavigator();
+export type RootStackParams = {
+  Login: undefined;
+  Pedidos: undefined;
+  LecturaNFC: undefined;
+  Detallepedido: {id: string};
+};
+
+const Stack = createStackNavigator<RootStackParams>();
 
 const RouteScreen = () => {
   return (
@@ -13,14 +20,8 @@ const RouteScreen = () => {
       <Stack.Navigator>
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Pedidos" component={PedidosScreen} />
-        <Stack.Screen name="Lectura-NFC" component={EscanerScreen} />
-        <Stack.Screen
-          name="Detalle-pedido"
-          initialParams={{
-            id: '',
-          }}
-          component={DetallePedidoScreen}
-        />
+        <Stack.Screen name="Detallepedido" component={DetallePedidoScreen} />
+        <Stack.Screen name="LecturaNFC" component={EscanerScreen} />
       </Stack.Navigator>
     </>
   );

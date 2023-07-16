@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {Text, View} from 'react-native';
 
 import NfcManager, {NfcTech} from 'react-native-nfc-manager';
@@ -30,9 +30,9 @@ const EscanerScreen = () => {
       NfcManager.cancelTechnologyRequest();
     }
   }
-  useEffect(() => {
-    readNdef();
-  }, []);
+  // useEffect(() => {
+  //   readNdef();
+  // }, []);
 
   return (
     <>
@@ -60,6 +60,7 @@ const EscanerScreen = () => {
               marginVertical: 10,
             }}
             titleStyle={{fontWeight: 'bold'}}
+            onPress={() => readNdef()}
           />
         </View>
       </View>
