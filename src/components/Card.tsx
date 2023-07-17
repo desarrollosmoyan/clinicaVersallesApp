@@ -7,6 +7,7 @@ import {Text} from 'react-native';
 import moment from 'moment';
 import LinearGradient from 'react-native-linear-gradient';
 import Button from './Button';
+import {cutString} from '../utils/cutString';
 
 interface Props {
   data: Pedido;
@@ -22,7 +23,7 @@ const Card = ({data, color, onDetalle}: Props) => {
         style={styles.container}
         colors={[COLORS.secondary, COLORS.primary]}>
         <View style={styles.containerTitle}>
-          <Text style={styles.title}>{data.nombrePedido}</Text>
+          <Text style={styles.title}>{cutString(10, data.nombrePedido!)}</Text>
           <Text style={styles.titleFecha}>
             {moment(data.createdAt).format('YYYY-MM-DD')}
           </Text>

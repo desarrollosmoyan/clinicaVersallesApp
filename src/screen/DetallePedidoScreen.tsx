@@ -14,6 +14,7 @@ import moment from 'moment';
 
 import {usePedidosServices} from '../services/usePedidosServices';
 import Button from '../components/Button';
+import Header from '../components/Header';
 
 interface Props extends StackScreenProps<RootStackParams, 'Detallepedido'> {}
 
@@ -29,29 +30,23 @@ const DetallePedidoScreen = ({route, navigation}: Props) => {
   return (
     <>
       <View>
-        <Text
-          style={{
-            fontSize: 40,
-            textAlign: 'center',
-            marginTop: 10,
-            color: 'black',
-          }}>
-          Detalle pedido
-        </Text>
+        {/* NAVBAR */}
+        <Header title={dataPedido.attributes?.nombrePedido!} show />
         <View
           style={{
             justifyContent: 'space-between',
             flexDirection: 'row',
             marginHorizontal: 5,
-            gap: 10,
+            gap: 5,
           }}>
           <Button
             title="Estacion de inicio"
             filled
             style={{
               marginTop: 18,
+              width: '50%',
               marginBottom: 4,
-              paddingHorizontal: 20,
+              paddingHorizontal: 2,
             }}
           />
           <Button
@@ -59,8 +54,9 @@ const DetallePedidoScreen = ({route, navigation}: Props) => {
             filled
             style={{
               marginTop: 18,
+              width: '50%',
               marginBottom: 4,
-              paddingHorizontal: 20,
+              paddingHorizontal: 2,
             }}
           />
         </View>

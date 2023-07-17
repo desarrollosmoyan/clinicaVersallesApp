@@ -10,6 +10,7 @@ const Button = (props: any) => {
 
   return (
     <TouchableOpacity
+      activeOpacity={0.8}
       style={{
         ...styles.button,
         ...{backgroundColor: bgColor},

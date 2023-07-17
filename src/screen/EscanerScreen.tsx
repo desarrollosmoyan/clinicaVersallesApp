@@ -2,6 +2,7 @@
 import React, {useEffect} from 'react';
 import {Image, Text, View} from 'react-native';
 import Toast from 'react-native-toast-message';
+import Header from '../components/Header';
 
 // import NfcManager, {NfcTech} from 'react-native-nfc-manager';
 
@@ -41,7 +42,9 @@ const EscanerScreen = () => {
   }, []);
 
   return (
-    <>
+    <View style={{flex: 1}}>
+      {/* NAVBAR */}
+      <Header title={'Escanear'} show />
       <View style={{justifyContent: 'center', flex: 1}}>
         <Text
           style={{
@@ -64,7 +67,7 @@ const EscanerScreen = () => {
           />
         </View>
       </View>
-    </>
+    </View>
   );
 };
 

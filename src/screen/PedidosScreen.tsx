@@ -1,12 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {Text, View, ScrollView} from 'react-native';
+import {View, ScrollView} from 'react-native';
 import {useSessionStore} from '../store/session';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import {usePedidosServices} from '../services/usePedidosServices';
 import {StackScreenProps} from '@react-navigation/stack';
-import COLORS from '../constants/color';
 import Card from '../components/Card';
+import Header from '../components/Header';
 
 interface Props extends StackScreenProps<any, any> {}
 
@@ -32,26 +32,10 @@ const PedidosScreen = ({navigation}: Props) => {
   };
   return (
     <>
-      <ScrollView style={{marginVertical: 20}}>
-        <View
-          style={{
-            paddingHorizontal: 22,
-
-            width: '100%',
-          }}>
-          <Text
-            style={{
-              fontSize: 35,
-              fontWeight: '700',
-              color: COLORS.black,
-              textAlign: 'center',
-              fontFamily: 'Roboto-Bold',
-            }}>
-            Tareas
-          </Text>
-        </View>
+      <ScrollView style={{marginBottom: 20}}>
+        <Header title="Tareas" />
         <View>
-          <View style={{paddingHorizontal: 20, gap: 20, marginTop: 20}}>
+          <View style={{paddingHorizontal: 20, gap: 20}}>
             {dataPedidos.map((pedido, index) => (
               <Card
                 key={pedido.id}
