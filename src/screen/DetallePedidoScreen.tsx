@@ -8,11 +8,12 @@ import {StyleSheet} from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParams} from '../navigator/RouteScreen';
 
-import {Button, Card} from '@rneui/themed';
+import {Card} from '@rneui/themed';
 
 import moment from 'moment';
 
 import {usePedidosServices} from '../services/usePedidosServices';
+import Button from '../components/Button';
 
 interface Props extends StackScreenProps<RootStackParams, 'Detallepedido'> {}
 
@@ -42,34 +43,25 @@ const DetallePedidoScreen = ({route, navigation}: Props) => {
             justifyContent: 'space-between',
             flexDirection: 'row',
             marginHorizontal: 5,
+            gap: 10,
           }}>
           <Button
             title="Estacion de inicio"
-            buttonStyle={{
-              backgroundColor: '#7367F0',
-              borderWidth: 2,
-              borderColor: 'white',
-              borderRadius: 30,
+            filled
+            style={{
+              marginTop: 18,
+              marginBottom: 4,
+              paddingHorizontal: 20,
             }}
-            containerStyle={{
-              width: '45%',
-              marginVertical: 10,
-            }}
-            titleStyle={{fontWeight: 'bold'}}
           />
           <Button
             title="Estacion de final"
-            buttonStyle={{
-              backgroundColor: '#7367F0',
-              borderWidth: 2,
-              borderColor: 'white',
-              borderRadius: 30,
+            filled
+            style={{
+              marginTop: 18,
+              marginBottom: 4,
+              paddingHorizontal: 20,
             }}
-            containerStyle={{
-              width: '45%',
-              marginVertical: 10,
-            }}
-            titleStyle={{fontWeight: 'bold'}}
           />
         </View>
         <View>
@@ -140,22 +132,17 @@ const DetallePedidoScreen = ({route, navigation}: Props) => {
             </View>
           </Card>
 
-          <Button
-            title="Escanear NFC"
-            buttonStyle={{
-              backgroundColor: '#7367F0',
-              borderWidth: 2,
-              borderColor: 'white',
-              borderRadius: 30,
-            }}
-            containerStyle={{
-              width: '80%',
-              marginVertical: 20,
-              alignSelf: 'center',
-            }}
-            titleStyle={{fontWeight: 'bold', fontSize: 25}}
-            onPress={handleClick}
-          />
+          <View style={{marginHorizontal: 20}}>
+            <Button
+              title="Escanear NFC"
+              filled
+              style={{
+                marginTop: 18,
+                marginBottom: 4,
+              }}
+              onPress={handleClick}
+            />
+          </View>
         </View>
       </View>
     </>

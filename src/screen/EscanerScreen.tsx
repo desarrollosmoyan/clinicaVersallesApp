@@ -1,42 +1,48 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
-import {Text, View} from 'react-native';
+import React, {useEffect} from 'react';
+import {Image, Text, View} from 'react-native';
+import Toast from 'react-native-toast-message';
 
-import NfcManager, {NfcTech} from 'react-native-nfc-manager';
-import {Button} from '@rneui/base';
+// import NfcManager, {NfcTech} from 'react-native-nfc-manager';
 
-NfcManager.start();
+// NfcManager.start();
 const EscanerScreen = () => {
-  const [Nfc, setNfc] = useState('Escaneado....');
+  // async function readNdef() {
+  //   try {
+  //     console.log('registro');
 
-  async function readNdef() {
-    try {
-      console.log('registro');
+  //     // register for the NFC tag with NDEF in it
+  //     await NfcManager.requestTechnology(NfcTech.Ndef);
+  //     // the resolved tag object will contain `ndefMessage` property
+  //     try {
+  //       const tag = await NfcManager.getTag();
+  //       console.warn('Tag found', tag);
+  //       setNfc('Proceso terminado');
+  //     } catch (error) {
+  //       console.log('hubo un error ');
+  //     }
+  //   } catch (ex) {
+  //     console.warn('Oops!', ex);
+  //   } finally {
+  //     // stop the nfc scanning
+  //     NfcManager.cancelTechnologyRequest();
+  //   }
+  // }
 
-      // register for the NFC tag with NDEF in it
-      await NfcManager.requestTechnology(NfcTech.Ndef);
-      // the resolved tag object will contain `ndefMessage` property
-      try {
-        const tag = await NfcManager.getTag();
-        console.warn('Tag found', tag);
-        setNfc('Proceso terminado');
-      } catch (error) {
-        console.log('hubo un error ');
-      }
-    } catch (ex) {
-      console.warn('Oops!', ex);
-    } finally {
-      // stop the nfc scanning
-      NfcManager.cancelTechnologyRequest();
-    }
-  }
-  // useEffect(() => {
-  //   readNdef();
-  // }, []);
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      Toast.show({
+        type: 'success',
+        text1: 'NFC escaneado correctamente',
+      });
+    }, 3000);
+
+    return () => clearTimeout(timeoutId);
+  }, []);
 
   return (
     <>
-      <View>
+      <View style={{justifyContent: 'center', flex: 1}}>
         <Text
           style={{
             fontSize: 40,
@@ -46,21 +52,15 @@ const EscanerScreen = () => {
           }}>
           Acerca tu celular al dispositivo NFC para realizar la lectura adecuada
         </Text>
-        <View style={{alignItems: 'center', marginTop: 20}}>
-          <Button
-            title={Nfc}
-            buttonStyle={{
-              backgroundColor: '#7367F0',
-              borderWidth: 2,
-              borderColor: 'white',
-              borderRadius: 30,
-            }}
-            containerStyle={{
+        <View style={{alignItems: 'center'}}>
+          <Image
+            source={require('../../images/nfc.png')}
+            style={{
+              height: 200,
               width: 200,
-              marginVertical: 10,
+              borderRadius: 20,
+              marginTop: 30,
             }}
-            titleStyle={{fontWeight: 'bold'}}
-            onPress={() => readNdef()}
           />
         </View>
       </View>

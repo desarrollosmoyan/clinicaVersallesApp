@@ -3,7 +3,7 @@ import {setContext} from '@apollo/client/link/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const httpLink = createHttpLink({
-  uri: 'https://9990-186-170-76-245.ngrok-free.app/graphql',
+  uri: 'https://050a-186-170-76-245.ngrok-free.app/graphql',
 });
 
 let token = '';
