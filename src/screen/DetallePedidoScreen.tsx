@@ -8,13 +8,16 @@ import {StyleSheet} from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParams} from '../navigator/RouteScreen';
 
-import {Card} from '@rneui/themed';
-
 import moment from 'moment';
 
 import {usePedidosServices} from '../services/usePedidosServices';
 import Button from '../components/Button';
 import Header from '../components/Header';
+import LinearGradient from 'react-native-linear-gradient';
+import COLORS from '../constants/color';
+import {cutString} from '../utils/cutString';
+import {Image} from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
 
 interface Props extends StackScreenProps<RootStackParams, 'Detallepedido'> {}
 
@@ -28,120 +31,140 @@ const DetallePedidoScreen = ({route, navigation}: Props) => {
     navigation.navigate('LecturaNFC');
   };
   return (
-    <>
-      <View>
-        {/* NAVBAR */}
-        <Header title={dataPedido.attributes?.nombrePedido!} show />
-        <View
-          style={{
-            justifyContent: 'space-between',
-            flexDirection: 'row',
-            marginHorizontal: 5,
-            gap: 5,
-          }}>
-          <Button
-            title="Estacion de inicio"
-            filled
-            style={{
-              marginTop: 18,
-              width: '50%',
-              marginBottom: 4,
-              paddingHorizontal: 2,
-            }}
-          />
-          <Button
-            title="Estacion de final"
-            filled
-            style={{
-              marginTop: 18,
-              width: '50%',
-              marginBottom: 4,
-              paddingHorizontal: 2,
-            }}
-          />
-        </View>
+    <ScrollView>
+      <LinearGradient
+        style={{
+          flex: 1,
+          // marginBottom: 20,
+        }}
+        colors={['#06105D', '#0E23CF']}>
         <View>
-          <Card>
-            <View style={styles.containerText}>
-              <Text style={styles.textPrimary}>Pedido :</Text>
-              <Text style={styles.textSecond}>
-                {dataPedido.attributes?.nombrePedido}
-              </Text>
-            </View>
-            <View style={styles.containerText}>
-              <Text style={styles.textPrimary}>Cliente :</Text>
-              <Text style={styles.textSecond}>
-                {dataPedido.attributes?.cliente}
-              </Text>
-            </View>
-            <View style={styles.containerText}>
-              <Text style={styles.textPrimary}>Descripción :</Text>
-              <Text style={styles.textSecond}>
-                {dataPedido.attributes?.descripcion}
-              </Text>
-            </View>
-            <View style={styles.containerText}>
-              <Text style={styles.textPrimary}>Estación inicio :</Text>
-              <Text style={styles.textSecond}>
-                {dataPedido.attributes?.estacionInicio}
-              </Text>
-            </View>
-            <View style={styles.containerText}>
-              <Text style={styles.textPrimary}>Estación Final :</Text>
-              <Text style={styles.textSecond}>
-                {dataPedido.attributes?.estacionFin}
-              </Text>
-            </View>
-            <View style={styles.containerText}>
-              <Text style={styles.textPrimary}>Fecha :</Text>
-              <Text style={styles.textSecond}>
-                {dataPedido.attributes?.fecha
-                  ? moment(dataPedido.attributes?.fecha).format('YYYY-MM-DD')
-                  : 'Sin fecha'}
-              </Text>
-            </View>
-            <View style={styles.containerText}>
-              <Text style={styles.textPrimary}>Fecha Inicio :</Text>
-              <Text style={styles.textSecond}>
-                {dataPedido.attributes?.fehcaInicio
-                  ? moment(dataPedido.attributes?.fehcaInicio).format(
-                      'YYYY-MM-DD',
-                    )
-                  : 'Sin fecha'}
-              </Text>
-            </View>
-            <View style={styles.containerText}>
-              <Text style={styles.textPrimary}>Fecha Final :</Text>
-              <Text style={styles.textSecond}>
-                {dataPedido.attributes?.fechaFin
-                  ? moment(dataPedido.attributes?.fechaFin).format('YYYY-MM-DD')
-                  : 'Sin fecha'}
-              </Text>
-            </View>
-            <View style={styles.containerText}>
-              <Text style={styles.textPrimary}>Hora :</Text>
-              <Text style={styles.textSecond}>
-                {dataPedido.attributes?.hora
-                  ? dataPedido.attributes?.hora.substring(0, 5)
-                  : 'Sin hora'}
-              </Text>
-            </View>
-          </Card>
+          {/* NAVBAR */}
+          <Header title={dataPedido.attributes?.nombrePedido!} show color />
 
-          <View style={{marginHorizontal: 20}}>
+          <View
+            style={{
+              justifyContent: 'space-between',
+              flexDirection: 'row',
+              marginHorizontal: 5,
+              gap: 5,
+            }}>
             <Button
-              title="Escanear NFC"
-              filled
+              title="Estacion de inicio"
               style={{
                 marginTop: 18,
+                width: '50%',
                 marginBottom: 4,
+                paddingHorizontal: 2,
               }}
-              onPress={handleClick}
+            />
+            <Button
+              title="Estacion de final"
+              style={{
+                marginTop: 18,
+                width: '50%',
+                marginBottom: 4,
+                paddingHorizontal: 2,
+              }}
             />
           </View>
+          <View style={{alignItems: 'center', marginTop: 20}}>
+            <Image
+              source={require('../../images/image-detalle.png')}
+              style={{
+                height: 300,
+                width: 300,
+                objectFit: 'contain',
+              }}
+            />
+          </View>
+          <View>
+            <View style={{paddingHorizontal: 15, marginTop: 15}}>
+              <Text
+                style={{fontSize: 35, fontWeight: '500', color: COLORS.white}}>
+                {dataPedido.attributes?.cliente!}
+              </Text>
+              <Text
+                style={{fontSize: 50, fontWeight: '800', color: COLORS.white}}>
+                {cutString(10, dataPedido.attributes?.nombrePedido!)}
+              </Text>
+              <Text
+                style={{fontSize: 25, fontWeight: '400', color: COLORS.white}}>
+                {dataPedido.attributes?.descripcion!}
+              </Text>
+            </View>
+            <View
+              style={{
+                borderWidth: 2,
+                borderRadius: 10,
+                paddingVertical: 10,
+                // paddingHorizontal: 10,
+                marginHorizontal: 20,
+                marginVertical: 20,
+                borderColor: COLORS.white,
+                flexDirection: 'row',
+              }}>
+              <View
+                style={{
+                  ...styles.containerText,
+                  borderRightWidth: 2,
+                  borderColor: COLORS.white,
+                  paddingHorizontal: 8,
+                }}>
+                <Text style={styles.textPrimary}>Fecha</Text>
+                <Text style={styles.textSecond}>
+                  {dataPedido.attributes?.fecha
+                    ? moment(dataPedido.attributes?.fecha).format('YYYY-MM-DD')
+                    : 'Sin fecha'}
+                </Text>
+              </View>
+              <View
+                style={{
+                  ...styles.containerText,
+                  borderRightWidth: 2,
+                  borderColor: COLORS.white,
+                  paddingHorizontal: 8,
+                }}>
+                <Text style={styles.textPrimary}>Fecha Inicio</Text>
+                <Text style={styles.textSecond}>
+                  {dataPedido.attributes?.fehcaInicio
+                    ? moment(dataPedido.attributes?.fehcaInicio).format(
+                        'YYYY-MM-DD',
+                      )
+                    : 'Sin fecha'}
+                </Text>
+              </View>
+              <View
+                style={{
+                  ...styles.containerText,
+
+                  paddingHorizontal: 8,
+                }}>
+                <Text style={styles.textPrimary}>Fecha Final</Text>
+                <Text style={styles.textSecond}>
+                  {dataPedido.attributes?.fechaFin
+                    ? moment(dataPedido.attributes?.fechaFin).format(
+                        'YYYY-MM-DD',
+                      )
+                    : 'Sin fecha'}
+                </Text>
+              </View>
+            </View>
+
+            <View style={{marginHorizontal: 20}}>
+              <Button
+                title="Escanear NFC"
+                style={{
+                  marginTop: 18,
+                  marginBottom: 20,
+                }}
+                onPress={handleClick}
+              />
+            </View>
+          </View>
         </View>
-      </View>
-    </>
+      </LinearGradient>
+    </ScrollView>
   );
 };
 
@@ -149,19 +172,15 @@ export default DetallePedidoScreen;
 
 const styles = StyleSheet.create({
   containerText: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    marginBottom: 10,
+    alignItems: 'center',
   },
   textPrimary: {
     fontSize: 20,
-    fontWeight: 'bold',
-    marginRight: 10,
-    color: 'black',
+    fontWeight: '800',
+    color: COLORS.white,
   },
   textSecond: {
     fontSize: 20,
-    marginLeft: 5,
-    color: 'black',
+    color: COLORS.white,
   },
 });

@@ -9,9 +9,10 @@ import {useNavigation} from '@react-navigation/native';
 interface Props {
   title: string;
   show?: boolean;
+  color?: boolean;
 }
 
-const Header = ({title, show = false}: Props) => {
+const Header = ({title, show = false, color = false}: Props) => {
   const navigate = useNavigation();
   return (
     <>
@@ -23,7 +24,7 @@ const Header = ({title, show = false}: Props) => {
             <Icon
               name="chevron-back-outline"
               size={30}
-              color={COLORS.primary}
+              color={color ? COLORS.white : COLORS.primary}
             />
           </TouchableOpacity>
         )}
@@ -33,7 +34,7 @@ const Header = ({title, show = false}: Props) => {
             textAlign: 'center',
             fontWeight: '700',
             marginTop: 10,
-            color: COLORS.secondary,
+            color: color ? COLORS.white : COLORS.primary,
           }}>
           {title}
         </Text>
