@@ -1218,7 +1218,7 @@ export type PedidoQueryVariables = Exact<{
 }>;
 
 
-export type PedidoQuery = { __typename?: 'Query', pedido?: { __typename?: 'PedidoEntityResponse', data?: { __typename?: 'PedidoEntity', id?: string | null, attributes?: { __typename?: 'Pedido', nombrePedido?: string | null, descripcion?: string | null, cliente?: string | null, fecha?: any | null, hora?: any | null, estacionInicio?: string | null, estacionFin?: string | null, fehcaInicio?: any | null, fechaFin?: any | null, cuantoTardoInicioFin?: string | null, createdAt?: any | null, updatedAt?: any | null } | null } | null } | null };
+export type PedidoQuery = { __typename?: 'Query', pedido?: { __typename?: 'PedidoEntityResponse', data?: { __typename?: 'PedidoEntity', id?: string | null, attributes?: { __typename?: 'Pedido', nombrePedido?: string | null, descripcion?: string | null, cliente?: string | null, fecha?: any | null, hora?: any | null, estacionInicio?: string | null, estacionFin?: string | null, fehcaInicio?: any | null, fechaFin?: any | null, cuantoTardoInicioFin?: string | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', attributes?: { __typename?: 'UsersPermissionsUser', nombreCompleto?: string | null } | null } | null } | null } | null } | null } | null };
 
 export type PedidosQueryVariables = Exact<{
   filters?: InputMaybe<PedidoFiltersInput>;
@@ -1284,6 +1284,13 @@ export const PedidoDocument = gql`
         fehcaInicio
         fechaFin
         cuantoTardoInicioFin
+        user {
+          data {
+            attributes {
+              nombreCompleto
+            }
+          }
+        }
         createdAt
         updatedAt
       }

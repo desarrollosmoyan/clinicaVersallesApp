@@ -13,7 +13,13 @@ query Pedido($pedidoId: ID) {
         fehcaInicio
         fechaFin
         cuantoTardoInicioFin
-       
+        user {
+          data {
+            attributes {
+              nombreCompleto
+            }
+          }
+        }
         createdAt
         updatedAt
       }

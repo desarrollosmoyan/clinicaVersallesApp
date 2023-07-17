@@ -6,7 +6,7 @@ const Button = (props: any) => {
   const filledBgColor = props.color || COLORS.primary;
   const outlinedColor = COLORS.white;
   const bgColor = props.filled ? filledBgColor : outlinedColor;
-  const textColor = props.filled ? COLORS.white : COLORS.primary;
+  const textColor = props.filled ? COLORS.white : COLORS.black;
 
   return (
     <TouchableOpacity
@@ -16,7 +16,9 @@ const Button = (props: any) => {
         ...props.style,
       }}
       onPress={props.onPress}>
-      <Text style={{fontSize: 18, ...{color: textColor}}}>{props.title}</Text>
+      <Text style={{fontSize: 20, fontWeight: '700', ...{color: textColor}}}>
+        {props.title}
+      </Text>
     </TouchableOpacity>
   );
 };

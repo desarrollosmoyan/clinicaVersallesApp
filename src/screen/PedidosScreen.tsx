@@ -1,11 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, ScrollView} from 'react-native';
 import {useSessionStore} from '../store/session';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import {usePedidosServices} from '../services/usePedidosServices';
-import {Card, Button} from '@rneui/themed';
 import {StackScreenProps} from '@react-navigation/stack';
+import COLORS from '../constants/color';
+import Card from '../components/Card';
 
 interface Props extends StackScreenProps<any, any> {}
 
@@ -29,43 +30,39 @@ const PedidosScreen = ({navigation}: Props) => {
   const handleDetalle = (id: string) => {
     navigation.navigate('Detallepedido', {id});
   };
-
   return (
     <>
-      <>
-        <View>
+      <ScrollView style={{marginVertical: 20}}>
+        <View
+          style={{
+            paddingHorizontal: 22,
+
+            width: '100%',
+          }}>
           <Text
             style={{
-              fontSize: 40,
+              fontSize: 35,
+              fontWeight: '700',
+              color: COLORS.black,
               textAlign: 'center',
-              marginTop: 10,
-              color: 'black',
+              fontFamily: 'Roboto-Bold',
             }}>
-            Pedidos
+            Tareas
           </Text>
-          <View>
-            {dataPedidos.map(pedido => (
-              <Card key={pedido.id}>
-                <Text style={{color: 'black'}}>
-                  {pedido.attributes?.cliente}
-                </Text>
-                <Text style={{color: 'black'}}>
-                  {pedido.attributes?.nombrePedido}
-                </Text>
-                <Text style={{color: 'black'}}>
-                  {pedido.attributes?.descripcion}
-                </Text>
-                <Button
-                  size="sm"
-                  type="clear"
-                  onPress={() => handleDetalle(pedido.id!)}>
-                  Ver Detalle
-                </Button>
-              </Card>
+        </View>
+        <View>
+          <View style={{paddingHorizontal: 20, gap: 20, marginTop: 20}}>
+            {dataPedidos.map((pedido, index) => (
+              <Card
+                key={pedido.id}
+                data={pedido?.attributes!}
+                color={index + 1}
+                onDetalle={() => handleDetalle(pedido.id!)}
+              />
             ))}
           </View>
         </View>
-      </>
+      </ScrollView>
     </>
   );
 };
