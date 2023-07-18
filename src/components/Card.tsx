@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Pedido} from '../generated/graphql';
@@ -7,7 +6,6 @@ import {Text} from 'react-native';
 import moment from 'moment';
 import LinearGradient from 'react-native-linear-gradient';
 import Button from './Button';
-import {cutString} from '../utils/cutString';
 
 interface Props {
   data: Pedido;
@@ -23,7 +21,7 @@ const Card = ({data, color, onDetalle}: Props) => {
         style={styles.container}
         colors={[COLORS.secondary, COLORS.primary]}>
         <View style={styles.containerTitle}>
-          <Text style={styles.title}>{cutString(10, data.nombrePedido!)}</Text>
+          <Text style={styles.title}>{data.nombrePedido!}</Text>
           <Text style={styles.titleFecha}>
             {moment(data.createdAt).format('YYYY-MM-DD')}
           </Text>
@@ -31,13 +29,13 @@ const Card = ({data, color, onDetalle}: Props) => {
         <Text style={styles.subtitle}>{data.cliente}</Text>
         <Text style={styles.subtitle}>{data.descripcion}</Text>
 
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View style={{}}>
           <View style={{alignItems: 'center'}}>
-            <Text style={styles.seccionTitle}>Estacion Inicio</Text>
+            <Text style={styles.seccionTitle}>Inicio</Text>
             <Text style={styles.seccionSubTitle}>{data.estacionInicio}</Text>
           </View>
           <View style={{alignItems: 'center'}}>
-            <Text style={styles.seccionTitle}>Estacion Final</Text>
+            <Text style={styles.seccionTitle}>Final</Text>
             <Text style={styles.seccionSubTitle}>{data.estacionFin}</Text>
           </View>
         </View>
@@ -47,7 +45,6 @@ const Card = ({data, color, onDetalle}: Props) => {
             marginTop: 18,
             marginBottom: 4,
             backgroundColor: COLORS.white,
-            borderRadius: 50,
           }}
           onPress={onDetalle}
         />
@@ -99,7 +96,7 @@ const styles = StyleSheet.create({
     color: COLORS.white,
   },
   seccionSubTitle: {
-    fontSize: 20,
+    fontSize: 25,
     color: COLORS.white,
   },
 });

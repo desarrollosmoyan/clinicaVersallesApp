@@ -14,6 +14,8 @@ const PedidosScreen = ({navigation}: Props) => {
   // STORE
   const session = useSessionStore(state => state.session);
 
+  console.log(session.user.email);
+
   // LLAMADA A GRAPHQL
   const {Pedidos} = usePedidosServices();
   const {dataPedidos} = Pedidos({
@@ -25,7 +27,6 @@ const PedidosScreen = ({navigation}: Props) => {
       },
     },
   });
-
   // FUNCION PARA IR A LA PAGINA DE DETALLE
   const handleDetalle = (id: string) => {
     navigation.navigate('Detallepedido', {id});

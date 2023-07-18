@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 
 import {Text} from 'react-native';
@@ -8,16 +7,19 @@ import {StyleSheet} from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParams} from '../navigator/RouteScreen';
 
-import moment from 'moment';
+import {Image} from 'react-native';
+
+import LinearGradient from 'react-native-linear-gradient';
 
 import {usePedidosServices} from '../services/usePedidosServices';
+
 import Button from '../components/Button';
 import Header from '../components/Header';
-import LinearGradient from 'react-native-linear-gradient';
+
 import COLORS from '../constants/color';
-import {cutString} from '../utils/cutString';
-import {Image} from 'react-native';
+
 import {ScrollView} from 'react-native-gesture-handler';
+import moment from 'moment';
 
 interface Props extends StackScreenProps<RootStackParams, 'Detallepedido'> {}
 
@@ -86,68 +88,61 @@ const DetallePedidoScreen = ({route, navigation}: Props) => {
               </Text>
               <Text
                 style={{fontSize: 50, fontWeight: '800', color: COLORS.white}}>
-                {cutString(10, dataPedido.attributes?.nombrePedido!)}
+                {dataPedido.attributes?.nombrePedido!}
               </Text>
               <Text
                 style={{fontSize: 25, fontWeight: '400', color: COLORS.white}}>
                 {dataPedido.attributes?.descripcion!}
               </Text>
             </View>
-            <View
-              style={{
-                borderWidth: 2,
-                borderRadius: 10,
-                paddingVertical: 10,
-                // paddingHorizontal: 10,
-                marginHorizontal: 20,
-                marginVertical: 20,
-                borderColor: COLORS.white,
-                flexDirection: 'row',
-              }}>
-              <View
-                style={{
-                  ...styles.containerText,
-                  borderRightWidth: 2,
-                  borderColor: COLORS.white,
-                  paddingHorizontal: 8,
-                }}>
-                <Text style={styles.textPrimary}>Fecha</Text>
-                <Text style={styles.textSecond}>
-                  {dataPedido.attributes?.fecha
-                    ? moment(dataPedido.attributes?.fecha).format('YYYY-MM-DD')
-                    : 'Sin fecha'}
-                </Text>
-              </View>
-              <View
-                style={{
-                  ...styles.containerText,
-                  borderRightWidth: 2,
-                  borderColor: COLORS.white,
-                  paddingHorizontal: 8,
-                }}>
-                <Text style={styles.textPrimary}>Fecha Inicio</Text>
-                <Text style={styles.textSecond}>
-                  {dataPedido.attributes?.fehcaInicio
-                    ? moment(dataPedido.attributes?.fehcaInicio).format(
-                        'YYYY-MM-DD',
-                      )
-                    : 'Sin fecha'}
-                </Text>
-              </View>
-              <View
-                style={{
-                  ...styles.containerText,
 
-                  paddingHorizontal: 8,
+            {/* CARDS FECHAS */}
+
+            <View style={{marginTop: 20, paddingHorizontal: 20}}>
+              <Text
+                style={{
+                  fontSize: 35,
+                  fontWeight: '700',
+                  color: COLORS.white,
+                  alignItems: 'center',
+                  alignSelf: 'center',
                 }}>
-                <Text style={styles.textPrimary}>Fecha Final</Text>
-                <Text style={styles.textSecond}>
-                  {dataPedido.attributes?.fechaFin
-                    ? moment(dataPedido.attributes?.fechaFin).format(
-                        'YYYY-MM-DD',
-                      )
-                    : 'Sin fecha'}
-                </Text>
+                Fechas
+              </Text>
+              <View style={styles.containerFechas}>
+                {/* CARD1 */}
+                <View style={styles.containerCard}>
+                  <Text style={styles.cardTitle}>Fecha</Text>
+                  <Text style={styles.cardSubTitle}>
+                    {dataPedido.attributes?.fecha
+                      ? moment(dataPedido.attributes?.fecha).format(
+                          'YYYY-MM-DD',
+                        )
+                      : 'No hay fecha'}
+                  </Text>
+                </View>
+                {/* CARD2 */}
+                <View style={styles.containerCard}>
+                  <Text style={styles.cardTitle}>Inicio</Text>
+                  <Text style={styles.cardSubTitle}>
+                    {dataPedido.attributes?.fehcaInicio
+                      ? moment(dataPedido.attributes?.fehcaInicio).format(
+                          'YYYY-MM-DD',
+                        )
+                      : 'No hay fecha'}
+                  </Text>
+                </View>
+                {/* CARD3 */}
+                <View style={styles.containerCard}>
+                  <Text style={styles.cardTitle}>Final</Text>
+                  <Text style={styles.cardSubTitle}>
+                    {dataPedido.attributes?.fechaFin
+                      ? moment(dataPedido.attributes?.fechaFin).format(
+                          'YYYY-MM-DD',
+                        )
+                      : 'No hay fecha'}
+                  </Text>
+                </View>
               </View>
             </View>
 
@@ -171,16 +166,38 @@ const DetallePedidoScreen = ({route, navigation}: Props) => {
 export default DetallePedidoScreen;
 
 const styles = StyleSheet.create({
-  containerText: {
+  containerFechas: {
+    justifyContent: 'center',
+    gap: 10,
+    marginTop: 10,
+  },
+  containerCard: {
+    padding: 10,
+    width: '100%',
     alignItems: 'center',
+    justifyContent: 'center',
+
+    backgroundColor: COLORS.white,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+
+    elevation: 6,
   },
-  textPrimary: {
+  cardTitle: {
     fontSize: 20,
+    fontWeight: '600',
+    color: COLORS.black,
+  },
+  cardSubTitle: {
+    textAlign: 'center',
+    fontSize: 22,
     fontWeight: '800',
-    color: COLORS.white,
-  },
-  textSecond: {
-    fontSize: 20,
-    color: COLORS.white,
+    color: COLORS.black,
   },
 });

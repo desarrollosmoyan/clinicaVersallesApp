@@ -17,7 +17,7 @@ const Button = (props: any) => {
         ...props.style,
       }}
       onPress={props.onPress}>
-      <Text style={{fontSize: 20, fontWeight: '700', ...{color: textColor}}}>
+      <Text style={{fontSize: 18, fontWeight: '700', ...{color: textColor}}}>
         {props.title}
       </Text>
     </TouchableOpacity>
@@ -26,8 +26,8 @@ const Button = (props: any) => {
 
 const styles = StyleSheet.create({
   button: {
-    paddingBottom: 16,
-    paddingVertical: 10,
+    paddingBottom: 10,
+    paddingVertical: 8,
     borderColor: COLORS.primary,
     borderWidth: 2,
     borderRadius: 12,

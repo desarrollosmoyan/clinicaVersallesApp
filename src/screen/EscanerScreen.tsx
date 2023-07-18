@@ -7,6 +7,7 @@ import Header from '../components/Header';
 // import NfcManager, {NfcTech} from 'react-native-nfc-manager';
 
 // NfcManager.start();
+
 const EscanerScreen = () => {
   // async function readNdef() {
   //   try {
