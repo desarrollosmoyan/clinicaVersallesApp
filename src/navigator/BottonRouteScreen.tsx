@@ -19,6 +19,7 @@ function BottonRouteScreen() {
   return (
     <Tab.Navigator
       screenOptions={{
+        headerShown: false,
         tabBarLabelStyle: {
           fontSize: 16,
           fontWeight: 'bold',

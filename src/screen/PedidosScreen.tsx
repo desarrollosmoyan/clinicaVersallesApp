@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, ScrollView} from 'react-native';
+import {View, ScrollView, Text} from 'react-native';
 import {useSessionStore} from '../store/session';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import {usePedidosServices} from '../services/usePedidosServices';
@@ -19,9 +19,16 @@ const PedidosScreen = ({navigation}: Props) => {
     filters: {
       user: {
         email: {
-          eq: session.user.email,
+          eq: session?.user?.email || '',
         },
       },
+      and: [
+        {
+          estado: {
+            eq: true,
+          },
+        },
+      ],
     },
   });
   // FUNCION PARA IR A LA PAGINA DE DETALLE
@@ -34,14 +41,23 @@ const PedidosScreen = ({navigation}: Props) => {
         <Header title="Tareas" />
         <View>
           <View style={{paddingHorizontal: 20, gap: 20, marginBottom: 20}}>
-            {dataPedidos.map((pedido, index) => (
-              <Card
-                key={pedido.id}
-                data={pedido?.attributes!}
-                color={index + 1}
-                onDetalle={() => handleDetalle(pedido.id!)}
-              />
-            ))}
+            {dataPedidos.length === 0 ? (
+              <Text
+                style={{textAlign: 'center', fontSize: 30, fontWeight: '500'}}>
+                No hay tareas
+              </Text>
+            ) : (
+              <>
+                {dataPedidos.map((pedido, index) => (
+                  <Card
+                    key={pedido.id}
+                    data={pedido?.attributes!}
+                    color={index + 1}
+                    onDetalle={() => handleDetalle(pedido.id!)}
+                  />
+                ))}
+              </>
+            )}
           </View>
         </View>
       </ScrollView>
