@@ -5,6 +5,7 @@ interface SessionState {
   session: UsersPermissionsLoginPayload;
   sessionUpdate: (value: UsersPermissionsLoginPayload) => void;
 }
+
 export const useSessionStore = create<SessionState>()(set => ({
   session: {
     user: {

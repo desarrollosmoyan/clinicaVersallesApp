@@ -38,10 +38,6 @@ const LoginScreen = ({navigation}: Props) => {
       );
       sessionUpdate(res?.response!);
       navigation.navigate('InicioBottom');
-      // Toast.show({
-      //   type: 'success',
-      //   text1: 'Bienvenido',
-      // });
     } else {
       console.log('error', res.message);
       Toast.show({
