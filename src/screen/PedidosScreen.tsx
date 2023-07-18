@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {View, ScrollView} from 'react-native';
 import {useSessionStore} from '../store/session';
@@ -33,10 +32,10 @@ const PedidosScreen = ({navigation}: Props) => {
   };
   return (
     <>
-      <ScrollView style={{marginBottom: 20}}>
+      <ScrollView>
         <Header title="Tareas" />
         <View>
-          <View style={{paddingHorizontal: 20, gap: 20}}>
+          <View style={{paddingHorizontal: 20, gap: 20, marginBottom: 20}}>
             {dataPedidos.map((pedido, index) => (
               <Card
                 key={pedido.id}

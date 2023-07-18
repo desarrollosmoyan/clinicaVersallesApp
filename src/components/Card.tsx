@@ -1,11 +1,9 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import {Pedido} from '../generated/graphql';
 import COLORS from '../constants/color';
 import {Text} from 'react-native';
-import moment from 'moment';
-import LinearGradient from 'react-native-linear-gradient';
-import Button from './Button';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 interface Props {
   data: Pedido;
@@ -17,38 +15,85 @@ const Card = ({data, color, onDetalle}: Props) => {
   console.log(color);
   return (
     <>
-      <LinearGradient
-        style={styles.container}
-        colors={[COLORS.secondary, COLORS.primary]}>
+      {/* CARD FIRST */}
+      <View style={{...styles.container, backgroundColor: COLORS.primary}}>
         <View style={styles.containerTitle}>
           <Text style={styles.title}>{data.nombrePedido!}</Text>
-          <Text style={styles.titleFecha}>
-            {moment(data.createdAt).format('YYYY-MM-DD')}
-          </Text>
         </View>
         <Text style={styles.subtitle}>{data.cliente}</Text>
         <Text style={styles.subtitle}>{data.descripcion}</Text>
 
-        <View style={{}}>
-          <View style={{alignItems: 'center'}}>
-            <Text style={styles.seccionTitle}>Inicio</Text>
-            <Text style={styles.seccionSubTitle}>{data.estacionInicio}</Text>
+        {/* CARDS OF ESTACIONES */}
+        <View
+          style={{
+            flexDirection: 'row',
+            gap: 10,
+            justifyContent: 'space-between',
+            marginVertical: 20,
+          }}>
+          {/* CARD1 */}
+          <View
+            style={{
+              ...styles.container,
+              width: '47%',
+              backgroundColor: '#fff',
+              padding: 10,
+            }}>
+            <View style={{...styles.containerTitle, alignSelf: 'center'}}>
+              <Text style={{color: COLORS.primary, fontSize: 18}}>Inicio</Text>
+            </View>
+            <Text
+              style={{
+                ...styles.title,
+                textAlign: 'center',
+                fontSize: 20,
+                color: COLORS.primary,
+              }}>
+              {data.estacionInicio}
+            </Text>
           </View>
-          <View style={{alignItems: 'center'}}>
-            <Text style={styles.seccionTitle}>Final</Text>
-            <Text style={styles.seccionSubTitle}>{data.estacionFin}</Text>
+          {/* CARD2 */}
+          <View
+            style={{
+              ...styles.container,
+              width: '47%',
+              backgroundColor: '#fff',
+              padding: 10,
+            }}>
+            <View style={{...styles.containerTitle, alignSelf: 'center'}}>
+              <Text style={{color: COLORS.primary, fontSize: 18}}>Fin</Text>
+            </View>
+            <Text
+              style={{
+                ...styles.title,
+                textAlign: 'center',
+                fontSize: 20,
+                color: COLORS.primary,
+              }}>
+              {data.estacionFin}
+            </Text>
           </View>
         </View>
-        <Button
-          title="DETALLE"
+        <TouchableOpacity
           style={{
-            marginTop: 18,
-            marginBottom: 4,
-            backgroundColor: COLORS.white,
+            backgroundColor: '#ffffff50',
+            width: 40,
+            height: 40,
+            borderRadius: 50,
+            alignSelf: 'flex-end',
+            marginBottom: 5,
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
-          onPress={onDetalle}
-        />
-      </LinearGradient>
+          onPress={onDetalle}>
+          <Icon
+            name="chevron-forward-outline"
+            size={30}
+            color={color ? COLORS.white : COLORS.primary}
+            style={{textAlign: 'center'}}
+          />
+        </TouchableOpacity>
+      </View>
     </>
   );
 };
@@ -58,7 +103,9 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     padding: 20,
-    borderRadius: 20,
+    borderTopEndRadius: 20,
+    borderTopStartRadius: 20,
+    borderBottomStartRadius: 20,
     shadowColor: '#000000',
     shadowOffset: {
       width: 0,
@@ -81,8 +128,15 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Black',
   },
   titleFecha: {
-    fontSize: 18,
-    color: COLORS.white,
+    fontSize: 12,
+    color: COLORS.primary,
+    alignSelf: 'flex-end',
+    backgroundColor: COLORS.white,
+    paddingHorizontal: 5,
+    paddingVertical: 2,
+    borderRadius: 50,
+    fontWeight: 'bold',
+    marginBottom: 10,
   },
   subtitle: {
     fontSize: 18,
@@ -98,5 +152,16 @@ const styles = StyleSheet.create({
   seccionSubTitle: {
     fontSize: 25,
     color: COLORS.white,
+  },
+  shadow: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+
+    elevation: 4,
   },
 });
