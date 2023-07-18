@@ -13,8 +13,6 @@ const PedidosScreen = ({navigation}: Props) => {
   // STORE
   const session = useSessionStore(state => state.session);
 
-  console.log(session.user.email);
-
   // LLAMADA A GRAPHQL
   const {Pedidos} = usePedidosServices();
   const {dataPedidos} = Pedidos({

@@ -10,12 +10,13 @@ import BottonRouteScreen from './BottonRouteScreen';
 export type RootStackParams = {
   Login: undefined;
   Wolcome: undefined;
-  Inicio: undefined;
+  InicioBottom: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParams>();
 
 const RouteScreen = () => {
+  // navigation.navigate('InicioBottom' as never);
   return (
     <>
       <Stack.Navigator
@@ -27,7 +28,7 @@ const RouteScreen = () => {
         }}>
         <Stack.Screen name="Wolcome" component={WelcomeScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Inicio" component={BottonRouteScreen} />
+        <Stack.Screen name="InicioBottom" component={BottonRouteScreen} />
         {/* <Stack.Screen name="Pedidos" component={PedidosScreen} />
         <Stack.Screen name="Detallepedido" component={DetallePedidoScreen} />
         <Stack.Screen name="LecturaNFC" component={EscanerScreen} /> */}

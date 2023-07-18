@@ -4,13 +4,13 @@ import PedidosScreen from '../screen/PedidosScreen';
 import DetallePedidoScreen from '../screen/DetallePedidoScreen';
 import EscanerScreen from '../screen/EscanerScreen';
 
-export type RootStackParams = {
+export type RootStackParamsSecondary = {
   Pedidos: undefined;
   LecturaNFC: undefined;
   Detallepedido: {id: string};
 };
 
-const Stack = createStackNavigator<RootStackParams>();
+const Stack = createStackNavigator<RootStackParamsSecondary>();
 
 export const RouteSecondary = () => {
   return (

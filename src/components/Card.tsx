@@ -12,7 +12,6 @@ interface Props {
 }
 
 const Card = ({data, color, onDetalle}: Props) => {
-  console.log(color);
   return (
     <>
       {/* CARD FIRST */}

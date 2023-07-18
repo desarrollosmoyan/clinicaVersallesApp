@@ -37,7 +37,7 @@ const LoginScreen = ({navigation}: Props) => {
         () => console.log('todo salio bien'),
       );
       sessionUpdate(res?.response!);
-      navigation.navigate('Inicio');
+      navigation.navigate('InicioBottom');
       // Toast.show({
       //   type: 'success',
       //   text1: 'Bienvenido',
@@ -51,7 +51,6 @@ const LoginScreen = ({navigation}: Props) => {
       // navigation.navigate('Lectura-NFC');
     }
   };
-  console.log(email);
   return (
     <>
       <SafeAreaView

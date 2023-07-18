@@ -7,7 +7,14 @@ import PerfilScreen from '../screen/PerfilScreen';
 import COLORS from '../constants/color';
 import {RouteSecondary} from './RouteSecondary';
 
-const Tab = createMaterialBottomTabNavigator();
+export type RootStackParams = {
+  Perfil: undefined;
+  Inicio: undefined;
+};
+
+// const Stack = createStackNavigator<RootStackParams>();
+
+const Tab = createMaterialBottomTabNavigator<RootStackParams>();
 
 function BottonRouteScreen() {
   return (
@@ -23,6 +30,7 @@ function BottonRouteScreen() {
       />
       <Tab.Screen
         options={{
+          tabBarLabel: 'Perfil',
           tabBarIcon: () => (
             <Icon name="person-outline" size={30} color={COLORS.white} />
           ),

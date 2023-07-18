@@ -7,7 +7,6 @@ import {StyleSheet} from 'react-native';
 import moment from 'moment';
 
 import {StackScreenProps} from '@react-navigation/stack';
-import {RootStackParams} from '../navigator/RouteScreen';
 
 import {Image} from 'react-native';
 
@@ -21,8 +20,10 @@ import Header from '../components/Header';
 import COLORS from '../constants/color';
 
 import {ScrollView} from 'react-native-gesture-handler';
+import { RootStackParamsSecondary } from '../navigator/RouteSecondary';
 
-interface Props extends StackScreenProps<RootStackParams, 'Detallepedido'> {}
+interface Props
+  extends StackScreenProps<RootStackParamsSecondary, 'Detallepedido'> {}
 
 const DetallePedidoScreen = ({route, navigation}: Props) => {
   const {id} = route.params;

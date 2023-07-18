@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect} from 'react';
 import {Image, Text, View} from 'react-native';
 import Toast from 'react-native-toast-message';

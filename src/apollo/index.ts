@@ -7,7 +7,7 @@ const httpLink = createHttpLink({
 });
 
 let token = '';
-const newToken = async () => {
+export const newToken = async () => {
   try {
     const value = await AsyncStorage.getItem('token');
     if (value !== null) {
