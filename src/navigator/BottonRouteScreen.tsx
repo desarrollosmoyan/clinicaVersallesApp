@@ -1,6 +1,5 @@
 import React from 'react';
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
-
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import PerfilScreen from '../screen/PerfilScreen';
@@ -14,25 +13,58 @@ export type RootStackParams = {
 
 // const Stack = createStackNavigator<RootStackParams>();
 
-const Tab = createMaterialBottomTabNavigator<RootStackParams>();
+const Tab = createBottomTabNavigator();
 
 function BottonRouteScreen() {
   return (
-    <Tab.Navigator barStyle={{backgroundColor: '#06105D'}}>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarLabelStyle: {
+          fontSize: 16,
+          fontWeight: 'bold',
+          marginBottom: 12,
+          // color: COLORS.primary,
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+        tabBarStyle: {
+          backgroundColor: '#fff',
+          height: 70,
+          borderBottomColor: COLORS.primary,
+          borderBottomWidth: 1,
+          borderTopWidth: 1,
+        },
+        tabBarLabelPosition: 'below-icon',
+        tabBarActiveBackgroundColor: COLORS.primary,
+      }}>
       <Tab.Screen
         name="Inicio"
         component={RouteSecondary}
         options={{
-          tabBarIcon: () => (
-            <Icon name="home-outline" size={30} color={COLORS.white} />
+          tabBarActiveTintColor: COLORS.white,
+          tabBarInactiveTintColor: COLORS.primary,
+          tabBarIcon: ({focused}) => (
+            <Icon
+              name="home-outline"
+              size={20}
+              color={focused ? COLORS.white : COLORS.primary}
+              style={{marginTop: 10}}
+            />
           ),
         }}
       />
       <Tab.Screen
         options={{
-          tabBarLabel: 'Perfil',
-          tabBarIcon: () => (
-            <Icon name="person-outline" size={30} color={COLORS.white} />
+          tabBarActiveTintColor: COLORS.white,
+          tabBarInactiveTintColor: COLORS.primary,
+
+          tabBarIcon: ({focused}) => (
+            <Icon
+              name="person-outline"
+              size={20}
+              color={focused ? COLORS.white : COLORS.primary}
+              style={{marginTop: 10}}
+            />
           ),
         }}
         name="Perfil"
