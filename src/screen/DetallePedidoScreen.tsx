@@ -4,6 +4,8 @@ import {Text} from 'react-native';
 import {View} from 'react-native';
 import {StyleSheet} from 'react-native';
 
+import moment from 'moment';
+
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParams} from '../navigator/RouteScreen';
 
@@ -19,7 +21,6 @@ import Header from '../components/Header';
 import COLORS from '../constants/color';
 
 import {ScrollView} from 'react-native-gesture-handler';
-import moment from 'moment';
 
 interface Props extends StackScreenProps<RootStackParams, 'Detallepedido'> {}
 

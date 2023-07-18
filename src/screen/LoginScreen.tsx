@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 
 import {View, Text, TextInput} from 'react-native';
@@ -38,7 +37,7 @@ const LoginScreen = ({navigation}: Props) => {
         () => console.log('todo salio bien'),
       );
       sessionUpdate(res?.response!);
-      navigation.navigate('Pedidos');
+      navigation.navigate('Inicio');
       // Toast.show({
       //   type: 'success',
       //   text1: 'Bienvenido',
