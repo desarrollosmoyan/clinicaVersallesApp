@@ -1,14 +1,21 @@
 import React, {useEffect} from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
 import {View, Image} from 'react-native';
+import {useSessionStore} from '../store/session';
 
 interface Props extends StackScreenProps<any, any> {}
 const SplashScreen = ({navigation}: Props) => {
+  const session = useSessionStore(state => state.session);
+  console.log(session, 'session');
   useEffect(() => {
     setTimeout(() => {
-      navigation.navigate('Wolcome');
+      if (session) {
+        navigation.navigate('InicioBottom');
+      } else {
+        navigation.navigate('Wolcome');
+      }
     }, 3000);
-  }, [navigation]);
+  }, []);
   return (
     <>
       <View

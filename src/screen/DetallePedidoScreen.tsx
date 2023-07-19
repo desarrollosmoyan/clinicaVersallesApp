@@ -20,13 +20,14 @@ import Header from '../components/Header';
 import COLORS from '../constants/color';
 
 import {ScrollView} from 'react-native-gesture-handler';
-import { RootStackParamsSecondary } from '../navigator/RouteSecondary';
+import {RootStackParamsSecondary} from '../navigator/RouteSecondary';
 
 interface Props
   extends StackScreenProps<RootStackParamsSecondary, 'Detallepedido'> {}
 
 const DetallePedidoScreen = ({route, navigation}: Props) => {
   const {id} = route.params;
+  console.log(id);
 
   const {Pedido} = usePedidosServices();
   const {dataPedido} = Pedido({pedidoId: id});
