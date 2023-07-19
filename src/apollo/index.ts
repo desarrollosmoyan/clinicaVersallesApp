@@ -1,31 +1,17 @@
 import {ApolloClient, InMemoryCache, createHttpLink} from '@apollo/client';
 import {setContext} from '@apollo/client/link/context';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {getToken} from '../utils/getToken';
 
 const httpLink = createHttpLink({
   uri: 'https://f261-179-32-228-75.ngrok-free.app/graphql',
 });
 
-let token = '';
-export const newToken = async () => {
-  try {
-    const value = await AsyncStorage.getItem('token');
-    if (value !== null) {
-      const jwt = JSON.parse(value);
-      token = jwt.jwt;
-    }
-  } catch (e) {
-    console.log('No se encontro el token');
-  }
-};
-
-newToken();
-
-const authLink = setContext((_, {headers}) => {
+const authLink = setContext(async (_, {headers}) => {
+  const token = await getToken();
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : '',
+      authorization: token ? `Bearer ${token.jwt}` : '',
     },
   };
 });

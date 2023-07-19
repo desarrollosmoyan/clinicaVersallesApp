@@ -1,5 +1,4 @@
 import {
-  PedidoEntity,
   PedidoFiltersInput,
   usePedidoQuery,
   usePedidosQuery,
@@ -38,7 +37,10 @@ export const usePedidosServices = () => {
       fetchPolicy: 'network-only',
       variables: {pedidoId},
     });
-    const dataPedido: PedidoEntity = data?.pedido?.data ?? {};
+    const dataPedido = data?.pedido?.data ?? {};
+    console.log(dataPedido, 'desde los services');
+    console.log(data, 'data');
+    console.log(errorPedido, 'errorPedido');
 
     return {
       dataPedido,

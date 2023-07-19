@@ -27,10 +27,12 @@ interface Props
 
 const DetallePedidoScreen = ({route, navigation}: Props) => {
   const {id} = route.params;
-  console.log(id);
+  console.log(id, 'id');
 
   const {Pedido} = usePedidosServices();
-  const {dataPedido} = Pedido({pedidoId: id});
+  const {dataPedido, loadingPedido} = Pedido({pedidoId: id});
+
+  console.log(dataPedido, loadingPedido, 'dataPedido');
 
   const handleClick = () => {
     navigation.navigate('LecturaNFC');
