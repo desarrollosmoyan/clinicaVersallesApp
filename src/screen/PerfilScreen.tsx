@@ -12,13 +12,14 @@ import Toast from 'react-native-toast-message';
 
 const PerfilScreen = () => {
   const session = useSessionStore(state => state.session);
-  console.log(session, 'session');
-  console.log(session.user.id, 'session');
+
 
   const navigation = useNavigation();
   // LLAMADA GRAPHQL
   const {Usuario} = useUsuarioServices();
-  const {dataUsuario} = Usuario({usersPermissionsUserId: session.user.id});
+  const {dataUsuario} = Usuario({
+    usersPermissionsUserId: session && session.user.id! as string,
+  });
   console.log(dataUsuario, 'dataUsuario');
 
   const handleLogot = async () => {

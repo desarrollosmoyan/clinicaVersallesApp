@@ -5,7 +5,7 @@ export const useUsuarioServices = () => {
   const Usuario = ({
     usersPermissionsUserId,
   }: {
-    usersPermissionsUserId: string;
+    usersPermissionsUserId: string | null;
   }) => {
     console.log('id', usersPermissionsUserId);
     const {
