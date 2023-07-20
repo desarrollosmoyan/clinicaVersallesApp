@@ -29,7 +29,7 @@ const LoginScreen = ({navigation}: Props) => {
   const sessionUpdate = useSessionStore(state => state.sessionUpdate);
 
   // LLAMADA DE GRAPHQL
-  const {Login} = useAuthServices();
+  const {Login, loadingLogin} = useAuthServices();
 
   const handleLogin = async () => {
     const res = await Login({identifier: email, password});
@@ -40,12 +40,10 @@ const LoginScreen = ({navigation}: Props) => {
       sessionUpdate(res?.response!);
       navigation.dispatch(StackActions.replace('InicioBottom'));
     } else {
-      console.log('error', res.message);
       Toast.show({
         type: 'error',
-        text1: 'Error al iniciar sesión',
+        text1: res.message,
       });
-      // navigation.navigate('Lectura-NFC');
     }
   };
   return (
@@ -150,6 +148,7 @@ const LoginScreen = ({navigation}: Props) => {
           </View>
 
           <Button
+            loading={loadingLogin}
             title="Iniciar sesión"
             filled
             style={{

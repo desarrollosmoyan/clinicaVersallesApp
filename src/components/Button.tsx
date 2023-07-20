@@ -1,12 +1,30 @@
-import {Text, TouchableOpacity, StyleSheet} from 'react-native';
 import React from 'react';
+
+import {
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native';
+
 import COLORS from '../../src/constants/color';
 
-const Button = (props: any) => {
-  const filledBgColor = props.color || COLORS.primary;
+interface Props {
+  filled: boolean;
+  color?: string;
+  title: string;
+  onPress: () => void;
+  style: any;
+  loading?: boolean;
+}
+
+const Button = ({filled, color, title, onPress, style, loading}: Props) => {
+  const filledBgColor = color || COLORS.primary;
   const outlinedColor = COLORS.white;
-  const bgColor = props.filled ? filledBgColor : outlinedColor;
-  const textColor = props.filled ? COLORS.white : COLORS.black;
+  const bgColor = filled ? filledBgColor : outlinedColor;
+  const textColor = filled ? COLORS.white : COLORS.black;
+
+  console.log(loading);
 
   return (
     <TouchableOpacity
@@ -14,11 +32,28 @@ const Button = (props: any) => {
       style={{
         ...styles.button,
         ...{backgroundColor: bgColor},
-        ...props.style,
+        ...style,
+        opacity: loading ? 0.5 : 1,
       }}
-      onPress={props.onPress}>
+      onPress={onPress}>
+      {/* <Text style={{fontSize: 18, fontWeight: '700', ...{color: textColor}}}>
+        {loading && loading ? (
+          title
+        ) : (
+          <ActivityIndicator
+            color={filled ? COLORS.white : COLORS.black}
+            size={30}
+          />
+        )}
+      </Text> */}
       <Text style={{fontSize: 18, fontWeight: '700', ...{color: textColor}}}>
-        {props.title}
+        {!loading && title}
+        {loading && (
+          <ActivityIndicator
+            color={filled ? COLORS.white : COLORS.black}
+            size={30}
+          />
+        )}
       </Text>
     </TouchableOpacity>
   );

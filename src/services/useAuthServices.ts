@@ -20,13 +20,18 @@ export const useAuthServices = () => {
         const dataLogin: UsersPermissionsLoginPayload | undefined =
           res?.data?.login;
         return {res: true, response: dataLogin};
-      } catch (error) {
-        return {res: false, message: error};
+      } catch (error: any) {
+        let messageError;
+        if (errorLogin?.message === 'Invalid identifier or password') {
+          messageError = 'Credenciales incorrectas';
+        } else {
+          messageError = 'Error al iniciar sesión';
+        }
+        return {
+          res: false,
+          message: messageError,
+        };
       }
-
-      // return {
-      //   dataLogin,
-      // };
     },
   };
 };
