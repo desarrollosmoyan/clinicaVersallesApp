@@ -1,10 +1,16 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+
+import {StackActions} from '@react-navigation/native';
+
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import PerfilScreen from '../screen/PerfilScreen';
 import COLORS from '../constants/color';
 import {RouteSecondary} from './RouteSecondary';
+import {getToken} from '../utils/getToken';
+import {StackScreenProps} from '@react-navigation/stack';
 
 export type RootStackParams = {
   Perfil: undefined;
@@ -15,7 +21,20 @@ export type RootStackParams = {
 
 const Tab = createBottomTabNavigator();
 
-function BottonRouteScreen() {
+interface Props extends StackScreenProps<any, any> {}
+
+function BottonRouteScreen({navigation}: Props) {
+  useEffect(() => {
+    const session = async () => {
+      const value = await getToken();
+      if (!value) {
+        navigation.dispatch(StackActions.replace('Wolcome'));
+      }
+    };
+
+    session();
+  }, []);
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -24,7 +43,6 @@ function BottonRouteScreen() {
           fontSize: 16,
           fontWeight: 'bold',
           marginBottom: 12,
-          // color: COLORS.primary,
           alignItems: 'center',
           justifyContent: 'center',
         },

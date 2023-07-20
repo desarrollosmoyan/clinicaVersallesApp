@@ -1,11 +1,13 @@
 import React from 'react';
-import {View} from 'react-native';
-import Button from '../components/Button';
-import {Text} from 'react-native';
-import COLORS from '../constants/color';
-import {Image} from 'react-native';
+import {View, Text, Image} from 'react-native';
+
 import LinearGradient from 'react-native-linear-gradient';
+
 import {StackScreenProps} from '@react-navigation/stack';
+import {StackActions} from '@react-navigation/native';
+
+import Button from '../components/Button';
+import COLORS from '../constants/color';
 
 interface Props extends StackScreenProps<any, any> {}
 
@@ -114,7 +116,7 @@ const WelcomeScreen = ({navigation}: Props) => {
 
           <Button
             title="Empezar"
-            onPress={() => navigation.navigate('Login')}
+            onPress={() => navigation.dispatch(StackActions.replace('Login'))}
             style={{
               marginTop: 22,
               width: '100%',

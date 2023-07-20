@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
 
 import {StackScreenProps} from '@react-navigation/stack';
+import {StackActions} from '@react-navigation/native';
 
 // import {Button} from 'react-native-paper';
 
@@ -37,7 +38,7 @@ const LoginScreen = ({navigation}: Props) => {
         () => console.log('todo salio bien'),
       );
       sessionUpdate(res?.response!);
-      navigation.navigate('InicioBottom');
+      navigation.dispatch(StackActions.replace('InicioBottom'));
     } else {
       console.log('error', res.message);
       Toast.show({

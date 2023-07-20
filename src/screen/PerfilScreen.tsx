@@ -1,31 +1,37 @@
 import React from 'react';
-import {Text, View, ScrollView} from 'react-native';
-import {Image} from 'react-native-elements';
-import COLORS from '../constants/color';
+
+import {Text, View, ScrollView, Image} from 'react-native';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import {useNavigation} from '@react-navigation/native';
+import {StackActions} from '@react-navigation/native';
+
+import Toast from 'react-native-toast-message';
+
 import {useSessionStore} from '../store/session';
 import {useUsuarioServices} from '../services/useUsuarioServices';
+
 import ListInfo from '../components/ListInfo';
 import Button from '../components/Button';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useNavigation} from '@react-navigation/native';
-import Toast from 'react-native-toast-message';
+
+import COLORS from '../constants/color';
 
 const PerfilScreen = () => {
   const session = useSessionStore(state => state.session);
-
 
   const navigation = useNavigation();
   // LLAMADA GRAPHQL
   const {Usuario} = useUsuarioServices();
   const {dataUsuario} = Usuario({
-    usersPermissionsUserId: session && session.user.id! as string,
+    usersPermissionsUserId: session && (session.user.id! as string),
   });
-  console.log(dataUsuario, 'dataUsuario');
 
   const handleLogot = async () => {
     try {
       await AsyncStorage.removeItem('token');
-      navigation.navigate('Wolcome' as never);
+      navigation.dispatch(StackActions.replace('Wolcome'));
+      // navigation.navigate('Wolcome' as never);
     } catch (error) {
       Toast.show({
         type: 'error',
