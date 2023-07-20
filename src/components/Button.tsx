@@ -10,10 +10,10 @@ import {
 import COLORS from '../../src/constants/color';
 
 interface Props {
-  filled: boolean;
+  filled?: boolean;
   color?: string;
   title: string;
-  onPress: () => void;
+  onPress?: () => void;
   style: any;
   loading?: boolean;
 }

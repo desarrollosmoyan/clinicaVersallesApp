@@ -1,14 +1,10 @@
 import React from 'react';
 
-import {Text} from 'react-native';
-import {View} from 'react-native';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, ActivityIndicator, Text, View, Image} from 'react-native';
 
 import moment from 'moment';
 
 import {StackScreenProps} from '@react-navigation/stack';
-
-import {Image} from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -27,27 +23,19 @@ interface Props
 
 const DetallePedidoScreen = ({route, navigation}: Props) => {
   const {id} = route.params;
-  console.log(id, 'id');
 
   const {Pedido} = usePedidosServices();
   const {dataPedido, loadingPedido} = Pedido({pedidoId: id});
-
-  console.log(dataPedido, loadingPedido, 'dataPedido');
 
   const handleClick = () => {
     navigation.navigate('LecturaNFC');
   };
   return (
-    <ScrollView>
-      <LinearGradient
-        style={{
-          flex: 1,
-          // marginBottom: 20,
-        }}
-        colors={['#06105D', '#0E23CF']}>
-        <View>
+    <LinearGradient colors={['#06105D', '#0E23CF']} style={{flex: 1}}>
+      <ScrollView>
+        <View style={{flex: 1}}>
           {/* NAVBAR */}
-          <Header title={dataPedido.attributes?.nombrePedido!} show color />
+          <Header title="Detalle" show color />
 
           <View
             style={{
@@ -85,86 +73,108 @@ const DetallePedidoScreen = ({route, navigation}: Props) => {
               }}
             />
           </View>
-          <View>
-            <View style={{paddingHorizontal: 15, marginTop: 15}}>
-              <Text
-                style={{fontSize: 35, fontWeight: '500', color: COLORS.white}}>
-                {dataPedido.attributes?.cliente!}
-              </Text>
-              <Text
-                style={{fontSize: 50, fontWeight: '800', color: COLORS.white}}>
-                {dataPedido.attributes?.nombrePedido!}
-              </Text>
-              <Text
-                style={{fontSize: 25, fontWeight: '400', color: COLORS.white}}>
-                {dataPedido.attributes?.descripcion!}
-              </Text>
-            </View>
 
-            {/* CARDS FECHAS */}
+          {/* CONTENIDO */}
+          {loadingPedido ? (
+            <ActivityIndicator
+              color={COLORS.white}
+              size={80}
+              style={{marginTop: 20}}
+            />
+          ) : (
+            <View>
+              <View style={{paddingHorizontal: 15, marginTop: 15}}>
+                <Text
+                  style={{
+                    fontSize: 35,
+                    fontWeight: '500',
+                    color: COLORS.white,
+                  }}>
+                  {dataPedido.attributes?.cliente!}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 50,
+                    fontWeight: '800',
+                    color: COLORS.white,
+                  }}>
+                  {dataPedido.attributes?.nombrePedido!}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 25,
+                    fontWeight: '400',
+                    color: COLORS.white,
+                  }}>
+                  {dataPedido.attributes?.descripcion!}
+                </Text>
+              </View>
 
-            <View style={{marginTop: 20, paddingHorizontal: 20}}>
-              <Text
-                style={{
-                  fontSize: 35,
-                  fontWeight: '700',
-                  color: COLORS.white,
-                  alignItems: 'center',
-                  alignSelf: 'center',
-                }}>
-                Fechas
-              </Text>
-              <View style={styles.containerFechas}>
-                {/* CARD1 */}
-                <View style={styles.containerCard}>
-                  <Text style={styles.cardTitle}>Fecha</Text>
-                  <Text style={styles.cardSubTitle}>
-                    {dataPedido.attributes?.fecha
-                      ? moment(dataPedido.attributes?.fecha).format(
-                          'YYYY-MM-DD',
-                        )
-                      : 'No hay fecha'}
-                  </Text>
-                </View>
-                {/* CARD2 */}
-                <View style={styles.containerCard}>
-                  <Text style={styles.cardTitle}>Inicio</Text>
-                  <Text style={styles.cardSubTitle}>
-                    {dataPedido.attributes?.fehcaInicio
-                      ? moment(dataPedido.attributes?.fehcaInicio).format(
-                          'YYYY-MM-DD',
-                        )
-                      : 'No hay fecha'}
-                  </Text>
-                </View>
-                {/* CARD3 */}
-                <View style={styles.containerCard}>
-                  <Text style={styles.cardTitle}>Final</Text>
-                  <Text style={styles.cardSubTitle}>
-                    {dataPedido.attributes?.fechaFin
-                      ? moment(dataPedido.attributes?.fechaFin).format(
-                          'YYYY-MM-DD',
-                        )
-                      : 'No hay fecha'}
-                  </Text>
+              {/* CARDS FECHAS */}
+
+              <View style={{marginTop: 20, paddingHorizontal: 20}}>
+                <Text
+                  style={{
+                    fontSize: 35,
+                    fontWeight: '700',
+                    color: COLORS.white,
+                    alignItems: 'center',
+                    alignSelf: 'center',
+                  }}>
+                  Fechas
+                </Text>
+                <View style={styles.containerFechas}>
+                  {/* CARD1 */}
+                  <View style={styles.containerCard}>
+                    <Text style={styles.cardTitle}>Fecha</Text>
+                    <Text style={styles.cardSubTitle}>
+                      {dataPedido.attributes?.fecha
+                        ? moment(dataPedido.attributes?.fecha).format(
+                            'YYYY-MM-DD',
+                          )
+                        : 'No hay fecha'}
+                    </Text>
+                  </View>
+                  {/* CARD2 */}
+                  <View style={styles.containerCard}>
+                    <Text style={styles.cardTitle}>Inicio</Text>
+                    <Text style={styles.cardSubTitle}>
+                      {dataPedido.attributes?.fehcaInicio
+                        ? moment(dataPedido.attributes?.fehcaInicio).format(
+                            'YYYY-MM-DD',
+                          )
+                        : 'No hay fecha'}
+                    </Text>
+                  </View>
+                  {/* CARD3 */}
+                  <View style={styles.containerCard}>
+                    <Text style={styles.cardTitle}>Final</Text>
+                    <Text style={styles.cardSubTitle}>
+                      {dataPedido.attributes?.fechaFin
+                        ? moment(dataPedido.attributes?.fechaFin).format(
+                            'YYYY-MM-DD',
+                          )
+                        : 'No hay fecha'}
+                    </Text>
+                  </View>
                 </View>
               </View>
-            </View>
 
-            <View style={{marginHorizontal: 20}}>
-              <Button
-                title="Escanear NFC"
-                style={{
-                  marginTop: 18,
-                  marginBottom: 20,
-                }}
-                onPress={handleClick}
-              />
+              <View style={{marginHorizontal: 20}}>
+                <Button
+                  title="Escanear NFC"
+                  style={{
+                    marginTop: 18,
+                    marginBottom: 20,
+                  }}
+                  onPress={handleClick}
+                />
+              </View>
             </View>
-          </View>
+          )}
         </View>
-      </LinearGradient>
-    </ScrollView>
+      </ScrollView>
+    </LinearGradient>
   );
 };
 

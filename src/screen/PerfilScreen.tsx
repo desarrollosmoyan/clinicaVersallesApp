@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Text, View, ScrollView, Image} from 'react-native';
+import {Text, View, ScrollView, Image, ActivityIndicator} from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -16,6 +16,7 @@ import ListInfo from '../components/ListInfo';
 import Button from '../components/Button';
 
 import COLORS from '../constants/color';
+import Header from '../components/Header';
 
 const PerfilScreen = () => {
   const session = useSessionStore(state => state.session);
@@ -23,7 +24,7 @@ const PerfilScreen = () => {
   const navigation = useNavigation();
   // LLAMADA GRAPHQL
   const {Usuario} = useUsuarioServices();
-  const {dataUsuario} = Usuario({
+  const {dataUsuario, loadingUsuario} = Usuario({
     usersPermissionsUserId: session && (session.user.id! as string),
   });
 
@@ -31,7 +32,6 @@ const PerfilScreen = () => {
     try {
       await AsyncStorage.removeItem('token');
       navigation.dispatch(StackActions.replace('Wolcome'));
-      // navigation.navigate('Wolcome' as never);
     } catch (error) {
       Toast.show({
         type: 'error',
@@ -43,6 +43,8 @@ const PerfilScreen = () => {
   return (
     <>
       <ScrollView>
+        {/* NAVBAR */}
+        <Header title="Perfil" show />
         <View style={{paddingHorizontal: 20}}>
           <View style={{alignItems: 'center', marginTop: 20}}>
             <Image
@@ -66,39 +68,48 @@ const PerfilScreen = () => {
             </Text>
           </View>
 
-          <View style={{gap: 10}}>
-            <ListInfo
-              title="Area"
-              info={dataUsuario.attributes?.Area || 'No hay area'}
-              icon="cube-outline"
+          {loadingUsuario ? (
+            <ActivityIndicator
+              color={COLORS.primary}
+              size={50}
+              style={{marginTop: 20}}
             />
-            <ListInfo
-              title="Nombre"
-              info={dataUsuario.attributes?.nombreCompleto || 'No hay nombre'}
-              icon="person-circle-outline"
-            />
-            <ListInfo
-              title="Correo"
-              info={dataUsuario.attributes?.email || 'No hay correo'}
-              icon="mail-outline"
-            />
-            <ListInfo
-              title="Username"
-              info={dataUsuario.attributes?.username || 'No hay username'}
-              icon="people-outline"
-            />
-            <ListInfo
-              title="Cargo"
-              info={dataUsuario.attributes?.cargo || 'No hay cargo'}
-              icon="briefcase-outline"
-            />
-          </View>
+          ) : (
+            <View style={{gap: 10}}>
+              <ListInfo
+                title="Area"
+                info={dataUsuario.attributes?.Area || 'No hay area'}
+                icon="cube-outline"
+              />
+              <ListInfo
+                title="Nombre"
+                info={dataUsuario.attributes?.nombreCompleto || 'No hay nombre'}
+                icon="person-circle-outline"
+              />
+              <ListInfo
+                title="Correo"
+                info={dataUsuario.attributes?.email || 'No hay correo'}
+                icon="mail-outline"
+              />
+              <ListInfo
+                title="Username"
+                info={dataUsuario.attributes?.username || 'No hay username'}
+                icon="people-outline"
+              />
+              <ListInfo
+                title="Cargo"
+                info={dataUsuario.attributes?.cargo || 'No hay cargo'}
+                icon="briefcase-outline"
+              />
+            </View>
+          )}
+
           <Button
             title="Cerrar sesion"
             filled
             style={{
               marginTop: 20,
-              marginBottom: 4,
+              marginBottom: 20,
             }}
             onPress={handleLogot}
           />

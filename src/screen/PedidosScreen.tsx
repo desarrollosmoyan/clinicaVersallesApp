@@ -1,11 +1,16 @@
 import React from 'react';
-import {View, ScrollView, Text} from 'react-native';
-import {useSessionStore} from '../store/session';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import {View, ScrollView, Text, ActivityIndicator} from 'react-native';
+
 import {usePedidosServices} from '../services/usePedidosServices';
+
 import {StackScreenProps} from '@react-navigation/stack';
+
 import Card from '../components/Card';
 import Header from '../components/Header';
+
+import COLORS from '../constants/color';
+
+import {useSessionStore} from '../store/session';
 
 interface Props extends StackScreenProps<any, any> {}
 
@@ -15,7 +20,7 @@ const PedidosScreen = ({navigation}: Props) => {
 
   // LLAMADA A GRAPHQL
   const {Pedidos} = usePedidosServices();
-  const {dataPedidos} = Pedidos({
+  const {dataPedidos, loadingPedidos} = Pedidos({
     filters: {
       user: {
         email: {
@@ -40,25 +45,37 @@ const PedidosScreen = ({navigation}: Props) => {
       <ScrollView>
         <Header title="Tareas" />
         <View>
-          <View style={{paddingHorizontal: 20, gap: 20, marginBottom: 20}}>
-            {dataPedidos.length === 0 ? (
-              <Text
-                style={{textAlign: 'center', fontSize: 30, fontWeight: '500'}}>
-                No hay tareas
-              </Text>
-            ) : (
-              <>
-                {dataPedidos.map((pedido, index) => (
-                  <Card
-                    key={pedido.id}
-                    data={pedido?.attributes!}
-                    color={index + 1}
-                    onDetalle={() => handleDetalle(pedido.id!)}
-                  />
-                ))}
-              </>
-            )}
-          </View>
+          {loadingPedidos ? (
+            <ActivityIndicator
+              color={COLORS.primary}
+              size={80}
+              style={{marginTop: 20}}
+            />
+          ) : (
+            <View style={{paddingHorizontal: 20, gap: 20, marginBottom: 20}}>
+              {dataPedidos.length === 0 ? (
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    fontSize: 30,
+                    fontWeight: '500',
+                  }}>
+                  No hay tareas
+                </Text>
+              ) : (
+                <>
+                  {dataPedidos.map((pedido, index) => (
+                    <Card
+                      key={pedido.id}
+                      data={pedido?.attributes!}
+                      color={index + 1}
+                      onDetalle={() => handleDetalle(pedido.id!)}
+                    />
+                  ))}
+                </>
+              )}
+            </View>
+          )}
         </View>
       </ScrollView>
     </>

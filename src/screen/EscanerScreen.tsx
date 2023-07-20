@@ -1,13 +1,21 @@
 import React, {useEffect} from 'react';
+
 import {Image, Text, View} from 'react-native';
+
+import {StackActions} from '@react-navigation/native';
+import {StackScreenProps} from '@react-navigation/stack';
+
 import Toast from 'react-native-toast-message';
+
 import Header from '../components/Header';
 
 // import NfcManager, {NfcTech} from 'react-native-nfc-manager';
 
 // NfcManager.start();
 
-const EscanerScreen = () => {
+interface Props extends StackScreenProps<any, any> {}
+
+const EscanerScreen = ({navigation}: Props) => {
   // async function readNdef() {
   //   try {
   //     console.log('registro');
@@ -37,8 +45,14 @@ const EscanerScreen = () => {
         text1: 'NFC escaneado correctamente',
       });
     }, 3000);
+    const timeBack = setTimeout(() => {
+      navigation.dispatch(StackActions.replace('Pedidos'));
+    }, 5000);
 
-    return () => clearTimeout(timeoutId);
+    return () => {
+      clearTimeout(timeoutId);
+      clearTimeout(timeBack);
+    };
   }, []);
 
   return (
