@@ -7,19 +7,15 @@ import client from './src/apollo';
 import {theme} from './src/theme';
 import {PaperProvider} from 'react-native-paper';
 import Toast from 'react-native-toast-message';
-// import {useSessionStore} from './src/store/session';
-// import {getToken} from './src/utils/getToken';
+// import {
+//   requestUserPermission,
+//   notificationListener,
+// } from './src/utils/pushNotificationHelper';
 
 const App = () => {
-  // const sessionUpdate = useSessionStore(state => state.sessionUpdate);
-
   // useEffect(() => {
-  //   const session = async () => {
-  //     const value = await getToken();
-  //     sessionUpdate(value!);
-  //   };
-
-  //   session();
+  //   requestUserPermission();
+  //   notificationListener();
   // }, []);
 
   return (

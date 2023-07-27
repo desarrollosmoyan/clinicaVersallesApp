@@ -1,0 +1,7 @@
+mutation UpdatePedido($data: PedidoInput!, $updatePedidoId: ID!) {
+  updatePedido(data: $data, id: $updatePedidoId) {
+    data {
+      id
+    }
+  }
+}

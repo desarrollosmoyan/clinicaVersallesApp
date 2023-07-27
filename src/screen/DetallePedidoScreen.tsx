@@ -1,3 +1,4 @@
+/* eslint-disable curly */
 import React from 'react';
 
 import {StyleSheet, ActivityIndicator, Text, View, Image} from 'react-native';
@@ -17,18 +18,25 @@ import COLORS from '../constants/color';
 
 import {ScrollView} from 'react-native-gesture-handler';
 import {RootStackParamsSecondary} from '../navigator/RouteSecondary';
+import {useScannerStore} from '../store/scaner';
 
 interface Props
   extends StackScreenProps<RootStackParamsSecondary, 'Detallepedido'> {}
 
 const DetallePedidoScreen = ({route, navigation}: Props) => {
   const {id} = route.params;
+  const data = useScannerStore(state => state.data);
+  const idVeces = data.length !== 0 && data.find((item: any) => item.id === id);
+  console.log(idVeces);
+  console.log('validacion', idVeces.id === id && idVeces.veces === 2);
+  console.log('validacion id', idVeces.id === id);
 
   const {Pedido} = usePedidosServices();
   const {dataPedido, loadingPedido} = Pedido({pedidoId: id});
 
   const handleClick = () => {
-    navigation.navigate('LecturaNFC');
+    if (idVeces.id === id && idVeces.veces === 2) return;
+    navigation.navigate('LecturaNFC', {id: dataPedido.id!});
   };
   return (
     <LinearGradient colors={['#06105D', '#0E23CF']} style={{flex: 1}}>
@@ -45,7 +53,28 @@ const DetallePedidoScreen = ({route, navigation}: Props) => {
               gap: 5,
             }}>
             <Button
-              title="Estacion de inicio"
+              title={
+                <View style={{alignItems: 'center'}}>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      fontWeight: '700',
+                      color: COLORS.primary,
+                      textAlign: 'center',
+                    }}>
+                    Estacion Inicio
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      fontWeight: '500',
+                      color: COLORS.primary,
+                      textAlign: 'center',
+                    }}>
+                    {dataPedido.attributes?.estacionInicio}
+                  </Text>
+                </View>
+              }
               style={{
                 marginTop: 18,
                 width: '50%',
@@ -54,7 +83,28 @@ const DetallePedidoScreen = ({route, navigation}: Props) => {
               }}
             />
             <Button
-              title="Estacion de final"
+              title={
+                <View style={{alignItems: 'center'}}>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      fontWeight: '700',
+                      color: COLORS.primary,
+                      textAlign: 'center',
+                    }}>
+                    Estacion Final
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      fontWeight: '500',
+                      color: COLORS.primary,
+                      textAlign: 'center',
+                    }}>
+                    {dataPedido.attributes?.fechaFin || 'No hay estacion'}
+                  </Text>
+                </View>
+              }
               style={{
                 marginTop: 18,
                 width: '50%',
@@ -121,15 +171,24 @@ const DetallePedidoScreen = ({route, navigation}: Props) => {
                     alignItems: 'center',
                     alignSelf: 'center',
                   }}>
-                  Fechas
+                  Informacion
                 </Text>
                 <View style={styles.containerFechas}>
+                  {/* CARD HORA */}
+                  <View style={styles.containerCard}>
+                    <Text style={styles.cardTitle}>Hora</Text>
+                    <Text style={styles.cardSubTitle}>
+                      {dataPedido.attributes?.hora
+                        ? moment(dataPedido.attributes?.hora).format('HH:mm')
+                        : 'No hay hora'}
+                    </Text>
+                  </View>
                   {/* CARD1 */}
                   <View style={styles.containerCard}>
-                    <Text style={styles.cardTitle}>Fecha</Text>
+                    <Text style={styles.cardTitle}> Fecha</Text>
                     <Text style={styles.cardSubTitle}>
-                      {dataPedido.attributes?.fecha
-                        ? moment(dataPedido.attributes?.fecha).format(
+                      {dataPedido.attributes?.createdAt
+                        ? moment(dataPedido.attributes?.createdAt).format(
                             'YYYY-MM-DD',
                           )
                         : 'No hay fecha'}
@@ -168,6 +227,7 @@ const DetallePedidoScreen = ({route, navigation}: Props) => {
                     marginBottom: 20,
                   }}
                   onPress={handleClick}
+                  opacity={idVeces.id === id && idVeces.veces === 2}
                 />
               </View>
             </View>

@@ -1,7 +1,11 @@
+/* eslint-disable no-catch-shadow */
+/* eslint-disable @typescript-eslint/no-shadow */
 import {
   PedidoFiltersInput,
+  PedidoInput,
   usePedidoQuery,
   usePedidosQuery,
+  useUpdatePedidoMutation,
 } from '../generated/graphql';
 
 export const usePedidosServices = () => {
@@ -38,9 +42,6 @@ export const usePedidosServices = () => {
       variables: {pedidoId},
     });
     const dataPedido = data?.pedido?.data ?? {};
-    console.log(dataPedido, 'desde los services');
-    console.log(data, 'data');
-    console.log(errorPedido, 'errorPedido');
 
     return {
       dataPedido,
@@ -49,9 +50,34 @@ export const usePedidosServices = () => {
       refetch,
     };
   };
+  const [updatePedidoMutation, {error}] = useUpdatePedidoMutation();
+  console.log(error);
+
+  // UPDATE PEDIDO
 
   return {
     Pedidos,
     Pedido,
+    UpdatePedido: async ({
+      updatePedidoId,
+      data,
+    }: {
+      updatePedidoId: string;
+      data: PedidoInput;
+    }) => {
+      try {
+        const res = await updatePedidoMutation({
+          variables: {updatePedidoId, data},
+        });
+
+        const dataLogin = res?.data?.updatePedido;
+        return {res: true, response: dataLogin};
+      } catch (error: any) {
+        return {
+          res: false,
+          message: 'hubo un error ',
+        };
+      }
+    },
   };
 };

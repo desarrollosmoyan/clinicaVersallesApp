@@ -6,7 +6,7 @@ import EscanerScreen from '../screen/EscanerScreen';
 
 export type RootStackParamsSecondary = {
   Pedidos: undefined;
-  LecturaNFC: undefined;
+  LecturaNFC: {id: string};
   Detallepedido: {id: string};
 };
 

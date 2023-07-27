@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 
 import {
   Text,
@@ -12,19 +12,26 @@ import COLORS from '../../src/constants/color';
 interface Props {
   filled?: boolean;
   color?: string;
-  title: string;
+  title: string | ReactNode;
   onPress?: () => void;
   style: any;
   loading?: boolean;
+  opacity?: boolean;
 }
 
-const Button = ({filled, color, title, onPress, style, loading}: Props) => {
+const Button = ({
+  filled,
+  color,
+  title,
+  onPress,
+  style,
+  loading,
+  opacity,
+}: Props) => {
   const filledBgColor = color || COLORS.primary;
   const outlinedColor = COLORS.white;
   const bgColor = filled ? filledBgColor : outlinedColor;
   const textColor = filled ? COLORS.white : COLORS.black;
-
-  console.log(loading);
 
   return (
     <TouchableOpacity
@@ -33,19 +40,9 @@ const Button = ({filled, color, title, onPress, style, loading}: Props) => {
         ...styles.button,
         ...{backgroundColor: bgColor},
         ...style,
-        opacity: loading ? 0.5 : 1,
+        opacity: opacity ? 0.5 : 1,
       }}
       onPress={onPress}>
-      {/* <Text style={{fontSize: 18, fontWeight: '700', ...{color: textColor}}}>
-        {loading && loading ? (
-          title
-        ) : (
-          <ActivityIndicator
-            color={filled ? COLORS.white : COLORS.black}
-            size={30}
-          />
-        )}
-      </Text> */}
       <Text style={{fontSize: 18, fontWeight: '700', ...{color: textColor}}}>
         {!loading && title}
         {loading && (

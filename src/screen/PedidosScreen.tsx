@@ -5,6 +5,8 @@ import {usePedidosServices} from '../services/usePedidosServices';
 
 import {StackScreenProps} from '@react-navigation/stack';
 
+// import messaging from '@react-native-firebase/messaging';
+
 import Card from '../components/Card';
 import Header from '../components/Header';
 
@@ -40,6 +42,15 @@ const PedidosScreen = ({navigation}: Props) => {
   const handleDetalle = (id: string) => {
     navigation.navigate('Detallepedido', {id});
   };
+
+  // useEffect(() => {
+  //   const unsubscribe = messaging().onMessage(async () => {
+  //     Alert.alert('Nueva tarea');
+  //     refetch();
+  //   });
+
+  //   return unsubscribe;
+  // }, []);
   return (
     <>
       <ScrollView>

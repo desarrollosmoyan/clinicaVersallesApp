@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "856933862694",
+    "project_id": "clinicavesalles",
+    "storage_bucket": "clinicavesalles.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:856933862694:android:42907ff430f173374f85e7",
+        "android_client_info": {
+          "package_name": "com.awesometsproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "856933862694-v21v6qmlah88dtia542fhatgvv9t3mqd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBG9DT4gEqwEjLikeQX85mxYevD0J1qTEY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "856933862694-v21v6qmlah88dtia542fhatgvv9t3mqd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

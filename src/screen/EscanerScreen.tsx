@@ -8,14 +8,67 @@ import {StackScreenProps} from '@react-navigation/stack';
 import Toast from 'react-native-toast-message';
 
 import Header from '../components/Header';
+import {RootStackParamsSecondary} from '../navigator/RouteSecondary';
+import {usePedidosServices} from '../services/usePedidosServices';
+import {useScannerStore} from '../store/scaner';
 
 // import NfcManager, {NfcTech} from 'react-native-nfc-manager';
 
 // NfcManager.start();
 
-interface Props extends StackScreenProps<any, any> {}
+interface Props
+  extends StackScreenProps<RootStackParamsSecondary, 'LecturaNFC'> {}
 
-const EscanerScreen = ({navigation}: Props) => {
+const EscanerScreen = ({navigation, route}: Props) => {
+  const scannerData = useScannerStore(state => state.scannerData);
+  const data = useScannerStore(state => state.data);
+  console.log(route?.params?.id);
+
+  const {UpdatePedido} = usePedidosServices();
+
+  const veces = data.some((item: any) => item.id === route?.params?.id);
+  const updatePedidoInicio = async () => {
+    const resp = await UpdatePedido({
+      updatePedidoId: route?.params?.id,
+      data: {
+        fehcaInicio: new Date(),
+      },
+    });
+    if (resp.res) {
+      navigation.dispatch(StackActions.replace('Pedidos'));
+      if (data.some((item: any) => item.id === route?.params?.id)) {
+        const index = data.findIndex(
+          (item: any) => item.id === route?.params?.id,
+        );
+        data[index].veces = data[index].veces + 1;
+      } else {
+        scannerData([...data, {id: route?.params?.id, veces: 1}]);
+      }
+    } else {
+      console.log('ocurrio un error');
+    }
+  };
+  const updatePedidoFinal = async () => {
+    const resp = await UpdatePedido({
+      updatePedidoId: route?.params?.id,
+      data: {
+        fechaFin: new Date(),
+      },
+    });
+    if (resp.res) {
+      navigation.dispatch(StackActions.replace('Pedidos'));
+      if (data.some((item: any) => item.id === route?.params?.id)) {
+        const index = data.findIndex(
+          (item: any) => item.id === route?.params?.id,
+        );
+        data[index].veces = data[index].veces + 1;
+      } else {
+        scannerData([...data, {id: route?.params?.id, veces: 1}]);
+      }
+    } else {
+      console.log('ocurrio un error');
+    }
+  };
   // async function readNdef() {
   //   try {
   //     console.log('registro');
@@ -44,14 +97,16 @@ const EscanerScreen = ({navigation}: Props) => {
         type: 'success',
         text1: 'NFC escaneado correctamente',
       });
+      if (veces) {
+        updatePedidoFinal();
+        return;
+      } else {
+        updatePedidoInicio();
+      }
     }, 3000);
-    const timeBack = setTimeout(() => {
-      navigation.dispatch(StackActions.replace('Pedidos'));
-    }, 5000);
 
     return () => {
       clearTimeout(timeoutId);
-      clearTimeout(timeBack);
     };
   }, []);
 
