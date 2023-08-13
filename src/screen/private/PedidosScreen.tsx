@@ -5,20 +5,18 @@ import {usePedidosServices} from '../../services/usePedidosServices';
 
 import {StackScreenProps} from '@react-navigation/stack';
 
-// import messaging from '@react-native-firebase/messaging';
-
 import Card from '../../components/Card';
 import Header from '../../components/Header';
 
 import COLORS from '../../constants/color';
 
-import {useSessionStore} from '../../store/session';
+import {useAuthStore} from '../../store/auth';
 
 interface Props extends StackScreenProps<any, any> {}
 
 const PedidosScreen = ({navigation}: Props) => {
   // STORE
-  const session = useSessionStore(state => state.session);
+  const dataAuth = useAuthStore(state => state.dataAuth);
 
   // LLAMADA A GRAPHQL
   const {Pedidos} = usePedidosServices();
@@ -26,7 +24,7 @@ const PedidosScreen = ({navigation}: Props) => {
     filters: {
       user: {
         email: {
-          eq: session?.user?.email || '',
+          eq: dataAuth.infoUser.user.email || '',
         },
       },
       and: [

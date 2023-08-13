@@ -2,34 +2,49 @@ import React from 'react';
 
 import {Text, View, ScrollView, Image, ActivityIndicator} from 'react-native';
 
+import {StackScreenProps} from '@react-navigation/stack';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Toast from 'react-native-toast-message';
 
-import {useSessionStore} from '../../store/session';
 import {useUsuarioServices} from '../../services/useUsuarioServices';
 
 import ListInfo from '../../components/ListInfo';
 import Button from '../../components/Button';
 
-import COLORS from '../../constants/color';
 import Header from '../../components/Header';
-import {StackScreenProps} from '@react-navigation/stack';
+
+import COLORS from '../../constants/color';
+
+import {useAuthStore} from '../../store/auth';
 
 interface Props extends StackScreenProps<any, any> {}
 
 const PerfilScreen = ({navigation}: Props) => {
-  const session = useSessionStore(state => state.session);
+  // STORE
+  const updateDataAuth = useAuthStore(state => state.updateDataAuth);
+  const dataAuth = useAuthStore(state => state.dataAuth);
 
   // LLAMADA GRAPHQL
   const {Usuario} = useUsuarioServices();
   const {dataUsuario, loadingUsuario} = Usuario({
-    usersPermissionsUserId: session && (session.user.id! as string),
+    usersPermissionsUserId: dataAuth.infoUser.user.id,
   });
 
   const handleLogot = async () => {
     try {
       await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('userData');
+      updateDataAuth({
+        isLoading: false,
+        isSignout: false,
+        infoUser: {
+          token: '',
+          user: {id: '', username: ''},
+        },
+      });
+
       navigation.navigate('Wolcome');
     } catch (error) {
       Toast.show({
@@ -38,6 +53,9 @@ const PerfilScreen = ({navigation}: Props) => {
       });
     }
   };
+
+  console.log('user', dataUsuario.attributes);
+  console.log('id', dataAuth.infoUser.user.id);
 
   return (
     <>

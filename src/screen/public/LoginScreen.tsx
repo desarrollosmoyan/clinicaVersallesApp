@@ -8,11 +8,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
 
 import {StackScreenProps} from '@react-navigation/stack';
-// import {StackActions} from '@react-navigation/native';
 
 import {useAuthServices} from '../../services/useAuthServices';
 
-// import {useSessionStore} from '../../store/session';
 import COLORS from '../../constants/color';
 import Button from '../../components/Button';
 import {useAuthStore} from '../../store/auth';
@@ -22,7 +20,6 @@ interface Props extends StackScreenProps<any, any> {}
 const LoginScreen = ({navigation}: Props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // const [isPasswordShown, setIsPasswordShown] = useState(false);
 
   // STORE
   const updateDataAuth = useAuthStore(state => state.updateDataAuth);
