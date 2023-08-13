@@ -8,15 +8,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
 
 import {StackScreenProps} from '@react-navigation/stack';
-import {StackActions} from '@react-navigation/native';
+// import {StackActions} from '@react-navigation/native';
 
-// import {Button} from 'react-native-paper';
+import {useAuthServices} from '../../services/useAuthServices';
 
-import {useAuthServices} from '../services/useAuthServices';
-
-import {useSessionStore} from '../store/session';
-import COLORS from '../constants/color';
-import Button from '../components/Button';
+// import {useSessionStore} from '../../store/session';
+import COLORS from '../../constants/color';
+import Button from '../../components/Button';
+import {useAuthStore} from '../../store/auth';
 
 interface Props extends StackScreenProps<any, any> {}
 
@@ -26,7 +25,7 @@ const LoginScreen = ({navigation}: Props) => {
   // const [isPasswordShown, setIsPasswordShown] = useState(false);
 
   // STORE
-  const sessionUpdate = useSessionStore(state => state.sessionUpdate);
+  const updateDataAuth = useAuthStore(state => state.updateDataAuth);
 
   // LLAMADA DE GRAPHQL
   const {Login, loadingLogin} = useAuthServices();
@@ -34,11 +33,24 @@ const LoginScreen = ({navigation}: Props) => {
   const handleLogin = async () => {
     const res = await Login({identifier: email, password});
     if (res.res) {
-      await AsyncStorage.setItem('token', JSON.stringify(res?.response!)).then(
-        () => console.log('todo salio bien'),
+      await AsyncStorage.setItem('token', JSON.stringify(res?.response?.jwt!));
+      await AsyncStorage.setItem(
+        'userData',
+        JSON.stringify(res?.response?.user!),
       );
-      sessionUpdate(res?.response!);
-      navigation.dispatch(StackActions.replace('InicioBottom'));
+      updateDataAuth({
+        isLoading: false,
+        isSignout: true,
+        infoUser: {
+          token: res.response?.jwt!,
+          user: res.response?.user!,
+        },
+      });
+      navigation.navigate('InicioBottom');
+      Toast.show({
+        type: 'success',
+        text1: 'Bienvenido',
+      });
     } else {
       Toast.show({
         type: 'error',

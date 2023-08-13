@@ -1,8 +1,8 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import PedidosScreen from '../screen/PedidosScreen';
-import DetallePedidoScreen from '../screen/DetallePedidoScreen';
-import EscanerScreen from '../screen/EscanerScreen';
+import PedidosScreen from '../screen/private/PedidosScreen';
+import DetallePedidoScreen from '../screen/private/DetallePedidoScreen';
+import EscanerScreen from '../screen/private/EscanerScreen';
 
 export type RootStackParamsSecondary = {
   Pedidos: undefined;

@@ -1,18 +1,18 @@
 import React from 'react';
 import {View, ScrollView, Text, ActivityIndicator} from 'react-native';
 
-import {usePedidosServices} from '../services/usePedidosServices';
+import {usePedidosServices} from '../../services/usePedidosServices';
 
 import {StackScreenProps} from '@react-navigation/stack';
 
 // import messaging from '@react-native-firebase/messaging';
 
-import Card from '../components/Card';
-import Header from '../components/Header';
+import Card from '../../components/Card';
+import Header from '../../components/Header';
 
-import COLORS from '../constants/color';
+import COLORS from '../../constants/color';
 
-import {useSessionStore} from '../store/session';
+import {useSessionStore} from '../../store/session';
 
 interface Props extends StackScreenProps<any, any> {}
 

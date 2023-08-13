@@ -9,16 +9,16 @@ import {StackScreenProps} from '@react-navigation/stack';
 
 import LinearGradient from 'react-native-linear-gradient';
 
-import {usePedidosServices} from '../services/usePedidosServices';
+import {usePedidosServices} from '../../services/usePedidosServices';
 
-import Button from '../components/Button';
-import Header from '../components/Header';
+import Button from '../../components/Button';
+import Header from '../../components/Header';
 
-import COLORS from '../constants/color';
+import COLORS from '../../constants/color';
 
 import {ScrollView} from 'react-native-gesture-handler';
-import {RootStackParamsSecondary} from '../navigator/RouteSecondary';
-import {useScannerStore} from '../store/scaner';
+import {RootStackParamsSecondary} from '../../navigator/RouteSecondary';
+import {useScannerStore} from '../../store/scaner';
 
 interface Props
   extends StackScreenProps<RootStackParamsSecondary, 'Detallepedido'> {}
@@ -115,7 +115,7 @@ const DetallePedidoScreen = ({route, navigation}: Props) => {
           </View>
           <View style={{alignItems: 'center', marginTop: 20}}>
             <Image
-              source={require('../../images/image-detalle.png')}
+              source={require('../../../images/image-detalle.png')}
               style={{
                 height: 300,
                 width: 300,

@@ -4,24 +4,23 @@ import {Text, View, ScrollView, Image, ActivityIndicator} from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {useNavigation} from '@react-navigation/native';
-import {StackActions} from '@react-navigation/native';
-
 import Toast from 'react-native-toast-message';
 
-import {useSessionStore} from '../store/session';
-import {useUsuarioServices} from '../services/useUsuarioServices';
+import {useSessionStore} from '../../store/session';
+import {useUsuarioServices} from '../../services/useUsuarioServices';
 
-import ListInfo from '../components/ListInfo';
-import Button from '../components/Button';
+import ListInfo from '../../components/ListInfo';
+import Button from '../../components/Button';
 
-import COLORS from '../constants/color';
-import Header from '../components/Header';
+import COLORS from '../../constants/color';
+import Header from '../../components/Header';
+import {StackScreenProps} from '@react-navigation/stack';
 
-const PerfilScreen = () => {
+interface Props extends StackScreenProps<any, any> {}
+
+const PerfilScreen = ({navigation}: Props) => {
   const session = useSessionStore(state => state.session);
 
-  const navigation = useNavigation();
   // LLAMADA GRAPHQL
   const {Usuario} = useUsuarioServices();
   const {dataUsuario, loadingUsuario} = Usuario({
@@ -31,7 +30,7 @@ const PerfilScreen = () => {
   const handleLogot = async () => {
     try {
       await AsyncStorage.removeItem('token');
-      navigation.dispatch(StackActions.replace('Wolcome'));
+      navigation.navigate('Wolcome');
     } catch (error) {
       Toast.show({
         type: 'error',
@@ -48,7 +47,7 @@ const PerfilScreen = () => {
         <View style={{paddingHorizontal: 20}}>
           <View style={{alignItems: 'center', marginTop: 20}}>
             <Image
-              source={require('../../images/image-profile.png')}
+              source={require('../../../images/image-profile.png')}
               style={{
                 height: 300,
                 width: 300,

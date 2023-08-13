@@ -7,16 +7,11 @@ import client from './src/apollo';
 import {theme} from './src/theme';
 import {PaperProvider} from 'react-native-paper';
 import Toast from 'react-native-toast-message';
-// import {
-//   requestUserPermission,
-//   notificationListener,
-// } from './src/utils/pushNotificationHelper';
+import useAuth from './src/hooks/useAuth';
 
 const App = () => {
-  // useEffect(() => {
-  //   requestUserPermission();
-  //   notificationListener();
-  // }, []);
+  // HOOK QUE VERIFICA SE O USUÁRIO ESTÁ LOGADO
+  useAuth();
 
   return (
     <>

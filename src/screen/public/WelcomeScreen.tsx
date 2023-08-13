@@ -4,10 +4,9 @@ import {View, Text, Image} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import {StackScreenProps} from '@react-navigation/stack';
-import {StackActions} from '@react-navigation/native';
 
-import Button from '../components/Button';
-import COLORS from '../constants/color';
+import Button from '../../components/Button';
+import COLORS from '../../constants/color';
 
 interface Props extends StackScreenProps<any, any> {}
 
@@ -21,7 +20,7 @@ const WelcomeScreen = ({navigation}: Props) => {
       <View style={{flex: 1}}>
         <View>
           <Image
-            source={require('../../images/hero1.jpg')}
+            source={require('../../../images/hero1.jpg')}
             style={{
               height: 100,
               width: 100,
@@ -37,7 +36,7 @@ const WelcomeScreen = ({navigation}: Props) => {
           />
 
           <Image
-            source={require('../../images/hero3.jpg')}
+            source={require('../../../images/hero3.jpg')}
             style={{
               height: 100,
               width: 100,
@@ -54,7 +53,7 @@ const WelcomeScreen = ({navigation}: Props) => {
           />
 
           <Image
-            source={require('../../images/hero3.jpg')}
+            source={require('../../../images/hero3.jpg')}
             style={{
               width: 100,
               height: 100,
@@ -71,7 +70,7 @@ const WelcomeScreen = ({navigation}: Props) => {
           />
 
           <Image
-            source={require('../../images/hero2.jpg')}
+            source={require('../../../images/hero2.jpg')}
             style={{
               height: 200,
               width: 200,
@@ -116,7 +115,7 @@ const WelcomeScreen = ({navigation}: Props) => {
 
           <Button
             title="Empezar"
-            onPress={() => navigation.dispatch(StackActions.replace('Login'))}
+            onPress={() => navigation.navigate('Login')}
             style={{
               marginTop: 22,
               width: '100%',

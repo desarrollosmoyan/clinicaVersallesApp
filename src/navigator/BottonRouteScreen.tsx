@@ -6,7 +6,7 @@ import {StackActions} from '@react-navigation/native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import PerfilScreen from '../screen/PerfilScreen';
+import PerfilScreen from '../screen/private/PerfilScreen';
 import COLORS from '../constants/color';
 import {RouteSecondary} from './RouteSecondary';
 import {getToken} from '../utils/getToken';
