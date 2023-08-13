@@ -15,7 +15,6 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  Date: { input: any; output: any; }
   DateTime: { input: any; output: any; }
   JSON: { input: any; output: any; }
   Time: { input: any; output: any; }
@@ -44,30 +43,6 @@ export type BooleanFilterInput = {
   null?: InputMaybe<Scalars['Boolean']['input']>;
   or?: InputMaybe<Array<InputMaybe<Scalars['Boolean']['input']>>>;
   startsWith?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type DateFilterInput = {
-  and?: InputMaybe<Array<InputMaybe<Scalars['Date']['input']>>>;
-  between?: InputMaybe<Array<InputMaybe<Scalars['Date']['input']>>>;
-  contains?: InputMaybe<Scalars['Date']['input']>;
-  containsi?: InputMaybe<Scalars['Date']['input']>;
-  endsWith?: InputMaybe<Scalars['Date']['input']>;
-  eq?: InputMaybe<Scalars['Date']['input']>;
-  eqi?: InputMaybe<Scalars['Date']['input']>;
-  gt?: InputMaybe<Scalars['Date']['input']>;
-  gte?: InputMaybe<Scalars['Date']['input']>;
-  in?: InputMaybe<Array<InputMaybe<Scalars['Date']['input']>>>;
-  lt?: InputMaybe<Scalars['Date']['input']>;
-  lte?: InputMaybe<Scalars['Date']['input']>;
-  ne?: InputMaybe<Scalars['Date']['input']>;
-  not?: InputMaybe<DateFilterInput>;
-  notContains?: InputMaybe<Scalars['Date']['input']>;
-  notContainsi?: InputMaybe<Scalars['Date']['input']>;
-  notIn?: InputMaybe<Array<InputMaybe<Scalars['Date']['input']>>>;
-  notNull?: InputMaybe<Scalars['Boolean']['input']>;
-  null?: InputMaybe<Scalars['Boolean']['input']>;
-  or?: InputMaybe<Array<InputMaybe<Scalars['Date']['input']>>>;
-  startsWith?: InputMaybe<Scalars['Date']['input']>;
 };
 
 export type DateTimeFilterInput = {
@@ -519,9 +494,9 @@ export type Pedido = {
   estacionFin?: Maybe<Scalars['String']['output']>;
   estacionInicio?: Maybe<Scalars['String']['output']>;
   estado?: Maybe<Scalars['Boolean']['output']>;
-  fecha?: Maybe<Scalars['Date']['output']>;
-  fechaFin?: Maybe<Scalars['DateTime']['output']>;
-  fehcaInicio?: Maybe<Scalars['DateTime']['output']>;
+  fecha?: Maybe<Scalars['String']['output']>;
+  fechaFin?: Maybe<Scalars['String']['output']>;
+  fehcaInicio?: Maybe<Scalars['String']['output']>;
   hora?: Maybe<Scalars['Time']['output']>;
   nombrePedido?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
@@ -554,9 +529,9 @@ export type PedidoFiltersInput = {
   estacionFin?: InputMaybe<StringFilterInput>;
   estacionInicio?: InputMaybe<StringFilterInput>;
   estado?: InputMaybe<BooleanFilterInput>;
-  fecha?: InputMaybe<DateFilterInput>;
-  fechaFin?: InputMaybe<DateTimeFilterInput>;
-  fehcaInicio?: InputMaybe<DateTimeFilterInput>;
+  fecha?: InputMaybe<StringFilterInput>;
+  fechaFin?: InputMaybe<StringFilterInput>;
+  fehcaInicio?: InputMaybe<StringFilterInput>;
   hora?: InputMaybe<TimeFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   nombrePedido?: InputMaybe<StringFilterInput>;
@@ -573,9 +548,9 @@ export type PedidoInput = {
   estacionFin?: InputMaybe<Scalars['String']['input']>;
   estacionInicio?: InputMaybe<Scalars['String']['input']>;
   estado?: InputMaybe<Scalars['Boolean']['input']>;
-  fecha?: InputMaybe<Scalars['Date']['input']>;
-  fechaFin?: InputMaybe<Scalars['DateTime']['input']>;
-  fehcaInicio?: InputMaybe<Scalars['DateTime']['input']>;
+  fecha?: InputMaybe<Scalars['String']['input']>;
+  fechaFin?: InputMaybe<Scalars['String']['input']>;
+  fehcaInicio?: InputMaybe<Scalars['String']['input']>;
   hora?: InputMaybe<Scalars['Time']['input']>;
   nombrePedido?: InputMaybe<Scalars['String']['input']>;
   user?: InputMaybe<Scalars['ID']['input']>;
@@ -1040,9 +1015,7 @@ export type UsersPermissionsPermissionRelationResponseCollection = {
 };
 
 export type UsersPermissionsRegisterInput = {
-  cargo: Scalars['String']['input'];
   email: Scalars['String']['input'];
-  nombre_completo: Scalars['String']['input'];
   password: Scalars['String']['input'];
   username: Scalars['String']['input'];
 };
@@ -1229,14 +1202,14 @@ export type PedidoQueryVariables = Exact<{
 }>;
 
 
-export type PedidoQuery = { __typename?: 'Query', pedido?: { __typename?: 'PedidoEntityResponse', data?: { __typename?: 'PedidoEntity', id?: string | null, attributes?: { __typename?: 'Pedido', nombrePedido?: string | null, descripcion?: string | null, cliente?: string | null, fecha?: any | null, hora?: any | null, estacionInicio?: string | null, estacionFin?: string | null, fehcaInicio?: any | null, fechaFin?: any | null, cuantoTardoInicioFin?: string | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', attributes?: { __typename?: 'UsersPermissionsUser', nombreCompleto?: string | null } | null } | null } | null } | null } | null } | null };
+export type PedidoQuery = { __typename?: 'Query', pedido?: { __typename?: 'PedidoEntityResponse', data?: { __typename?: 'PedidoEntity', id?: string | null, attributes?: { __typename?: 'Pedido', nombrePedido?: string | null, descripcion?: string | null, cliente?: string | null, fecha?: string | null, hora?: any | null, estacionInicio?: string | null, estacionFin?: string | null, fehcaInicio?: string | null, fechaFin?: string | null, cuantoTardoInicioFin?: string | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', attributes?: { __typename?: 'UsersPermissionsUser', nombreCompleto?: string | null } | null } | null } | null } | null } | null } | null };
 
 export type PedidosQueryVariables = Exact<{
   filters?: InputMaybe<PedidoFiltersInput>;
 }>;
 
 
-export type PedidosQuery = { __typename?: 'Query', pedidos?: { __typename?: 'PedidoEntityResponseCollection', data: Array<{ __typename?: 'PedidoEntity', id?: string | null, attributes?: { __typename?: 'Pedido', nombrePedido?: string | null, descripcion?: string | null, cliente?: string | null, fecha?: any | null, hora?: any | null, estacionInicio?: string | null, estacionFin?: string | null, fehcaInicio?: any | null, fechaFin?: any | null, cuantoTardoInicioFin?: string | null, createdAt?: any | null, updatedAt?: any | null } | null }> } | null };
+export type PedidosQuery = { __typename?: 'Query', pedidos?: { __typename?: 'PedidoEntityResponseCollection', data: Array<{ __typename?: 'PedidoEntity', id?: string | null, attributes?: { __typename?: 'Pedido', nombrePedido?: string | null, descripcion?: string | null, cliente?: string | null, fecha?: string | null, hora?: any | null, estacionInicio?: string | null, estacionFin?: string | null, fehcaInicio?: string | null, fechaFin?: string | null, cuantoTardoInicioFin?: string | null, createdAt?: any | null, updatedAt?: any | null } | null }> } | null };
 
 export type UsersPermissionsUserQueryVariables = Exact<{
   usersPermissionsUserId?: InputMaybe<Scalars['ID']['input']>;

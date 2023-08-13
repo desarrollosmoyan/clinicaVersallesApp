@@ -8,8 +8,11 @@ import {StackScreenProps} from '@react-navigation/stack';
 import Toast from 'react-native-toast-message';
 
 import Header from '../../components/Header';
+
 import {RootStackParamsSecondary} from '../../navigator/RouteSecondary';
+
 import {usePedidosServices} from '../../services/usePedidosServices';
+
 import {useScannerStore} from '../../store/scaner';
 
 // import NfcManager, {NfcTech} from 'react-native-nfc-manager';
