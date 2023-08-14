@@ -41,6 +41,8 @@ const PedidosScreen = ({navigation}: Props) => {
     navigation.navigate('Detallepedido', {id});
   };
 
+  console.log(dataPedidos);
+
   // useEffect(() => {
   //   const unsubscribe = messaging().onMessage(async () => {
   //     Alert.alert('Nueva tarea');

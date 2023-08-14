@@ -18,7 +18,6 @@ export const useUsuarioServices = () => {
       variables: {usersPermissionsUserId},
     });
     const dataUsuario = data?.usersPermissionsUser?.data ?? {};
-
     return {
       dataUsuario,
       loadingUsuario,

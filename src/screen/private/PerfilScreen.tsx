@@ -31,7 +31,6 @@ const PerfilScreen = ({navigation}: Props) => {
   const {dataUsuario, loadingUsuario} = Usuario({
     usersPermissionsUserId: dataAuth.infoUser.user.id,
   });
-
   const handleLogot = async () => {
     try {
       await AsyncStorage.removeItem('token');

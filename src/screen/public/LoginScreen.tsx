@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 
-import {View, Text, TextInput} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import Toast from 'react-native-toast-message';
 
@@ -20,6 +22,7 @@ interface Props extends StackScreenProps<any, any> {}
 const LoginScreen = ({navigation}: Props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isPassword, setIsPassword] = useState(true);
 
   // STORE
   const updateDataAuth = useAuthStore(state => state.updateDataAuth);
@@ -44,10 +47,6 @@ const LoginScreen = ({navigation}: Props) => {
         },
       });
       navigation.navigate('InicioBottom');
-      Toast.show({
-        type: 'success',
-        text1: 'Bienvenido',
-      });
     } else {
       Toast.show({
         type: 'error',
@@ -71,7 +70,7 @@ const LoginScreen = ({navigation}: Props) => {
           <View style={{marginVertical: 22}}>
             <Text
               style={{
-                fontSize: 22,
+                fontSize: 20,
                 fontWeight: 'bold',
                 marginVertical: 12,
                 color: COLORS.black,
@@ -108,11 +107,12 @@ const LoginScreen = ({navigation}: Props) => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 paddingLeft: 22,
+                overflow: 'hidden',
               }}>
               <TextInput
-                placeholder="Ingresa tu correo"
+                placeholder="Ingresa tu usuario"
                 placeholderTextColor={COLORS.black}
-                keyboardType="email-address"
+                // keyboardType="email-address"
                 onChangeText={text => setEmail(text)}
                 style={{
                   width: '100%',
@@ -139,20 +139,38 @@ const LoginScreen = ({navigation}: Props) => {
                 borderColor: COLORS.black,
                 borderWidth: 1,
                 borderRadius: 8,
-                alignItems: 'center',
+                // alignItems: 'center',
                 justifyContent: 'center',
                 paddingLeft: 22,
+                overflow: 'hidden',
               }}>
               <TextInput
                 placeholder="Ingresa tu contraseña"
                 placeholderTextColor={COLORS.black}
-                secureTextEntry={true}
+                secureTextEntry={isPassword}
                 onChangeText={text => setPassword(text)}
                 style={{
-                  width: '100%',
-                  color: COLORS.black,
+                  width: '87%',
                 }}
               />
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={{
+                  position: 'absolute',
+                  right: 0,
+                  top: 0,
+                  bottom: 0,
+                  backgroundColor: COLORS.white,
+                  justifyContent: 'center',
+                  paddingRight: 10,
+                }}
+                onPress={() => setIsPassword(!isPassword)}>
+                <Icon
+                  name={`${!isPassword ? 'eye-outline' : 'eye-off-outline'}`}
+                  size={25}
+                  color={COLORS.primary}
+                />
+              </TouchableOpacity>
             </View>
           </View>
 
