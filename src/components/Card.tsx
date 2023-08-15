@@ -1,23 +1,52 @@
 import React from 'react';
-import {StyleSheet, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, TouchableOpacity, Text} from 'react-native';
+
 import {Pedido} from '../generated/graphql';
-import COLORS from '../constants/color';
-import {Text} from 'react-native';
+
 import Icon from 'react-native-vector-icons/Ionicons';
+
+import COLORS from '../constants/color';
+
+import useToggle from '../hooks/useToggle';
+
+import ModalObs from '../view/pedidos/ModalObs';
 
 interface Props {
   data: Pedido;
+  id: string;
   color: number;
   onDetalle: () => void;
 }
 
-const Card = ({data, color, onDetalle}: Props) => {
+const Card = ({data, color, onDetalle, id}: Props) => {
+  const {onClose, onOpen, isOpen} = useToggle();
+  console.log('id', id);
   return (
     <>
       {/* CARD FIRST */}
       <View style={{...styles.container, backgroundColor: COLORS.primary}}>
         <View style={styles.containerTitle}>
           <Text style={styles.title}>{data.nombrePedido!}</Text>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={{
+              backgroundColor: '#ffffff50',
+              width: 40,
+              height: 40,
+              borderRadius: 50,
+              alignSelf: 'flex-end',
+              marginBottom: 5,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            onPress={onOpen}>
+            <Icon
+              name="alert-outline"
+              size={30}
+              color={color ? COLORS.white : COLORS.primary}
+              style={{textAlign: 'center'}}
+            />
+          </TouchableOpacity>
         </View>
         <Text style={styles.subtitle}>{data.cliente}</Text>
         <Text style={styles.subtitle}>{data.descripcion}</Text>
@@ -74,6 +103,7 @@ const Card = ({data, color, onDetalle}: Props) => {
           </View>
         </View>
         <TouchableOpacity
+          activeOpacity={0.8}
           style={{
             backgroundColor: '#ffffff50',
             width: 40,
@@ -93,6 +123,8 @@ const Card = ({data, color, onDetalle}: Props) => {
           />
         </TouchableOpacity>
       </View>
+      {/* MODAL */}
+      <ModalObs isOpen={isOpen} onClose={onClose} id={id} />
     </>
   );
 };
@@ -162,5 +194,11 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
 
     elevation: 4,
+  },
+  containerButtom: {
+    flexDirection: 'row',
+    width: '100%',
+    gap: 10,
+    justifyContent: 'center',
   },
 });

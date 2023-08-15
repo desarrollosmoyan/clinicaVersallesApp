@@ -4,22 +4,41 @@ query UsersPermissionsUser($usersPermissionsUserId: ID) {
       attributes {
         username
         email
-        cargo
-        nombreCompleto
-        Area
-        turnos {
+        cargo {
           data {
             attributes {
               nombre
-              inicio
-              fin
-              createdAt
-              updatedAt
             }
           }
         }
-        createdAt
-        updatedAt
+        nombreCompleto
+        Area
+        pedidos {
+          data {
+            attributes {
+              nombrePedido
+              descripcion
+              cliente
+              fecha
+              hora
+              estacionInicio
+              estacionFin
+              fehcaInicio
+              fechaFin
+              cuantoTardoInicioFin
+              estado
+            }
+          }
+        }
+        turnos {
+          data {
+            attributes {
+              fin
+              inicio
+              nombre
+            }
+          }
+        }
       }
     }
   }

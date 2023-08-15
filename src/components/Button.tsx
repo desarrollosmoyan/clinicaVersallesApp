@@ -1,5 +1,7 @@
 import React, {ReactNode} from 'react';
 
+import Icon from 'react-native-vector-icons/Ionicons';
+
 import {
   Text,
   TouchableOpacity,
@@ -14,9 +16,10 @@ interface Props {
   color?: string;
   title: string | ReactNode;
   onPress?: () => void;
-  style: any;
+  style?: any;
   loading?: boolean;
   opacity?: boolean;
+  icon?: string;
 }
 
 const Button = ({
@@ -27,6 +30,7 @@ const Button = ({
   style,
   loading,
   opacity,
+  icon,
 }: Props) => {
   const filledBgColor = color || COLORS.primary;
   const outlinedColor = COLORS.white;
@@ -45,6 +49,9 @@ const Button = ({
       onPress={onPress}>
       <Text style={{fontSize: 18, fontWeight: '700', ...{color: textColor}}}>
         {!loading && title}
+        {!loading && icon?.length !== 0 && (
+          <Icon name={icon!} size={20} color={COLORS.white} />
+        )}
         {loading && (
           <ActivityIndicator
             color={filled ? COLORS.white : COLORS.black}

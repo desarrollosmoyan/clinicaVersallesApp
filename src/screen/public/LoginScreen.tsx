@@ -151,6 +151,7 @@ const LoginScreen = ({navigation}: Props) => {
                 onChangeText={text => setPassword(text)}
                 style={{
                   width: '87%',
+                  color: COLORS.black,
                 }}
               />
               <TouchableOpacity

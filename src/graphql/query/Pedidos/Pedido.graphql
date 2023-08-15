@@ -3,6 +3,13 @@ query Pedido($pedidoId: ID) {
     data {
       id
       attributes {
+        cargo {
+          data {
+            attributes {
+              nombre
+            }
+          }
+        }
         nombrePedido
         descripcion
         cliente

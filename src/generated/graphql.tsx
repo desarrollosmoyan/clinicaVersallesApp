@@ -45,6 +45,53 @@ export type BooleanFilterInput = {
   startsWith?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+export type Cargo = {
+  __typename?: 'Cargo';
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  estado?: Maybe<Scalars['Boolean']['output']>;
+  nombre?: Maybe<Scalars['String']['output']>;
+  pedido?: Maybe<PedidoEntityResponse>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  user?: Maybe<UsersPermissionsUserEntityResponse>;
+};
+
+export type CargoEntity = {
+  __typename?: 'CargoEntity';
+  attributes?: Maybe<Cargo>;
+  id?: Maybe<Scalars['ID']['output']>;
+};
+
+export type CargoEntityResponse = {
+  __typename?: 'CargoEntityResponse';
+  data?: Maybe<CargoEntity>;
+};
+
+export type CargoEntityResponseCollection = {
+  __typename?: 'CargoEntityResponseCollection';
+  data: Array<CargoEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type CargoFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<CargoFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  estado?: InputMaybe<BooleanFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  nombre?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<CargoFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<CargoFiltersInput>>>;
+  pedido?: InputMaybe<PedidoFiltersInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  user?: InputMaybe<UsersPermissionsUserFiltersInput>;
+};
+
+export type CargoInput = {
+  estado?: InputMaybe<Scalars['Boolean']['input']>;
+  nombre?: InputMaybe<Scalars['String']['input']>;
+  pedido?: InputMaybe<Scalars['ID']['input']>;
+  user?: InputMaybe<Scalars['ID']['input']>;
+};
+
 export type DateTimeFilterInput = {
   and?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
   between?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
@@ -140,7 +187,7 @@ export type FloatFilterInput = {
   startsWith?: InputMaybe<Scalars['Float']['input']>;
 };
 
-export type GenericMorph = Estacione | I18NLocale | Pedido | Turno | UploadFile | UploadFolder | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
+export type GenericMorph = Cargo | Estacione | I18NLocale | Observacione | Pedido | Turno | UploadFile | UploadFolder | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
 
 export type I18NLocale = {
   __typename?: 'I18NLocale';
@@ -254,7 +301,9 @@ export type Mutation = {
   __typename?: 'Mutation';
   /** Change user password. Confirm with the current password. */
   changePassword?: Maybe<UsersPermissionsLoginPayload>;
+  createCargo?: Maybe<CargoEntityResponse>;
   createEstacione?: Maybe<EstacioneEntityResponse>;
+  createObservacione?: Maybe<ObservacioneEntityResponse>;
   createPedido?: Maybe<PedidoEntityResponse>;
   createTurno?: Maybe<TurnoEntityResponse>;
   createUploadFile?: Maybe<UploadFileEntityResponse>;
@@ -263,7 +312,9 @@ export type Mutation = {
   createUsersPermissionsRole?: Maybe<UsersPermissionsCreateRolePayload>;
   /** Create a new user */
   createUsersPermissionsUser: UsersPermissionsUserEntityResponse;
+  deleteCargo?: Maybe<CargoEntityResponse>;
   deleteEstacione?: Maybe<EstacioneEntityResponse>;
+  deleteObservacione?: Maybe<ObservacioneEntityResponse>;
   deletePedido?: Maybe<PedidoEntityResponse>;
   deleteTurno?: Maybe<TurnoEntityResponse>;
   deleteUploadFile?: Maybe<UploadFileEntityResponse>;
@@ -283,8 +334,10 @@ export type Mutation = {
   removeFile?: Maybe<UploadFileEntityResponse>;
   /** Reset user password. Confirm with a code (resetToken from forgotPassword) */
   resetPassword?: Maybe<UsersPermissionsLoginPayload>;
+  updateCargo?: Maybe<CargoEntityResponse>;
   updateEstacione?: Maybe<EstacioneEntityResponse>;
   updateFileInfo: UploadFileEntityResponse;
+  updateObservacione?: Maybe<ObservacioneEntityResponse>;
   updatePedido?: Maybe<PedidoEntityResponse>;
   updateTurno?: Maybe<TurnoEntityResponse>;
   updateUploadFile?: Maybe<UploadFileEntityResponse>;
@@ -304,8 +357,18 @@ export type MutationChangePasswordArgs = {
 };
 
 
+export type MutationCreateCargoArgs = {
+  data: CargoInput;
+};
+
+
 export type MutationCreateEstacioneArgs = {
   data: EstacioneInput;
+};
+
+
+export type MutationCreateObservacioneArgs = {
+  data: ObservacioneInput;
 };
 
 
@@ -339,7 +402,17 @@ export type MutationCreateUsersPermissionsUserArgs = {
 };
 
 
+export type MutationDeleteCargoArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
 export type MutationDeleteEstacioneArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationDeleteObservacioneArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -414,6 +487,12 @@ export type MutationResetPasswordArgs = {
 };
 
 
+export type MutationUpdateCargoArgs = {
+  data: CargoInput;
+  id: Scalars['ID']['input'];
+};
+
+
 export type MutationUpdateEstacioneArgs = {
   data: EstacioneInput;
   id: Scalars['ID']['input'];
@@ -423,6 +502,12 @@ export type MutationUpdateEstacioneArgs = {
 export type MutationUpdateFileInfoArgs = {
   id: Scalars['ID']['input'];
   info?: InputMaybe<FileInfoInput>;
+};
+
+
+export type MutationUpdateObservacioneArgs = {
+  data: ObservacioneInput;
+  id: Scalars['ID']['input'];
 };
 
 
@@ -470,6 +555,50 @@ export type MutationUploadArgs = {
   refId?: InputMaybe<Scalars['ID']['input']>;
 };
 
+export type Observacione = {
+  __typename?: 'Observacione';
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  observacion?: Maybe<Scalars['String']['output']>;
+  pedido?: Maybe<PedidoEntityResponse>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  users_permissions_user?: Maybe<UsersPermissionsUserEntityResponse>;
+};
+
+export type ObservacioneEntity = {
+  __typename?: 'ObservacioneEntity';
+  attributes?: Maybe<Observacione>;
+  id?: Maybe<Scalars['ID']['output']>;
+};
+
+export type ObservacioneEntityResponse = {
+  __typename?: 'ObservacioneEntityResponse';
+  data?: Maybe<ObservacioneEntity>;
+};
+
+export type ObservacioneEntityResponseCollection = {
+  __typename?: 'ObservacioneEntityResponseCollection';
+  data: Array<ObservacioneEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type ObservacioneFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ObservacioneFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  not?: InputMaybe<ObservacioneFiltersInput>;
+  observacion?: InputMaybe<StringFilterInput>;
+  or?: InputMaybe<Array<InputMaybe<ObservacioneFiltersInput>>>;
+  pedido?: InputMaybe<PedidoFiltersInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  users_permissions_user?: InputMaybe<UsersPermissionsUserFiltersInput>;
+};
+
+export type ObservacioneInput = {
+  observacion?: InputMaybe<Scalars['String']['input']>;
+  pedido?: InputMaybe<Scalars['ID']['input']>;
+  users_permissions_user?: InputMaybe<Scalars['ID']['input']>;
+};
+
 export type Pagination = {
   __typename?: 'Pagination';
   page: Scalars['Int']['output'];
@@ -487,6 +616,7 @@ export type PaginationArg = {
 
 export type Pedido = {
   __typename?: 'Pedido';
+  cargo?: Maybe<CargoEntityResponse>;
   cliente?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   cuantoTardoInicioFin?: Maybe<Scalars['String']['output']>;
@@ -499,6 +629,7 @@ export type Pedido = {
   fehcaInicio?: Maybe<Scalars['String']['output']>;
   hora?: Maybe<Scalars['Time']['output']>;
   nombrePedido?: Maybe<Scalars['String']['output']>;
+  observacione?: Maybe<ObservacioneEntityResponse>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   user?: Maybe<UsersPermissionsUserEntityResponse>;
 };
@@ -522,6 +653,7 @@ export type PedidoEntityResponseCollection = {
 
 export type PedidoFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<PedidoFiltersInput>>>;
+  cargo?: InputMaybe<CargoFiltersInput>;
   cliente?: InputMaybe<StringFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   cuantoTardoInicioFin?: InputMaybe<StringFilterInput>;
@@ -536,12 +668,14 @@ export type PedidoFiltersInput = {
   id?: InputMaybe<IdFilterInput>;
   nombrePedido?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<PedidoFiltersInput>;
+  observacione?: InputMaybe<ObservacioneFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<PedidoFiltersInput>>>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   user?: InputMaybe<UsersPermissionsUserFiltersInput>;
 };
 
 export type PedidoInput = {
+  cargo?: InputMaybe<Scalars['ID']['input']>;
   cliente?: InputMaybe<Scalars['String']['input']>;
   cuantoTardoInicioFin?: InputMaybe<Scalars['String']['input']>;
   descripcion?: InputMaybe<Scalars['String']['input']>;
@@ -553,6 +687,7 @@ export type PedidoInput = {
   fehcaInicio?: InputMaybe<Scalars['String']['input']>;
   hora?: InputMaybe<Scalars['Time']['input']>;
   nombrePedido?: InputMaybe<Scalars['String']['input']>;
+  observacione?: InputMaybe<Scalars['ID']['input']>;
   user?: InputMaybe<Scalars['ID']['input']>;
 };
 
@@ -563,11 +698,15 @@ export type PedidoRelationResponseCollection = {
 
 export type Query = {
   __typename?: 'Query';
+  cargo?: Maybe<CargoEntityResponse>;
+  cargos?: Maybe<CargoEntityResponseCollection>;
   estacione?: Maybe<EstacioneEntityResponse>;
   estaciones?: Maybe<EstacioneEntityResponseCollection>;
   i18NLocale?: Maybe<I18NLocaleEntityResponse>;
   i18NLocales?: Maybe<I18NLocaleEntityResponseCollection>;
   me?: Maybe<UsersPermissionsMe>;
+  observacione?: Maybe<ObservacioneEntityResponse>;
+  observaciones?: Maybe<ObservacioneEntityResponseCollection>;
   pedido?: Maybe<PedidoEntityResponse>;
   pedidos?: Maybe<PedidoEntityResponseCollection>;
   turno?: Maybe<TurnoEntityResponse>;
@@ -580,6 +719,18 @@ export type Query = {
   usersPermissionsRoles?: Maybe<UsersPermissionsRoleEntityResponseCollection>;
   usersPermissionsUser?: Maybe<UsersPermissionsUserEntityResponse>;
   usersPermissionsUsers?: Maybe<UsersPermissionsUserEntityResponseCollection>;
+};
+
+
+export type QueryCargoArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryCargosArgs = {
+  filters?: InputMaybe<CargoFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 
@@ -602,6 +753,18 @@ export type QueryI18NLocaleArgs = {
 
 export type QueryI18NLocalesArgs = {
   filters?: InputMaybe<I18NLocaleFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+
+export type QueryObservacioneArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryObservacionesArgs = {
+  filters?: InputMaybe<ObservacioneFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
@@ -1015,7 +1178,9 @@ export type UsersPermissionsPermissionRelationResponseCollection = {
 };
 
 export type UsersPermissionsRegisterInput = {
+  cargo: Scalars['String']['input'];
   email: Scalars['String']['input'];
+  nombre_completo: Scalars['String']['input'];
   password: Scalars['String']['input'];
   username: Scalars['String']['input'];
 };
@@ -1093,11 +1258,13 @@ export type UsersPermissionsUser = {
   __typename?: 'UsersPermissionsUser';
   Area?: Maybe<Scalars['String']['output']>;
   blocked?: Maybe<Scalars['Boolean']['output']>;
-  cargo?: Maybe<Scalars['String']['output']>;
+  cargo?: Maybe<CargoEntityResponse>;
   confirmed?: Maybe<Scalars['Boolean']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   email: Scalars['String']['output'];
+  enlinea?: Maybe<Scalars['Boolean']['output']>;
   nombreCompleto?: Maybe<Scalars['String']['output']>;
+  observacione?: Maybe<ObservacioneEntityResponse>;
   pedidos?: Maybe<PedidoRelationResponseCollection>;
   provider?: Maybe<Scalars['String']['output']>;
   role?: Maybe<UsersPermissionsRoleEntityResponse>;
@@ -1141,14 +1308,16 @@ export type UsersPermissionsUserFiltersInput = {
   Area?: InputMaybe<StringFilterInput>;
   and?: InputMaybe<Array<InputMaybe<UsersPermissionsUserFiltersInput>>>;
   blocked?: InputMaybe<BooleanFilterInput>;
-  cargo?: InputMaybe<StringFilterInput>;
+  cargo?: InputMaybe<CargoFiltersInput>;
   confirmationToken?: InputMaybe<StringFilterInput>;
   confirmed?: InputMaybe<BooleanFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   email?: InputMaybe<StringFilterInput>;
+  enlinea?: InputMaybe<BooleanFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   nombreCompleto?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<UsersPermissionsUserFiltersInput>;
+  observacione?: InputMaybe<ObservacioneFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<UsersPermissionsUserFiltersInput>>>;
   password?: InputMaybe<StringFilterInput>;
   pedidos?: InputMaybe<PedidoFiltersInput>;
@@ -1163,11 +1332,13 @@ export type UsersPermissionsUserFiltersInput = {
 export type UsersPermissionsUserInput = {
   Area?: InputMaybe<Scalars['String']['input']>;
   blocked?: InputMaybe<Scalars['Boolean']['input']>;
-  cargo?: InputMaybe<Scalars['String']['input']>;
+  cargo?: InputMaybe<Scalars['ID']['input']>;
   confirmationToken?: InputMaybe<Scalars['String']['input']>;
   confirmed?: InputMaybe<Scalars['Boolean']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
+  enlinea?: InputMaybe<Scalars['Boolean']['input']>;
   nombreCompleto?: InputMaybe<Scalars['String']['input']>;
+  observacione?: InputMaybe<Scalars['ID']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
   pedidos?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   provider?: InputMaybe<Scalars['String']['input']>;
@@ -1202,21 +1373,21 @@ export type PedidoQueryVariables = Exact<{
 }>;
 
 
-export type PedidoQuery = { __typename?: 'Query', pedido?: { __typename?: 'PedidoEntityResponse', data?: { __typename?: 'PedidoEntity', id?: string | null, attributes?: { __typename?: 'Pedido', nombrePedido?: string | null, descripcion?: string | null, cliente?: string | null, fecha?: string | null, hora?: any | null, estacionInicio?: string | null, estacionFin?: string | null, fehcaInicio?: string | null, fechaFin?: string | null, cuantoTardoInicioFin?: string | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', attributes?: { __typename?: 'UsersPermissionsUser', nombreCompleto?: string | null } | null } | null } | null } | null } | null } | null };
+export type PedidoQuery = { __typename?: 'Query', pedido?: { __typename?: 'PedidoEntityResponse', data?: { __typename?: 'PedidoEntity', id?: string | null, attributes?: { __typename?: 'Pedido', nombrePedido?: string | null, descripcion?: string | null, cliente?: string | null, fecha?: string | null, hora?: any | null, estacionInicio?: string | null, estacionFin?: string | null, fehcaInicio?: string | null, fechaFin?: string | null, cuantoTardoInicioFin?: string | null, createdAt?: any | null, updatedAt?: any | null, cargo?: { __typename?: 'CargoEntityResponse', data?: { __typename?: 'CargoEntity', attributes?: { __typename?: 'Cargo', nombre?: string | null } | null } | null } | null, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', attributes?: { __typename?: 'UsersPermissionsUser', nombreCompleto?: string | null } | null } | null } | null } | null } | null } | null };
 
 export type PedidosQueryVariables = Exact<{
   filters?: InputMaybe<PedidoFiltersInput>;
 }>;
 
 
-export type PedidosQuery = { __typename?: 'Query', pedidos?: { __typename?: 'PedidoEntityResponseCollection', data: Array<{ __typename?: 'PedidoEntity', id?: string | null, attributes?: { __typename?: 'Pedido', nombrePedido?: string | null, descripcion?: string | null, cliente?: string | null, fecha?: string | null, hora?: any | null, estacionInicio?: string | null, estacionFin?: string | null, fehcaInicio?: string | null, fechaFin?: string | null, cuantoTardoInicioFin?: string | null, createdAt?: any | null, updatedAt?: any | null } | null }> } | null };
+export type PedidosQuery = { __typename?: 'Query', pedidos?: { __typename?: 'PedidoEntityResponseCollection', data: Array<{ __typename?: 'PedidoEntity', id?: string | null, attributes?: { __typename?: 'Pedido', nombrePedido?: string | null, descripcion?: string | null, cliente?: string | null, fecha?: string | null, hora?: any | null, estacionInicio?: string | null, estacionFin?: string | null, fehcaInicio?: string | null, fechaFin?: string | null, cuantoTardoInicioFin?: string | null, createdAt?: any | null, updatedAt?: any | null, cargo?: { __typename?: 'CargoEntityResponse', data?: { __typename?: 'CargoEntity', attributes?: { __typename?: 'Cargo', nombre?: string | null } | null } | null } | null } | null }> } | null };
 
 export type UsersPermissionsUserQueryVariables = Exact<{
   usersPermissionsUserId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
 
-export type UsersPermissionsUserQuery = { __typename?: 'Query', usersPermissionsUser?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', attributes?: { __typename?: 'UsersPermissionsUser', username: string, email: string, cargo?: string | null, nombreCompleto?: string | null, Area?: string | null, createdAt?: any | null, updatedAt?: any | null, turnos?: { __typename?: 'TurnoRelationResponseCollection', data: Array<{ __typename?: 'TurnoEntity', attributes?: { __typename?: 'Turno', nombre?: string | null, inicio?: any | null, fin?: any | null, createdAt?: any | null, updatedAt?: any | null } | null }> } | null } | null } | null } | null };
+export type UsersPermissionsUserQuery = { __typename?: 'Query', usersPermissionsUser?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', attributes?: { __typename?: 'UsersPermissionsUser', username: string, email: string, nombreCompleto?: string | null, Area?: string | null, cargo?: { __typename?: 'CargoEntityResponse', data?: { __typename?: 'CargoEntity', attributes?: { __typename?: 'Cargo', nombre?: string | null } | null } | null } | null, pedidos?: { __typename?: 'PedidoRelationResponseCollection', data: Array<{ __typename?: 'PedidoEntity', attributes?: { __typename?: 'Pedido', nombrePedido?: string | null, descripcion?: string | null, cliente?: string | null, fecha?: string | null, hora?: any | null, estacionInicio?: string | null, estacionFin?: string | null, fehcaInicio?: string | null, fechaFin?: string | null, cuantoTardoInicioFin?: string | null, estado?: boolean | null } | null }> } | null, turnos?: { __typename?: 'TurnoRelationResponseCollection', data: Array<{ __typename?: 'TurnoEntity', attributes?: { __typename?: 'Turno', fin?: any | null, inicio?: any | null, nombre?: string | null } | null }> } | null } | null } | null } | null };
 
 
 export const LoginDocument = gql`
@@ -1301,6 +1472,13 @@ export const PedidoDocument = gql`
     data {
       id
       attributes {
+        cargo {
+          data {
+            attributes {
+              nombre
+            }
+          }
+        }
         nombrePedido
         descripcion
         cliente
@@ -1358,6 +1536,13 @@ export const PedidosDocument = gql`
   pedidos(filters: $filters) {
     data {
       attributes {
+        cargo {
+          data {
+            attributes {
+              nombre
+            }
+          }
+        }
         nombrePedido
         descripcion
         cliente
@@ -1411,22 +1596,41 @@ export const UsersPermissionsUserDocument = gql`
       attributes {
         username
         email
-        cargo
-        nombreCompleto
-        Area
-        turnos {
+        cargo {
           data {
             attributes {
               nombre
-              inicio
-              fin
-              createdAt
-              updatedAt
             }
           }
         }
-        createdAt
-        updatedAt
+        nombreCompleto
+        Area
+        pedidos {
+          data {
+            attributes {
+              nombrePedido
+              descripcion
+              cliente
+              fecha
+              hora
+              estacionInicio
+              estacionFin
+              fehcaInicio
+              fechaFin
+              cuantoTardoInicioFin
+              estado
+            }
+          }
+        }
+        turnos {
+          data {
+            attributes {
+              fin
+              inicio
+              nombre
+            }
+          }
+        }
       }
     }
   }

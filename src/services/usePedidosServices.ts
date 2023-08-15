@@ -21,6 +21,7 @@ export const usePedidosServices = () => {
       variables: {filters},
     });
     const dataPedidos = data?.pedidos?.data ?? [];
+    console.log(errorPedidos);
 
     return {
       dataPedidos,

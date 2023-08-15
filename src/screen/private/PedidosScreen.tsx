@@ -41,8 +41,6 @@ const PedidosScreen = ({navigation}: Props) => {
     navigation.navigate('Detallepedido', {id});
   };
 
-  console.log(dataPedidos);
-
   // useEffect(() => {
   //   const unsubscribe = messaging().onMessage(async () => {
   //     Alert.alert('Nueva tarea');
@@ -64,12 +62,23 @@ const PedidosScreen = ({navigation}: Props) => {
             />
           ) : (
             <View style={{paddingHorizontal: 20, gap: 20, marginBottom: 20}}>
+              {/* <Card
+                color={1}
+                id="1"
+                data={{
+                  nombrePedido: 'Pedido de prueba',
+                  cliente: 'Cliente de prueba',
+                  descripcion: 'Pedido de prueba',
+                }}
+                onDetalle={() => handleDetalle('1')}
+              /> */}
               {dataPedidos.length === 0 ? (
                 <Text
                   style={{
                     textAlign: 'center',
                     fontSize: 30,
                     fontWeight: '500',
+                    color: COLORS.black,
                   }}>
                   No hay tareas
                 </Text>
@@ -79,6 +88,7 @@ const PedidosScreen = ({navigation}: Props) => {
                     <Card
                       key={pedido.id}
                       data={pedido?.attributes!}
+                      id={pedido?.id!}
                       color={index + 1}
                       onDetalle={() => handleDetalle(pedido.id!)}
                     />
