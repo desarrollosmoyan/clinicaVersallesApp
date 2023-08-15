@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, Modal, TextInput} from 'react-native';
+import Toast from 'react-native-toast-message';
 
 import Button from '../../components/Button';
 import COLORS from '../../constants/color';
 import ListObs from '../../components/ListObs';
+import {useObservacionesServices} from '../../services/useObservacionesServices';
+import {useAuthStore} from '../../store/auth';
 
 interface Props {
   onClose: () => void;
@@ -12,18 +15,26 @@ interface Props {
   id: string;
 }
 
-const ModalObs = ({onClose, isOpen}: Props) => {
+const ModalObs = ({onClose, isOpen, id}: Props) => {
   const [obs, setObs] = useState('');
   const [groupObs, setGroupObs] = useState<{id: string; obs: string}[]>([]);
   const [isAction, setIsAction] = useState('');
+  const [isSend, setisSend] = useState(false);
+  const [completedRequests, setCompletedRequests] = useState(0);
+  console.log('arriba', completedRequests);
 
-  let id = 1;
+  // LLAMADA DE GRAPHQL
+  const {CreateObservacion} = useObservacionesServices();
+
+  const dataAuth = useAuthStore(state => state.dataAuth);
 
   // FUNCION PARA ELIMINAR UN ELEMENTO DE LA LISTA
   const handleDeleteObs = (id: string) => {
     const newGroupObs = groupObs.filter(item => item.id !== id);
     setGroupObs(newGroupObs);
   };
+
+  // console.log(dataAuth.infoUser);
 
   // FUNCION PARA EDITAR UN ELEMENTO DE LA LISTA
 
@@ -37,6 +48,49 @@ const ModalObs = ({onClose, isOpen}: Props) => {
     setGroupObs(newGroupObs);
     setObs('');
   };
+
+  // FUNCION PARA ENVIAR LAS OBSERVACIONES
+  const handleSendObs = async () => {
+    setisSend(true);
+
+    groupObs.map(async ({obs}, _index) => {
+      let cantidad = 0;
+      const res = await CreateObservacion({
+        observacion: obs,
+        pedido: id.toString(),
+        users_permissions_user: dataAuth.infoUser.user.id,
+      });
+      console.log(res);
+      if (res.res) {
+        setCompletedRequests(prev => prev + 1);
+      }
+      if (!res.res) {
+        setisSend(false);
+        Toast.show({
+          type: 'error',
+          text1: 'Hubo un error ',
+        });
+        return;
+      }
+      console.log('cantidad', cantidad);
+      console.log('completedRequests', completedRequests);
+      if (cantidad === groupObs.length) {
+        console.log('entre');
+        cantidad = 0;
+        setCompletedRequests(0);
+        setisSend(false);
+        Toast.show({
+          type: 'success',
+          text1: 'Se agrego correctamente',
+        });
+        console.log('me ejecute');
+        setObs('');
+        setGroupObs([]);
+        onClose();
+      }
+    });
+  };
+  console.log('abajo completedRequests', completedRequests);
 
   return (
     <Modal animationType="fade" visible={isOpen} transparent={true}>
@@ -89,18 +143,12 @@ const ModalObs = ({onClose, isOpen}: Props) => {
               style={{
                 width: '100%',
                 color: COLORS.black,
+                fontSize: 18,
               }}
             />
           </View>
-          <View style={styles.containerButtom}>
-            <Button
-              title="Cancelar"
-              style={{
-                width: 'auto',
-                paddingHorizontal: 20,
-              }}
-              onPress={onClose}
-            />
+          {/* BUTTONS ADD */}
+          <View style={styles.buttomAdd}>
             <Button
               title={`${isAction.length === 0 ? 'Agregar' : 'Editar'}`}
               filled
@@ -109,8 +157,8 @@ const ModalObs = ({onClose, isOpen}: Props) => {
               }}
               onPress={() => {
                 if (isAction.length === 0) {
-                  id++;
-                  setGroupObs([...groupObs, {id: `${id + 1}`, obs}]);
+                  setGroupObs([...groupObs, {id: obs, obs}]);
+
                   setObs('');
                   return;
                 }
@@ -119,6 +167,7 @@ const ModalObs = ({onClose, isOpen}: Props) => {
               }}
             />
           </View>
+
           {groupObs.length !== 0 && (
             <View style={{width: '100%', marginVertical: 15}}>
               <Text
@@ -143,6 +192,29 @@ const ModalObs = ({onClose, isOpen}: Props) => {
               </View>
             </View>
           )}
+
+          {/* BUTTONS  */}
+
+          <View style={styles.containerButtons}>
+            <Button
+              title="Cancelar"
+              style={{
+                width: 'auto',
+                paddingHorizontal: 20,
+              }}
+              onPress={onClose}
+            />
+            <Button
+              filled
+              loading={isSend}
+              title="Enviar"
+              style={{
+                width: 'auto',
+                paddingHorizontal: 20,
+              }}
+              onPress={handleSendObs}
+            />
+          </View>
         </View>
       </View>
     </Modal>
@@ -152,10 +224,16 @@ const ModalObs = ({onClose, isOpen}: Props) => {
 export default ModalObs;
 
 const styles = StyleSheet.create({
-  containerButtom: {
+  buttomAdd: {
     flexDirection: 'row',
     width: '100%',
-    gap: 10,
+    justifyContent: 'flex-end',
+  },
+  containerButtons: {
+    flexDirection: 'row',
     justifyContent: 'center',
+    marginTop: 20,
+    width: '100%',
+    gap: 10,
   },
 });

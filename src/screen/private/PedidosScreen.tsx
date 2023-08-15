@@ -36,6 +36,7 @@ const PedidosScreen = ({navigation}: Props) => {
       ],
     },
   });
+
   // FUNCION PARA IR A LA PAGINA DE DETALLE
   const handleDetalle = (id: string) => {
     navigation.navigate('Detallepedido', {id});
@@ -62,16 +63,6 @@ const PedidosScreen = ({navigation}: Props) => {
             />
           ) : (
             <View style={{paddingHorizontal: 20, gap: 20, marginBottom: 20}}>
-              {/* <Card
-                color={1}
-                id="1"
-                data={{
-                  nombrePedido: 'Pedido de prueba',
-                  cliente: 'Cliente de prueba',
-                  descripcion: 'Pedido de prueba',
-                }}
-                onDetalle={() => handleDetalle('1')}
-              /> */}
               {dataPedidos.length === 0 ? (
                 <Text
                   style={{

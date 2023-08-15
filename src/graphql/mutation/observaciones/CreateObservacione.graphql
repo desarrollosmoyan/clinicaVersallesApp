@@ -1,0 +1,7 @@
+mutation CreateObservacione($data: ObservacioneInput!) {
+  createObservacione(data: $data) {
+    data {
+      id
+    }
+  }
+}

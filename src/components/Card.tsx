@@ -20,7 +20,7 @@ interface Props {
 
 const Card = ({data, color, onDetalle, id}: Props) => {
   const {onClose, onOpen, isOpen} = useToggle();
-  console.log('id', id);
+  console.log('id pedido', id);
   return (
     <>
       {/* CARD FIRST */}

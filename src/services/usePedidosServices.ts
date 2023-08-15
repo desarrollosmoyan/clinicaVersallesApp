@@ -51,8 +51,7 @@ export const usePedidosServices = () => {
       refetch,
     };
   };
-  const [updatePedidoMutation, {error}] = useUpdatePedidoMutation();
-  console.log(error);
+  const [updatePedidoMutation] = useUpdatePedidoMutation();
 
   // UPDATE PEDIDO
 

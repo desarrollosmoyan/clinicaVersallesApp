@@ -1360,6 +1360,13 @@ export type LoginMutationVariables = Exact<{
 
 export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UsersPermissionsLoginPayload', jwt?: string | null, user: { __typename?: 'UsersPermissionsMe', id: string, username: string, email?: string | null, confirmed?: boolean | null, blocked?: boolean | null } } };
 
+export type CreateObservacioneMutationVariables = Exact<{
+  data: ObservacioneInput;
+}>;
+
+
+export type CreateObservacioneMutation = { __typename?: 'Mutation', createObservacione?: { __typename?: 'ObservacioneEntityResponse', data?: { __typename?: 'ObservacioneEntity', id?: string | null } | null } | null };
+
 export type UpdatePedidoMutationVariables = Exact<{
   data: PedidoInput;
   updatePedidoId: Scalars['ID']['input'];
@@ -1430,6 +1437,41 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const CreateObservacioneDocument = gql`
+    mutation CreateObservacione($data: ObservacioneInput!) {
+  createObservacione(data: $data) {
+    data {
+      id
+    }
+  }
+}
+    `;
+export type CreateObservacioneMutationFn = Apollo.MutationFunction<CreateObservacioneMutation, CreateObservacioneMutationVariables>;
+
+/**
+ * __useCreateObservacioneMutation__
+ *
+ * To run a mutation, you first call `useCreateObservacioneMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateObservacioneMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createObservacioneMutation, { data, loading, error }] = useCreateObservacioneMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateObservacioneMutation(baseOptions?: Apollo.MutationHookOptions<CreateObservacioneMutation, CreateObservacioneMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateObservacioneMutation, CreateObservacioneMutationVariables>(CreateObservacioneDocument, options);
+      }
+export type CreateObservacioneMutationHookResult = ReturnType<typeof useCreateObservacioneMutation>;
+export type CreateObservacioneMutationResult = Apollo.MutationResult<CreateObservacioneMutation>;
+export type CreateObservacioneMutationOptions = Apollo.BaseMutationOptions<CreateObservacioneMutation, CreateObservacioneMutationVariables>;
 export const UpdatePedidoDocument = gql`
     mutation UpdatePedido($data: PedidoInput!, $updatePedidoId: ID!) {
   updatePedido(data: $data, id: $updatePedidoId) {
