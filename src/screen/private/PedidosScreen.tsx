@@ -53,7 +53,7 @@ const PedidosScreen = ({navigation}: Props) => {
   return (
     <>
       <ScrollView>
-        <Header title="Tareas" showSwitch={true} />
+        <Header title="Tareas" showSwitch />
         <View>
           {loadingPedidos ? (
             <ActivityIndicator

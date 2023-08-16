@@ -1,4 +1,9 @@
-import {useUsersPermissionsUserQuery} from '../generated/graphql';
+import {
+  UsersPermissionsUserEntityResponse,
+  UsersPermissionsUserInput,
+  useUpdateUsersPermissionsUserMutation,
+  useUsersPermissionsUserQuery,
+} from '../generated/graphql';
 
 export const useUsuarioServices = () => {
   // USUARIO
@@ -7,7 +12,6 @@ export const useUsuarioServices = () => {
   }: {
     usersPermissionsUserId: string | null;
   }) => {
-    console.log('id', usersPermissionsUserId);
     const {
       data,
       loading: loadingUsuario,
@@ -26,7 +30,35 @@ export const useUsuarioServices = () => {
     };
   };
 
+  // UPDATE USUARIOS
+  const [updateUsersPermissionsUserMutation] =
+    useUpdateUsersPermissionsUserMutation();
+
   return {
     Usuario,
+    UpdateUsuario: async ({
+      updateUsersPermissionsUserId,
+      data,
+    }: {
+      updateUsersPermissionsUserId: string;
+      data: UsersPermissionsUserInput;
+    }) => {
+      try {
+        const res = await updateUsersPermissionsUserMutation({
+          variables: {
+            updateUsersPermissionsUserId: updateUsersPermissionsUserId,
+            data,
+          },
+        });
+
+        return {
+          res: true,
+          data: res.data
+            ?.updateUsersPermissionsUser as UsersPermissionsUserEntityResponse,
+        };
+      } catch (error) {
+        return {res: false, response: 'Hubo un error'};
+      }
+    },
   };
 };

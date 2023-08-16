@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import {Switch, Text, TouchableOpacity, View} from 'react-native';
 
@@ -6,6 +6,8 @@ import {useNavigation} from '@react-navigation/native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import COLORS from '../constants/color';
+import {useAuthStore} from '../store/auth';
+import {useUsuarioServices} from '../services/useUsuarioServices';
 
 interface Props {
   title: string;
@@ -22,19 +24,34 @@ const Header = ({
 }: Props) => {
   const navigate = useNavigation();
   const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => {
-    if (!isEnabled) {
-      console.log('estoy en linea');
-    } else {
-      console.log('estoy fuera de linea');
+
+  // STORE
+  const dataAuth = useAuthStore(state => state.dataAuth);
+  // LLAMADA DE GRAPHQL
+  const {Usuario, UpdateUsuario} = useUsuarioServices();
+  const {dataUsuario, loadingUsuario} = Usuario({
+    usersPermissionsUserId: dataAuth.infoUser.user.id,
+  });
+
+  useEffect(() => {
+    setIsEnabled(dataUsuario.attributes?.enlinea ? true : false);
+  }, [loadingUsuario]);
+
+  const toggleSwitch = async () => {
+    const res = await UpdateUsuario({
+      data: {enlinea: !isEnabled},
+      updateUsersPermissionsUserId: dataAuth.infoUser.user.id,
+    });
+    if (res.res) {
+      setIsEnabled(res.data?.data?.attributes?.enlinea!);
     }
-    setIsEnabled(previousState => !previousState);
   };
   return (
     <>
       <View
         style={{
           position: 'relative',
+          marginBottom: 10,
         }}>
         {show && (
           <TouchableOpacity
@@ -59,7 +76,7 @@ const Header = ({
         </Text>
         {/* Switch */}
 
-        {showSwitch ?? (
+        {showSwitch && (
           <View
             style={{
               position: 'absolute',

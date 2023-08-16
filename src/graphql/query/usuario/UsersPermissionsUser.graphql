@@ -3,6 +3,7 @@ query UsersPermissionsUser($usersPermissionsUserId: ID) {
     data {
       attributes {
         username
+        enlinea
         email
         cargo {
           data {

@@ -187,7 +187,7 @@ export type FloatFilterInput = {
   startsWith?: InputMaybe<Scalars['Float']['input']>;
 };
 
-export type GenericMorph = Cargo | Estacione | I18NLocale | Observacione | Pedido | Turno | UploadFile | UploadFolder | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
+export type GenericMorph = Cargo | Estacione | I18NLocale | Observacione | Pedido | Turno | Ubicacione | UploadFile | UploadFolder | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
 
 export type I18NLocale = {
   __typename?: 'I18NLocale';
@@ -306,6 +306,7 @@ export type Mutation = {
   createObservacione?: Maybe<ObservacioneEntityResponse>;
   createPedido?: Maybe<PedidoEntityResponse>;
   createTurno?: Maybe<TurnoEntityResponse>;
+  createUbicacione?: Maybe<UbicacioneEntityResponse>;
   createUploadFile?: Maybe<UploadFileEntityResponse>;
   createUploadFolder?: Maybe<UploadFolderEntityResponse>;
   /** Create a new role */
@@ -317,6 +318,7 @@ export type Mutation = {
   deleteObservacione?: Maybe<ObservacioneEntityResponse>;
   deletePedido?: Maybe<PedidoEntityResponse>;
   deleteTurno?: Maybe<TurnoEntityResponse>;
+  deleteUbicacione?: Maybe<UbicacioneEntityResponse>;
   deleteUploadFile?: Maybe<UploadFileEntityResponse>;
   deleteUploadFolder?: Maybe<UploadFolderEntityResponse>;
   /** Delete an existing role */
@@ -340,6 +342,7 @@ export type Mutation = {
   updateObservacione?: Maybe<ObservacioneEntityResponse>;
   updatePedido?: Maybe<PedidoEntityResponse>;
   updateTurno?: Maybe<TurnoEntityResponse>;
+  updateUbicacione?: Maybe<UbicacioneEntityResponse>;
   updateUploadFile?: Maybe<UploadFileEntityResponse>;
   updateUploadFolder?: Maybe<UploadFolderEntityResponse>;
   /** Update an existing role */
@@ -379,6 +382,11 @@ export type MutationCreatePedidoArgs = {
 
 export type MutationCreateTurnoArgs = {
   data: TurnoInput;
+};
+
+
+export type MutationCreateUbicacioneArgs = {
+  data: UbicacioneInput;
 };
 
 
@@ -423,6 +431,11 @@ export type MutationDeletePedidoArgs = {
 
 
 export type MutationDeleteTurnoArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationDeleteUbicacioneArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -519,6 +532,12 @@ export type MutationUpdatePedidoArgs = {
 
 export type MutationUpdateTurnoArgs = {
   data: TurnoInput;
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateUbicacioneArgs = {
+  data: UbicacioneInput;
   id: Scalars['ID']['input'];
 };
 
@@ -628,8 +647,10 @@ export type Pedido = {
   fechaFin?: Maybe<Scalars['String']['output']>;
   fehcaInicio?: Maybe<Scalars['String']['output']>;
   hora?: Maybe<Scalars['Time']['output']>;
+  identificacion?: Maybe<Scalars['String']['output']>;
   nombrePedido?: Maybe<Scalars['String']['output']>;
   observacione?: Maybe<ObservacioneEntityResponse>;
+  tipoIdentificacion?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   user?: Maybe<UsersPermissionsUserEntityResponse>;
 };
@@ -666,10 +687,12 @@ export type PedidoFiltersInput = {
   fehcaInicio?: InputMaybe<StringFilterInput>;
   hora?: InputMaybe<TimeFilterInput>;
   id?: InputMaybe<IdFilterInput>;
+  identificacion?: InputMaybe<StringFilterInput>;
   nombrePedido?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<PedidoFiltersInput>;
   observacione?: InputMaybe<ObservacioneFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<PedidoFiltersInput>>>;
+  tipoIdentificacion?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   user?: InputMaybe<UsersPermissionsUserFiltersInput>;
 };
@@ -686,8 +709,10 @@ export type PedidoInput = {
   fechaFin?: InputMaybe<Scalars['String']['input']>;
   fehcaInicio?: InputMaybe<Scalars['String']['input']>;
   hora?: InputMaybe<Scalars['Time']['input']>;
+  identificacion?: InputMaybe<Scalars['String']['input']>;
   nombrePedido?: InputMaybe<Scalars['String']['input']>;
   observacione?: InputMaybe<Scalars['ID']['input']>;
+  tipoIdentificacion?: InputMaybe<Scalars['String']['input']>;
   user?: InputMaybe<Scalars['ID']['input']>;
 };
 
@@ -711,6 +736,8 @@ export type Query = {
   pedidos?: Maybe<PedidoEntityResponseCollection>;
   turno?: Maybe<TurnoEntityResponse>;
   turnos?: Maybe<TurnoEntityResponseCollection>;
+  ubicacione?: Maybe<UbicacioneEntityResponse>;
+  ubicaciones?: Maybe<UbicacioneEntityResponseCollection>;
   uploadFile?: Maybe<UploadFileEntityResponse>;
   uploadFiles?: Maybe<UploadFileEntityResponseCollection>;
   uploadFolder?: Maybe<UploadFolderEntityResponse>;
@@ -789,6 +816,18 @@ export type QueryTurnoArgs = {
 
 export type QueryTurnosArgs = {
   filters?: InputMaybe<TurnoFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+
+export type QueryUbicacioneArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryUbicacionesArgs = {
+  filters?: InputMaybe<UbicacioneFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
@@ -941,6 +980,44 @@ export type TurnoInput = {
 export type TurnoRelationResponseCollection = {
   __typename?: 'TurnoRelationResponseCollection';
   data: Array<TurnoEntity>;
+};
+
+export type Ubicacione = {
+  __typename?: 'Ubicacione';
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  users_permissions_user?: Maybe<UsersPermissionsUserEntityResponse>;
+};
+
+export type UbicacioneEntity = {
+  __typename?: 'UbicacioneEntity';
+  attributes?: Maybe<Ubicacione>;
+  id?: Maybe<Scalars['ID']['output']>;
+};
+
+export type UbicacioneEntityResponse = {
+  __typename?: 'UbicacioneEntityResponse';
+  data?: Maybe<UbicacioneEntity>;
+};
+
+export type UbicacioneEntityResponseCollection = {
+  __typename?: 'UbicacioneEntityResponseCollection';
+  data: Array<UbicacioneEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type UbicacioneFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<UbicacioneFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  not?: InputMaybe<UbicacioneFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<UbicacioneFiltersInput>>>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  users_permissions_user?: InputMaybe<UsersPermissionsUserFiltersInput>;
+};
+
+export type UbicacioneInput = {
+  users_permissions_user?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UploadFile = {
@@ -1269,6 +1346,7 @@ export type UsersPermissionsUser = {
   provider?: Maybe<Scalars['String']['output']>;
   role?: Maybe<UsersPermissionsRoleEntityResponse>;
   turnos?: Maybe<TurnoRelationResponseCollection>;
+  ubicacione?: Maybe<UbicacioneEntityResponse>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   username: Scalars['String']['output'];
 };
@@ -1325,6 +1403,7 @@ export type UsersPermissionsUserFiltersInput = {
   resetPasswordToken?: InputMaybe<StringFilterInput>;
   role?: InputMaybe<UsersPermissionsRoleFiltersInput>;
   turnos?: InputMaybe<TurnoFiltersInput>;
+  ubicacione?: InputMaybe<UbicacioneFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   username?: InputMaybe<StringFilterInput>;
 };
@@ -1345,6 +1424,7 @@ export type UsersPermissionsUserInput = {
   resetPasswordToken?: InputMaybe<Scalars['String']['input']>;
   role?: InputMaybe<Scalars['ID']['input']>;
   turnos?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  ubicacione?: InputMaybe<Scalars['ID']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -1375,6 +1455,14 @@ export type UpdatePedidoMutationVariables = Exact<{
 
 export type UpdatePedidoMutation = { __typename?: 'Mutation', updatePedido?: { __typename?: 'PedidoEntityResponse', data?: { __typename?: 'PedidoEntity', id?: string | null } | null } | null };
 
+export type UpdateUsersPermissionsUserMutationVariables = Exact<{
+  updateUsersPermissionsUserId: Scalars['ID']['input'];
+  data: UsersPermissionsUserInput;
+}>;
+
+
+export type UpdateUsersPermissionsUserMutation = { __typename?: 'Mutation', updateUsersPermissionsUser: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null, attributes?: { __typename?: 'UsersPermissionsUser', enlinea?: boolean | null } | null } | null } };
+
 export type PedidoQueryVariables = Exact<{
   pedidoId?: InputMaybe<Scalars['ID']['input']>;
 }>;
@@ -1394,7 +1482,7 @@ export type UsersPermissionsUserQueryVariables = Exact<{
 }>;
 
 
-export type UsersPermissionsUserQuery = { __typename?: 'Query', usersPermissionsUser?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', attributes?: { __typename?: 'UsersPermissionsUser', username: string, email: string, nombreCompleto?: string | null, Area?: string | null, cargo?: { __typename?: 'CargoEntityResponse', data?: { __typename?: 'CargoEntity', attributes?: { __typename?: 'Cargo', nombre?: string | null } | null } | null } | null, pedidos?: { __typename?: 'PedidoRelationResponseCollection', data: Array<{ __typename?: 'PedidoEntity', attributes?: { __typename?: 'Pedido', nombrePedido?: string | null, descripcion?: string | null, cliente?: string | null, fecha?: string | null, hora?: any | null, estacionInicio?: string | null, estacionFin?: string | null, fehcaInicio?: string | null, fechaFin?: string | null, cuantoTardoInicioFin?: string | null, estado?: boolean | null } | null }> } | null, turnos?: { __typename?: 'TurnoRelationResponseCollection', data: Array<{ __typename?: 'TurnoEntity', attributes?: { __typename?: 'Turno', fin?: any | null, inicio?: any | null, nombre?: string | null } | null }> } | null } | null } | null } | null };
+export type UsersPermissionsUserQuery = { __typename?: 'Query', usersPermissionsUser?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', attributes?: { __typename?: 'UsersPermissionsUser', username: string, enlinea?: boolean | null, email: string, nombreCompleto?: string | null, Area?: string | null, cargo?: { __typename?: 'CargoEntityResponse', data?: { __typename?: 'CargoEntity', attributes?: { __typename?: 'Cargo', nombre?: string | null } | null } | null } | null, pedidos?: { __typename?: 'PedidoRelationResponseCollection', data: Array<{ __typename?: 'PedidoEntity', attributes?: { __typename?: 'Pedido', nombrePedido?: string | null, descripcion?: string | null, cliente?: string | null, fecha?: string | null, hora?: any | null, estacionInicio?: string | null, estacionFin?: string | null, fehcaInicio?: string | null, fechaFin?: string | null, cuantoTardoInicioFin?: string | null, estado?: boolean | null } | null }> } | null, turnos?: { __typename?: 'TurnoRelationResponseCollection', data: Array<{ __typename?: 'TurnoEntity', attributes?: { __typename?: 'Turno', fin?: any | null, inicio?: any | null, nombre?: string | null } | null }> } | null } | null } | null } | null };
 
 
 export const LoginDocument = gql`
@@ -1508,6 +1596,45 @@ export function useUpdatePedidoMutation(baseOptions?: Apollo.MutationHookOptions
 export type UpdatePedidoMutationHookResult = ReturnType<typeof useUpdatePedidoMutation>;
 export type UpdatePedidoMutationResult = Apollo.MutationResult<UpdatePedidoMutation>;
 export type UpdatePedidoMutationOptions = Apollo.BaseMutationOptions<UpdatePedidoMutation, UpdatePedidoMutationVariables>;
+export const UpdateUsersPermissionsUserDocument = gql`
+    mutation UpdateUsersPermissionsUser($updateUsersPermissionsUserId: ID!, $data: UsersPermissionsUserInput!) {
+  updateUsersPermissionsUser(id: $updateUsersPermissionsUserId, data: $data) {
+    data {
+      id
+      attributes {
+        enlinea
+      }
+    }
+  }
+}
+    `;
+export type UpdateUsersPermissionsUserMutationFn = Apollo.MutationFunction<UpdateUsersPermissionsUserMutation, UpdateUsersPermissionsUserMutationVariables>;
+
+/**
+ * __useUpdateUsersPermissionsUserMutation__
+ *
+ * To run a mutation, you first call `useUpdateUsersPermissionsUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUsersPermissionsUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUsersPermissionsUserMutation, { data, loading, error }] = useUpdateUsersPermissionsUserMutation({
+ *   variables: {
+ *      updateUsersPermissionsUserId: // value for 'updateUsersPermissionsUserId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateUsersPermissionsUserMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUsersPermissionsUserMutation, UpdateUsersPermissionsUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateUsersPermissionsUserMutation, UpdateUsersPermissionsUserMutationVariables>(UpdateUsersPermissionsUserDocument, options);
+      }
+export type UpdateUsersPermissionsUserMutationHookResult = ReturnType<typeof useUpdateUsersPermissionsUserMutation>;
+export type UpdateUsersPermissionsUserMutationResult = Apollo.MutationResult<UpdateUsersPermissionsUserMutation>;
+export type UpdateUsersPermissionsUserMutationOptions = Apollo.BaseMutationOptions<UpdateUsersPermissionsUserMutation, UpdateUsersPermissionsUserMutationVariables>;
 export const PedidoDocument = gql`
     query Pedido($pedidoId: ID) {
   pedido(id: $pedidoId) {
@@ -1637,6 +1764,7 @@ export const UsersPermissionsUserDocument = gql`
     data {
       attributes {
         username
+        enlinea
         email
         cargo {
           data {

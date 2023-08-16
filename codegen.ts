@@ -4,7 +4,7 @@ const config: CodegenConfig = {
   debug: true,
   verbose: true,
   overwrite: true,
-  schema: 'https://cc78-190-66-99-88.ngrok-free.app/graphql',
+  schema: 'https://481a-190-66-99-88.ngrok-free.app/graphql',
   documents: 'src/**/*.graphql',
   generates: {
     'src/generated/graphql.tsx': {
