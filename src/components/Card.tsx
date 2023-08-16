@@ -5,6 +5,8 @@ import {Pedido} from '../generated/graphql';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import Toast from 'react-native-toast-message';
+
 import COLORS from '../constants/color';
 
 import useToggle from '../hooks/useToggle';
@@ -109,10 +111,21 @@ const Card = ({data, color, onDetalle, id, isAcept = false}: Props) => {
         {isAcept ? (
           <Button
             title="Aceptar"
-            onPress={onDetalle}
+            onPress={() => {
+              if (data.user?.data === null) {
+                onDetalle();
+                return;
+              } else {
+                Toast.show({
+                  type: 'error',
+                  text1: 'La tarea ya fue aceptada por usuario',
+                });
+              }
+            }}
             style={{
-              width: '50%',
+              width: 'auto',
               marginLeft: 'auto',
+              paddingHorizontal: 20,
             }}
           />
         ) : (

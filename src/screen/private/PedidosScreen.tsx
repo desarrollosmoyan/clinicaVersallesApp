@@ -106,7 +106,10 @@ const PedidosScreen = ({navigation}: Props) => {
       pageSize: paginationModel.pageSize === 10 ? 11 : 10,
     });
   };
-
+  console.log(
+    'data',
+    dataPedidos.map(pedido => pedido.attributes?.user?.data),
+  );
   return (
     <>
       <Header title="Tareas" showSwitch />
@@ -224,6 +227,7 @@ const PedidosScreen = ({navigation}: Props) => {
                           const existe = tareasAsignadas.some(
                             item => item.id === pedido.id,
                           );
+                          if (pedido.attributes?.user?.data !== null) return;
                           return (
                             <Card
                               key={pedido.id}
