@@ -38,6 +38,7 @@ const DetallePedidoScreen = ({route, navigation}: Props) => {
     if (idVeces.id === id && idVeces.veces === 2) return;
     navigation.navigate('LecturaNFC', {id: dataPedido.id!});
   };
+
   return (
     <LinearGradient colors={['#06105D', '#0E23CF']} style={{flex: 1}}>
       <ScrollView>
@@ -101,7 +102,7 @@ const DetallePedidoScreen = ({route, navigation}: Props) => {
                       color: COLORS.primary,
                       textAlign: 'center',
                     }}>
-                    {dataPedido.attributes?.fechaFin || 'No hay estacion'}
+                    {dataPedido.attributes?.estacionFin || 'No hay estacion'}
                   </Text>
                 </View>
               }
@@ -148,7 +149,7 @@ const DetallePedidoScreen = ({route, navigation}: Props) => {
                     fontWeight: '800',
                     color: COLORS.white,
                   }}>
-                  {dataPedido.attributes?.nombrePedido!}
+                  {dataPedido.attributes?.cargo?.data?.attributes?.nombre!}
                 </Text>
                 <Text
                   style={{

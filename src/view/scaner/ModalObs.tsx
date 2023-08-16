@@ -90,7 +90,7 @@ const ModalObs = ({onClose, isOpen, id}: Props) => {
         setObs('');
         setGroupObs([]);
         onClose();
-        navigation.reset('Pedidos' as never);
+        navigation.navigate('Pedidos' as never);
       }
     });
   };

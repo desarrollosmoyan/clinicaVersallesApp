@@ -15,6 +15,9 @@ import {usePedidosServices} from '../../services/usePedidosServices';
 
 import {useScannerStore} from '../../store/scaner';
 
+import useToggle from '../../hooks/useToggle';
+import ModalObs from '../../view/scaner/ModalObs';
+
 // import NfcManager, {NfcTech} from 'react-native-nfc-manager';
 
 // NfcManager.start();
@@ -26,6 +29,7 @@ const EscanerScreen = ({navigation, route}: Props) => {
   const scannerData = useScannerStore(state => state.scannerData);
   const data = useScannerStore(state => state.data);
   console.log(route?.params?.id);
+  const {onClose, onOpen, isOpen} = useToggle();
 
   const {UpdatePedido} = usePedidosServices();
 
@@ -59,7 +63,6 @@ const EscanerScreen = ({navigation, route}: Props) => {
       },
     });
     if (resp.res) {
-      navigation.dispatch(StackActions.replace('Pedidos'));
       if (data.some((item: any) => item.id === route?.params?.id)) {
         const index = data.findIndex(
           (item: any) => item.id === route?.params?.id,
@@ -67,8 +70,10 @@ const EscanerScreen = ({navigation, route}: Props) => {
         data[index].veces = data[index].veces + 1;
 
         console.log('aqui va el modal de observaciones');
+        onOpen();
       } else {
         scannerData([...data, {id: route?.params?.id, veces: 1}]);
+        navigation.dispatch(StackActions.replace('Pedidos'));
       }
     } else {
       console.log('ocurrio un error');
@@ -141,6 +146,8 @@ const EscanerScreen = ({navigation, route}: Props) => {
           />
         </View>
       </View>
+      {/* MODAL */}
+      <ModalObs isOpen={isOpen} onClose={onClose} id={route?.params?.id} />
     </View>
   );
 };

@@ -22,18 +22,11 @@ const PedidosScreen = ({navigation}: Props) => {
   const {Pedidos} = usePedidosServices();
   const {dataPedidos, loadingPedidos} = Pedidos({
     filters: {
-      user: {
-        email: {
-          eq: dataAuth.infoUser.user.email || '',
+      cargo: {
+        nombre: {
+          eq: 'camillero',
         },
       },
-      and: [
-        {
-          estado: {
-            eq: true,
-          },
-        },
-      ],
     },
   });
 
