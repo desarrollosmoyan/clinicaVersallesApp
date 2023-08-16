@@ -50,7 +50,6 @@ export type Cargo = {
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   estado?: Maybe<Scalars['Boolean']['output']>;
   nombre?: Maybe<Scalars['String']['output']>;
-  pedido?: Maybe<PedidoEntityResponse>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   user?: Maybe<UsersPermissionsUserEntityResponse>;
 };
@@ -80,7 +79,6 @@ export type CargoFiltersInput = {
   nombre?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<CargoFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<CargoFiltersInput>>>;
-  pedido?: InputMaybe<PedidoFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   user?: InputMaybe<UsersPermissionsUserFiltersInput>;
 };
@@ -88,7 +86,6 @@ export type CargoFiltersInput = {
 export type CargoInput = {
   estado?: InputMaybe<Scalars['Boolean']['input']>;
   nombre?: InputMaybe<Scalars['String']['input']>;
-  pedido?: InputMaybe<Scalars['ID']['input']>;
   user?: InputMaybe<Scalars['ID']['input']>;
 };
 
@@ -1475,7 +1472,7 @@ export type PedidosQueryVariables = Exact<{
 }>;
 
 
-export type PedidosQuery = { __typename?: 'Query', pedidos?: { __typename?: 'PedidoEntityResponseCollection', data: Array<{ __typename?: 'PedidoEntity', id?: string | null, attributes?: { __typename?: 'Pedido', nombrePedido?: string | null, descripcion?: string | null, cliente?: string | null, fecha?: string | null, hora?: any | null, estacionInicio?: string | null, estacionFin?: string | null, fehcaInicio?: string | null, fechaFin?: string | null, cuantoTardoInicioFin?: string | null, createdAt?: any | null, updatedAt?: any | null, cargo?: { __typename?: 'CargoEntityResponse', data?: { __typename?: 'CargoEntity', attributes?: { __typename?: 'Cargo', nombre?: string | null } | null } | null } | null } | null }> } | null };
+export type PedidosQuery = { __typename?: 'Query', pedidos?: { __typename?: 'PedidoEntityResponseCollection', data: Array<{ __typename?: 'PedidoEntity', id?: string | null, attributes?: { __typename?: 'Pedido', nombrePedido?: string | null, descripcion?: string | null, cliente?: string | null, fecha?: string | null, hora?: any | null, estacionInicio?: string | null, estacionFin?: string | null, fehcaInicio?: string | null, fechaFin?: string | null, cuantoTardoInicioFin?: string | null, createdAt?: any | null, updatedAt?: any | null, cargo?: { __typename?: 'CargoEntityResponse', data?: { __typename?: 'CargoEntity', attributes?: { __typename?: 'Cargo', nombre?: string | null } | null } | null } | null, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null } | null } | null } | null }> } | null };
 
 export type UsersPermissionsUserQueryVariables = Exact<{
   usersPermissionsUserId?: InputMaybe<Scalars['ID']['input']>;
@@ -1724,6 +1721,11 @@ export const PedidosDocument = gql`
         cuantoTardoInicioFin
         createdAt
         updatedAt
+        user {
+          data {
+            id
+          }
+        }
       }
       id
     }

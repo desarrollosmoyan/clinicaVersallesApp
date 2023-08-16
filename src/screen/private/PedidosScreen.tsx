@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {View, ScrollView, Text, ActivityIndicator} from 'react-native';
 
 import {usePedidosServices} from '../../services/usePedidosServices';
@@ -11,6 +11,7 @@ import Header from '../../components/Header';
 import COLORS from '../../constants/color';
 
 import {useAuthStore} from '../../store/auth';
+import {PedidoEntity} from '../../generated/graphql';
 
 interface Props extends StackScreenProps<any, any> {}
 
@@ -35,6 +36,25 @@ const PedidosScreen = ({navigation}: Props) => {
     navigation.navigate('Detallepedido', {id});
   };
 
+  const tareasAsignadas: PedidoEntity[] = useMemo(() => {
+    const pedidos: PedidoEntity[] = [];
+    if (dataPedidos.length === 0) {
+      return [];
+    }
+    dataPedidos.map(pedido => {
+      if (pedido.attributes?.user?.data === null) {
+        return;
+      }
+      console.log('id pedido', pedido.attributes?.user?.data?.id);
+      if (pedido.attributes?.user?.data?.id === dataAuth?.infoUser.user.id) {
+        console.log('entre');
+        pedidos.push({id: pedido.id, attributes: pedido.attributes});
+      }
+    });
+
+    return pedidos;
+  }, [loadingPedidos]);
+
   // useEffect(() => {
   //   const unsubscribe = messaging().onMessage(async () => {
   //     Alert.alert('Nueva tarea');
@@ -43,10 +63,14 @@ const PedidosScreen = ({navigation}: Props) => {
 
   //   return unsubscribe;
   // }, []);
+
+  console.log('tareasAsignadas', tareasAsignadas);
   return (
     <>
       <ScrollView>
         <Header title="Tareas" showSwitch />
+
+        {/* TAREAS ASIGNADAS */}
         <View>
           {loadingPedidos ? (
             <ActivityIndicator
@@ -56,12 +80,46 @@ const PedidosScreen = ({navigation}: Props) => {
             />
           ) : (
             <View style={{paddingHorizontal: 20, gap: 20, marginBottom: 20}}>
-              {/* <Card
-                data={{nombrePedido: 'hollaa', descripcion: 'hola'}}
-                id="1"
-                color={1}
-                onDetalle={() => handleDetalle('1')}
-              /> */}
+              {/* TAREAS ASIGNADAS */}
+              {tareasAsignadas.length === 0 ? (
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    fontSize: 30,
+                    fontWeight: '500',
+                    color: COLORS.black,
+                  }}>
+                  No tienes tareas asignadas
+                </Text>
+              ) : (
+                <>
+                  <View>
+                    <Text
+                      style={{
+                        fontSize: 25,
+                        fontWeight: 'bold',
+                        textAlign: 'center',
+                        marginBottom: 15,
+                        color: COLORS.black,
+                      }}>
+                      Tareas Asignadas
+                    </Text>
+                    <View style={{gap: 10}}>
+                      {tareasAsignadas.map((pedido, index) => (
+                        <Card
+                          key={pedido.id}
+                          data={pedido?.attributes!}
+                          id={pedido?.id!}
+                          color={index + 1}
+                          onDetalle={() => handleDetalle(pedido.id!)}
+                        />
+                      ))}
+                    </View>
+                  </View>
+                </>
+              )}
+              {/* ====== */}
+              {/* TODAS LAS TAREAS */}
               {dataPedidos.length === 0 ? (
                 <Text
                   style={{
@@ -70,21 +128,36 @@ const PedidosScreen = ({navigation}: Props) => {
                     fontWeight: '500',
                     color: COLORS.black,
                   }}>
-                  No hay tareas
+                  No Hay tareas
                 </Text>
               ) : (
                 <>
-                  {dataPedidos.map((pedido, index) => (
-                    <Card
-                      key={pedido.id}
-                      data={pedido?.attributes!}
-                      id={pedido?.id!}
-                      color={index + 1}
-                      onDetalle={() => handleDetalle(pedido.id!)}
-                    />
-                  ))}
+                  <View>
+                    <Text
+                      style={{
+                        fontSize: 25,
+                        fontWeight: 'bold',
+                        textAlign: 'center',
+                        marginBottom: 15,
+                        color: COLORS.black,
+                      }}>
+                      Todas las tareas
+                    </Text>
+                    <View style={{gap: 10}}>
+                      {dataPedidos.map((pedido, index) => (
+                        <Card
+                          key={pedido.id}
+                          data={pedido?.attributes!}
+                          id={pedido?.id!}
+                          color={index + 1}
+                          onDetalle={() => handleDetalle(pedido.id!)}
+                        />
+                      ))}
+                    </View>
+                  </View>
                 </>
               )}
+              {/* ====== */}
             </View>
           )}
         </View>

@@ -22,6 +22,11 @@ query Pedidos($filters: PedidoFiltersInput) {
 
         createdAt
         updatedAt
+        user {
+          data {
+            id
+          }
+        }
       }
       id
     }
