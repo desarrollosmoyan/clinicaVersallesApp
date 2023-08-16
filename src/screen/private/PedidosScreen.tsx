@@ -1,9 +1,13 @@
-import React, {useMemo} from 'react';
-import {View, ScrollView, Text, ActivityIndicator} from 'react-native';
+import React, {useMemo, useEffect, useState} from 'react';
+import {View, ScrollView, ActivityIndicator} from 'react-native';
+
+import {Tab, Text, TabView} from '@rneui/themed';
 
 import {usePedidosServices} from '../../services/usePedidosServices';
 
 import {StackScreenProps} from '@react-navigation/stack';
+
+import Toast from 'react-native-toast-message';
 
 import Card from '../../components/Card';
 import Header from '../../components/Header';
@@ -18,10 +22,11 @@ interface Props extends StackScreenProps<any, any> {}
 const PedidosScreen = ({navigation}: Props) => {
   // STORE
   const dataAuth = useAuthStore(state => state.dataAuth);
+  const [indexTab, setIndexTab] = useState(0);
 
   // LLAMADA A GRAPHQL
-  const {Pedidos} = usePedidosServices();
-  const {dataPedidos, loadingPedidos} = Pedidos({
+  const {Pedidos, UpdatePedido} = usePedidosServices();
+  const {dataPedidos, loadingPedidos, refetch} = Pedidos({
     filters: {
       cargo: {
         nombre: {
@@ -31,9 +36,32 @@ const PedidosScreen = ({navigation}: Props) => {
     },
   });
 
+  // USEEFFECT PARA RECARGAR CUANDO CAMBIE EL TAB
+  useEffect(() => {
+    refetch();
+  }, [indexTab]);
+
   // FUNCION PARA IR A LA PAGINA DE DETALLE
   const handleDetalle = (id: string) => {
     navigation.navigate('Detallepedido', {id});
+  };
+  // FUNCION PARA IR A LA PAGINA DE DETALLE Y MANDAR LA NOTIFICACION QUE SE ASIGNA LA TAREA
+  const handleDetalleNotification = async (id: string) => {
+    const res = await UpdatePedido({
+      updatePedidoId: id,
+      data: {
+        user: dataAuth?.infoUser.user.id,
+      },
+    });
+    if (res.res) {
+      navigation.navigate('Detallepedido', {id});
+      refetch();
+    } else {
+      Toast.show({
+        type: 'error',
+        text1: 'Error al asignar la tarea',
+      });
+    }
   };
 
   const tareasAsignadas: PedidoEntity[] = useMemo(() => {
@@ -45,9 +73,7 @@ const PedidosScreen = ({navigation}: Props) => {
       if (pedido.attributes?.user?.data === null) {
         return;
       }
-      console.log('id pedido', pedido.attributes?.user?.data?.id);
       if (pedido.attributes?.user?.data?.id === dataAuth?.infoUser.user.id) {
-        console.log('entre');
         pedidos.push({id: pedido.id, attributes: pedido.attributes});
       }
     });
@@ -64,14 +90,25 @@ const PedidosScreen = ({navigation}: Props) => {
   //   return unsubscribe;
   // }, []);
 
-  console.log('tareasAsignadas', tareasAsignadas);
   return (
     <>
-      <ScrollView>
-        <Header title="Tareas" showSwitch />
+      <Header title="Tareas" showSwitch />
 
-        {/* TAREAS ASIGNADAS */}
-        <View>
+      <Tab
+        // scrollable
+        value={indexTab}
+        onChange={e => setIndexTab(e)}
+        indicatorStyle={{
+          backgroundColor: 'white',
+          height: 3,
+        }}
+        variant="primary">
+        <Tab.Item title="Tareas Asignadas" titleStyle={{fontSize: 18}} />
+        <Tab.Item title="Todas las tareas" titleStyle={{fontSize: 18}} />
+      </Tab>
+
+      <TabView value={indexTab} onChange={setIndexTab} animationType="spring">
+        <TabView.Item style={{width: '100%', flex: 1}}>
           {loadingPedidos ? (
             <ActivityIndicator
               color={COLORS.primary}
@@ -79,27 +116,27 @@ const PedidosScreen = ({navigation}: Props) => {
               style={{marginTop: 20}}
             />
           ) : (
-            <View style={{paddingHorizontal: 20, gap: 20, marginBottom: 20}}>
-              {/* TAREAS ASIGNADAS */}
-              {tareasAsignadas.length === 0 ? (
-                <Text
-                  style={{
-                    textAlign: 'center',
-                    fontSize: 30,
-                    fontWeight: '500',
-                    color: COLORS.black,
-                  }}>
-                  No tienes tareas asignadas
-                </Text>
-              ) : (
-                <>
-                  <View>
+            <ScrollView>
+              <View style={{paddingHorizontal: 20, gap: 20, marginBottom: 20}}>
+                {tareasAsignadas.length === 0 ? (
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      fontSize: 30,
+                      fontWeight: '500',
+                      color: COLORS.black,
+                    }}>
+                    No tienes tareas asignadas
+                  </Text>
+                ) : (
+                  <>
                     <Text
                       style={{
                         fontSize: 25,
                         fontWeight: 'bold',
                         textAlign: 'center',
-                        marginBottom: 15,
+                        marginBottom: 0,
+                        marginTop: 20,
                         color: COLORS.black,
                       }}>
                       Tareas Asignadas
@@ -115,53 +152,75 @@ const PedidosScreen = ({navigation}: Props) => {
                         />
                       ))}
                     </View>
-                  </View>
-                </>
-              )}
-              {/* ====== */}
-              {/* TODAS LAS TAREAS */}
-              {dataPedidos.length === 0 ? (
-                <Text
-                  style={{
-                    textAlign: 'center',
-                    fontSize: 30,
-                    fontWeight: '500',
-                    color: COLORS.black,
-                  }}>
-                  No Hay tareas
-                </Text>
-              ) : (
-                <>
-                  <View>
+                  </>
+                )}
+              </View>
+            </ScrollView>
+          )}
+        </TabView.Item>
+        <TabView.Item style={{width: '100%', flex: 1}}>
+          {loadingPedidos ? (
+            <ActivityIndicator
+              color={COLORS.primary}
+              size={80}
+              style={{marginTop: 20}}
+            />
+          ) : (
+            <ScrollView>
+              <View style={{paddingHorizontal: 20, gap: 20, marginBottom: 20}}>
+                {dataPedidos.length === 0 ? (
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      fontSize: 30,
+                      fontWeight: '500',
+                      color: COLORS.black,
+                    }}>
+                    No hay tareas
+                  </Text>
+                ) : (
+                  <>
                     <Text
                       style={{
                         fontSize: 25,
                         fontWeight: 'bold',
                         textAlign: 'center',
-                        marginBottom: 15,
+                        marginBottom: 0,
+                        marginTop: 20,
                         color: COLORS.black,
                       }}>
                       Todas las tareas
                     </Text>
                     <View style={{gap: 10}}>
-                      {dataPedidos.map((pedido, index) => (
-                        <Card
-                          key={pedido.id}
-                          data={pedido?.attributes!}
-                          id={pedido?.id!}
-                          color={index + 1}
-                          onDetalle={() => handleDetalle(pedido.id!)}
-                        />
-                      ))}
+                      {dataPedidos.map((pedido, index) => {
+                        const existe = tareasAsignadas.some(
+                          item => item.id === pedido.id,
+                        );
+                        return (
+                          <Card
+                            key={pedido.id}
+                            data={pedido?.attributes!}
+                            id={pedido?.id!}
+                            color={index + 1}
+                            isAcept={!existe}
+                            onDetalle={() => {
+                              if (existe) {
+                                return handleDetalle(pedido.id!);
+                              } else {
+                                return handleDetalleNotification(pedido.id!);
+                              }
+                            }}
+                          />
+                        );
+                      })}
                     </View>
-                  </View>
-                </>
-              )}
-              {/* ====== */}
-            </View>
+                  </>
+                )}
+              </View>
+            </ScrollView>
           )}
-        </View>
-      </ScrollView>
+        </TabView.Item>
+      </TabView>
     </>
   );
 };

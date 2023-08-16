@@ -10,15 +10,17 @@ import COLORS from '../constants/color';
 import useToggle from '../hooks/useToggle';
 
 import ModalObs from '../view/pedidos/ModalObs';
+import Button from './Button';
 
 interface Props {
   data: Pedido;
   id: string;
   color: number;
   onDetalle: () => void;
+  isAcept?: boolean;
 }
 
-const Card = ({data, color, onDetalle, id}: Props) => {
+const Card = ({data, color, onDetalle, id, isAcept = false}: Props) => {
   const {onClose, onOpen, isOpen} = useToggle();
   return (
     <>
@@ -103,26 +105,38 @@ const Card = ({data, color, onDetalle, id}: Props) => {
             </Text>
           </View>
         </View>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={{
-            backgroundColor: '#ffffff50',
-            width: 40,
-            height: 40,
-            borderRadius: 50,
-            alignSelf: 'flex-end',
-            marginBottom: 5,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-          onPress={onDetalle}>
-          <Icon
-            name="chevron-forward-outline"
-            size={30}
-            color={color ? COLORS.white : COLORS.primary}
-            style={{textAlign: 'center'}}
+
+        {isAcept ? (
+          <Button
+            title="Aceptar"
+            onPress={onDetalle}
+            style={{
+              width: '50%',
+              marginLeft: 'auto',
+            }}
           />
-        </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={{
+              backgroundColor: '#ffffff50',
+              width: 40,
+              height: 40,
+              borderRadius: 50,
+              alignSelf: 'flex-end',
+              marginBottom: 5,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            onPress={onDetalle}>
+            <Icon
+              name="chevron-forward-outline"
+              size={30}
+              color={color ? COLORS.white : COLORS.primary}
+              style={{textAlign: 'center'}}
+            />
+          </TouchableOpacity>
+        )}
       </View>
       {/* MODAL */}
       <ModalObs isOpen={isOpen} onClose={onClose} id={id} />

@@ -72,7 +72,7 @@ const DetallePedidoScreen = ({route, navigation}: Props) => {
                       color: COLORS.primary,
                       textAlign: 'center',
                     }}>
-                    {dataPedido.attributes?.estacionInicio}
+                    {dataPedido.attributes?.estacionInicio || ''}
                   </Text>
                 </View>
               }
@@ -102,7 +102,7 @@ const DetallePedidoScreen = ({route, navigation}: Props) => {
                       color: COLORS.primary,
                       textAlign: 'center',
                     }}>
-                    {dataPedido.attributes?.estacionFin || 'No hay estacion'}
+                    {dataPedido.attributes?.estacionFin || ''}
                   </Text>
                 </View>
               }

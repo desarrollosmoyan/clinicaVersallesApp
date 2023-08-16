@@ -20,8 +20,9 @@ export const usePedidosServices = () => {
       fetchPolicy: 'network-only',
       variables: {filters},
     });
+
+    console.log('me ejecute en el serve');
     const dataPedidos = data?.pedidos?.data ?? [];
-    console.log(errorPedidos);
 
     return {
       dataPedidos,

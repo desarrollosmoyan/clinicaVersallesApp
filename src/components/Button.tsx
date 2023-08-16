@@ -35,7 +35,7 @@ const Button = ({
   const filledBgColor = color || COLORS.primary;
   const outlinedColor = COLORS.white;
   const bgColor = filled ? filledBgColor : outlinedColor;
-  const textColor = filled ? COLORS.white : COLORS.black;
+  const textColor = filled ? COLORS.white : COLORS.primary;
 
   return (
     <TouchableOpacity
