@@ -1469,6 +1469,7 @@ export type PedidoQuery = { __typename?: 'Query', pedido?: { __typename?: 'Pedid
 
 export type PedidosQueryVariables = Exact<{
   filters?: InputMaybe<PedidoFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
 }>;
 
 
@@ -1698,8 +1699,8 @@ export type PedidoQueryHookResult = ReturnType<typeof usePedidoQuery>;
 export type PedidoLazyQueryHookResult = ReturnType<typeof usePedidoLazyQuery>;
 export type PedidoQueryResult = Apollo.QueryResult<PedidoQuery, PedidoQueryVariables>;
 export const PedidosDocument = gql`
-    query Pedidos($filters: PedidoFiltersInput) {
-  pedidos(filters: $filters) {
+    query Pedidos($filters: PedidoFiltersInput, $pagination: PaginationArg) {
+  pedidos(filters: $filters, pagination: $pagination) {
     data {
       attributes {
         cargo {
@@ -1746,6 +1747,7 @@ export const PedidosDocument = gql`
  * const { data, loading, error } = usePedidosQuery({
  *   variables: {
  *      filters: // value for 'filters'
+ *      pagination: // value for 'pagination'
  *   },
  * });
  */

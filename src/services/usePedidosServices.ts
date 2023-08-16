@@ -1,4 +1,5 @@
 import {
+  PaginationArg,
   PedidoFiltersInput,
   PedidoInput,
   usePedidoQuery,
@@ -8,7 +9,13 @@ import {
 
 export const usePedidosServices = () => {
   // PEDIDOS
-  const Pedidos = ({filters}: {filters: PedidoFiltersInput}) => {
+  const Pedidos = ({
+    filters,
+    pagination,
+  }: {
+    filters: PedidoFiltersInput;
+    pagination: PaginationArg;
+  }) => {
     const {
       data,
       loading: loadingPedidos,
@@ -16,12 +23,9 @@ export const usePedidosServices = () => {
       refetch,
     } = usePedidosQuery({
       fetchPolicy: 'network-only',
-      variables: {filters},
+      variables: {filters, pagination},
     });
 
-    // console.log('me ejecute en el serve');
-    // console.log('loadingPedidos', loadingPedidos);
-    // console.log('data', data?.pedidos?.data);
     const dataPedidos = data?.pedidos?.data ?? [];
 
     return {

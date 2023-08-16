@@ -1,5 +1,5 @@
-query Pedidos($filters: PedidoFiltersInput) {
-  pedidos(filters: $filters) {
+query Pedidos($filters: PedidoFiltersInput, $pagination: PaginationArg) {
+  pedidos(filters: $filters, pagination: $pagination) {
     data {
       attributes {
         cargo {

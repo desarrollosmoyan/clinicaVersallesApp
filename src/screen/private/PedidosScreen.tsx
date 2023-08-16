@@ -25,16 +25,25 @@ const PedidosScreen = ({navigation}: Props) => {
   // STORE
   const dataAuth = useAuthStore(state => state.dataAuth);
   const [indexTab, setIndexTab] = useState(0);
+  // PROVICIONAL
+  const [paginationModel, setPaginationModel] = useState({
+    page: 1,
+    pageSize: 10,
+  });
 
   // LLAMADA A GRAPHQL
   const {Pedidos, UpdatePedido} = usePedidosServices();
-  const {dataPedidos, loadingPedidos, refetch} = Pedidos({
+  const {dataPedidos, loadingPedidos} = Pedidos({
     filters: {
       cargo: {
         nombre: {
           eq: 'camillero',
         },
       },
+    },
+    pagination: {
+      pageSize: paginationModel.pageSize,
+      page: paginationModel.page,
     },
   });
 
@@ -52,7 +61,10 @@ const PedidosScreen = ({navigation}: Props) => {
     });
     if (res.res) {
       navigation.navigate('Detallepedido', {id});
-      refetch();
+      setPaginationModel({
+        page: 1,
+        pageSize: paginationModel.pageSize === 10 ? 11 : 10,
+      });
     } else {
       Toast.show({
         type: 'error',
@@ -89,23 +101,28 @@ const PedidosScreen = ({navigation}: Props) => {
 
   const handleSwipe = () => {
     console.log('me ejecute');
-    refetch();
+    setPaginationModel({
+      page: 1,
+      pageSize: paginationModel.pageSize === 10 ? 11 : 10,
+    });
   };
 
   return (
     <>
       <Header title="Tareas" showSwitch />
       <GestureRecognizer
-        config={{velocityThreshold: 0.3, directionalOffsetThreshold: 80}}
+        // config={{velocityThreshold: 0.3, directionalOffsetThreshold: 80}}
         onSwipeDown={handleSwipe}
         style={{flex: 1}}>
         <Tab
           // scrollable
           value={indexTab}
           onChange={e => {
-            console.log('cambio el tab');
+            setPaginationModel({
+              page: 1,
+              pageSize: paginationModel.pageSize === 10 ? 11 : 10,
+            });
             setIndexTab(e);
-            refetch();
           }}
           indicatorStyle={{
             backgroundColor: 'white',

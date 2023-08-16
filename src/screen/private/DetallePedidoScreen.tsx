@@ -1,4 +1,3 @@
-/* eslint-disable curly */
 import React from 'react';
 
 import {StyleSheet, ActivityIndicator, Text, View, Image} from 'react-native';
