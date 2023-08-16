@@ -1,5 +1,3 @@
-/* eslint-disable no-catch-shadow */
-/* eslint-disable @typescript-eslint/no-shadow */
 import {
   PedidoFiltersInput,
   PedidoInput,
@@ -21,7 +19,9 @@ export const usePedidosServices = () => {
       variables: {filters},
     });
 
-    console.log('me ejecute en el serve');
+    // console.log('me ejecute en el serve');
+    // console.log('loadingPedidos', loadingPedidos);
+    // console.log('data', data?.pedidos?.data);
     const dataPedidos = data?.pedidos?.data ?? [];
 
     return {
@@ -41,6 +41,7 @@ export const usePedidosServices = () => {
       refetch,
     } = usePedidoQuery({
       fetchPolicy: 'network-only',
+
       variables: {pedidoId},
     });
     const dataPedido = data?.pedido?.data ?? {};
