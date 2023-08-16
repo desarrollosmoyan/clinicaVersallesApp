@@ -114,7 +114,7 @@ const PerfilScreen = ({navigation}: Props) => {
               />
               <ListInfo
                 title="Cargo"
-                info={dataUsuario.attributes?.cargo || 'No hay cargo'}
+                info={dataUsuario.attributes?.cargo?.data?.attributes?.nombre || 'No hay cargo'}
                 icon="briefcase-outline"
               />
             </View>

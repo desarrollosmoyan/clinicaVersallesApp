@@ -34,7 +34,7 @@ const EscanerScreen = ({navigation, route}: Props) => {
     const resp = await UpdatePedido({
       updatePedidoId: route?.params?.id,
       data: {
-        fehcaInicio: new Date(),
+        fehcaInicio: new Date().toDateString(),
       },
     });
     if (resp.res) {
@@ -55,7 +55,7 @@ const EscanerScreen = ({navigation, route}: Props) => {
     const resp = await UpdatePedido({
       updatePedidoId: route?.params?.id,
       data: {
-        fechaFin: new Date(),
+        fechaFin: new Date().toDateString(),
       },
     });
     if (resp.res) {
@@ -65,6 +65,8 @@ const EscanerScreen = ({navigation, route}: Props) => {
           (item: any) => item.id === route?.params?.id,
         );
         data[index].veces = data[index].veces + 1;
+
+        console.log('aqui va el modal de observaciones');
       } else {
         scannerData([...data, {id: route?.params?.id, veces: 1}]);
       }

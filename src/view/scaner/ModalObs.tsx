@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import React, {useState} from 'react';
+
 import {View, Text, StyleSheet, Modal, TextInput} from 'react-native';
+
 import Toast from 'react-native-toast-message';
+
+import {useNavigation} from '@react-navigation/native';
 
 import Button from '../../components/Button';
 import COLORS from '../../constants/color';
@@ -20,6 +24,8 @@ const ModalObs = ({onClose, isOpen, id}: Props) => {
   const [groupObs, setGroupObs] = useState<{id: string; obs: string}[]>([]);
   const [isAction, setIsAction] = useState('');
   const [isSend, setisSend] = useState(false);
+
+  const navigation = useNavigation();
 
   // LLAMADA DE GRAPHQL
   const {CreateObservacion} = useObservacionesServices();
@@ -47,6 +53,14 @@ const ModalObs = ({onClose, isOpen, id}: Props) => {
 
   // FUNCION PARA ENVIAR LAS OBSERVACIONES
   const handleSendObs = async () => {
+    if (groupObs.length === 0) {
+      Toast.show({
+        type: 'success',
+        text1: 'Debes agregar una observacion',
+      });
+      return;
+    }
+
     setisSend(true);
 
     groupObs.map(async ({obs}, _index) => {
@@ -76,6 +90,7 @@ const ModalObs = ({onClose, isOpen, id}: Props) => {
         setObs('');
         setGroupObs([]);
         onClose();
+        navigation.reset('Pedidos' as never);
       }
     });
   };
@@ -184,14 +199,14 @@ const ModalObs = ({onClose, isOpen, id}: Props) => {
           {/* BUTTONS  */}
 
           <View style={styles.containerButtons}>
-            <Button
+            {/* <Button
               title="Cancelar"
               style={{
                 width: 'auto',
                 paddingHorizontal: 20,
               }}
               onPress={onClose}
-            />
+            /> */}
             <Button
               filled
               loading={isSend}

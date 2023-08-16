@@ -5,9 +5,8 @@ import {
 
 export const useObservacionesServices = () => {
   // UPDATE OBSERVACION
-  const [createObservacioneMutation, {loading: loadingUpdate, error}] =
+  const [createObservacioneMutation, {loading: loadingUpdate}] =
     useCreateObservacioneMutation();
-  console.log(error);
   return {
     loadingUpdate,
     CreateObservacion: async (data: ObservacioneInput) => {

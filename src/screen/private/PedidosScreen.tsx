@@ -53,7 +53,7 @@ const PedidosScreen = ({navigation}: Props) => {
   return (
     <>
       <ScrollView>
-        <Header title="Tareas" />
+        <Header title="Tareas" showSwitch={true} />
         <View>
           {loadingPedidos ? (
             <ActivityIndicator
@@ -63,6 +63,12 @@ const PedidosScreen = ({navigation}: Props) => {
             />
           ) : (
             <View style={{paddingHorizontal: 20, gap: 20, marginBottom: 20}}>
+              {/* <Card
+                data={{nombrePedido: 'hollaa', descripcion: 'hola'}}
+                id="1"
+                color={1}
+                onDetalle={() => handleDetalle('1')}
+              /> */}
               {dataPedidos.length === 0 ? (
                 <Text
                   style={{
