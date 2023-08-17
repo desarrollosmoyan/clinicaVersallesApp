@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 
 import {Text, View, ScrollView, Image, ActivityIndicator} from 'react-native';
 
@@ -18,6 +18,8 @@ import Header from '../../components/Header';
 import COLORS from '../../constants/color';
 
 import {useAuthStore} from '../../store/auth';
+import {useEstacionesServices} from '../../services/useEstacionesServices';
+import SelectDropdown from 'react-native-select-dropdown';
 
 interface Props extends StackScreenProps<any, any> {}
 
@@ -27,10 +29,13 @@ const PerfilScreen = ({navigation}: Props) => {
   const dataAuth = useAuthStore(state => state.dataAuth);
 
   // LLAMADA GRAPHQL
-  const {Usuario} = useUsuarioServices();
+  const {Usuario, UpdateUsuario} = useUsuarioServices();
   const {dataUsuario, loadingUsuario} = Usuario({
     usersPermissionsUserId: dataAuth.infoUser.user.id,
   });
+  const {Estaciones} = useEstacionesServices();
+  const {dataEstaciones, loadingEstaciones} = Estaciones();
+
   const handleLogot = async () => {
     try {
       await AsyncStorage.removeItem('token');
@@ -53,8 +58,14 @@ const PerfilScreen = ({navigation}: Props) => {
     }
   };
 
-  console.log('user', dataUsuario.attributes);
-  console.log('id', dataAuth.infoUser.user.id);
+  const index = useMemo(
+    () =>
+      dataEstaciones.findIndex(
+        item =>
+          item.attributes?.nombre === dataUsuario.attributes?.ubicacionActual,
+      ),
+    [loadingUsuario, loadingEstaciones],
+  );
 
   return (
     <>
@@ -114,9 +125,70 @@ const PerfilScreen = ({navigation}: Props) => {
               />
               <ListInfo
                 title="Cargo"
-                info={dataUsuario.attributes?.cargo?.data?.attributes?.nombre || 'No hay cargo'}
+                info={
+                  dataUsuario.attributes?.cargo?.data?.attributes?.nombre ||
+                  'No hay cargo'
+                }
                 icon="briefcase-outline"
               />
+
+              {/* ESTACIONES */}
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                {/* GROUP TEXT ICON */}
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    gap: 10,
+                  }}>
+                  {/* <Icon name={icon} size={18} color={COLORS.greySecondary} /> */}
+
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      color: COLORS.greySecondary,
+                    }}>
+                    Estaciones
+                  </Text>
+                </View>
+                {/* SELECT */}
+                <SelectDropdown
+                  defaultButtonText="Selecciona una estacion"
+                  defaultValueByIndex={index}
+                  data={dataEstaciones}
+                  onSelect={async selectedItem => {
+                    const res = await UpdateUsuario({
+                      updateUsersPermissionsUserId: dataAuth.infoUser.user.id,
+                      data: {
+                        ubicacionActual: selectedItem.attributes.nombre,
+                      },
+                    });
+                    if (res.res) {
+                      Toast.show({
+                        type: 'success',
+                        text1: 'Se agrego la estacion',
+                      });
+                    } else {
+                      Toast.show({
+                        type: 'error',
+                        text1: 'No se pudo agregar la estacion',
+                      });
+                    }
+                  }}
+                  buttonTextAfterSelection={selectedItem => {
+                    return selectedItem.attributes.nombre;
+                  }}
+                  rowTextForSelection={item => {
+                    return item.attributes.nombre;
+                  }}
+                />
+              </View>
             </View>
           )}
 

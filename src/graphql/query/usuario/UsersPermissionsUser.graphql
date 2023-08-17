@@ -13,6 +13,7 @@ query UsersPermissionsUser($usersPermissionsUserId: ID) {
           }
         }
         nombreCompleto
+        ubicacionActual
         Area
         pedidos {
           data {

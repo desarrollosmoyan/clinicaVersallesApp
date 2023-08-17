@@ -1,0 +1,12 @@
+query Estaciones {
+  estaciones {
+    data {
+      attributes {
+        nombre
+        codigoNFC
+        createdAt
+        updatedAt
+      }
+    }
+  }
+}

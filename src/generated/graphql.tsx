@@ -1343,6 +1343,7 @@ export type UsersPermissionsUser = {
   provider?: Maybe<Scalars['String']['output']>;
   role?: Maybe<UsersPermissionsRoleEntityResponse>;
   turnos?: Maybe<TurnoRelationResponseCollection>;
+  ubicacionActual?: Maybe<Scalars['String']['output']>;
   ubicacione?: Maybe<UbicacioneEntityResponse>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   username: Scalars['String']['output'];
@@ -1400,6 +1401,7 @@ export type UsersPermissionsUserFiltersInput = {
   resetPasswordToken?: InputMaybe<StringFilterInput>;
   role?: InputMaybe<UsersPermissionsRoleFiltersInput>;
   turnos?: InputMaybe<TurnoFiltersInput>;
+  ubicacionActual?: InputMaybe<StringFilterInput>;
   ubicacione?: InputMaybe<UbicacioneFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   username?: InputMaybe<StringFilterInput>;
@@ -1421,6 +1423,7 @@ export type UsersPermissionsUserInput = {
   resetPasswordToken?: InputMaybe<Scalars['String']['input']>;
   role?: InputMaybe<Scalars['ID']['input']>;
   turnos?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  ubicacionActual?: InputMaybe<Scalars['String']['input']>;
   ubicacione?: InputMaybe<Scalars['ID']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
@@ -1475,12 +1478,17 @@ export type PedidosQueryVariables = Exact<{
 
 export type PedidosQuery = { __typename?: 'Query', pedidos?: { __typename?: 'PedidoEntityResponseCollection', data: Array<{ __typename?: 'PedidoEntity', id?: string | null, attributes?: { __typename?: 'Pedido', nombrePedido?: string | null, descripcion?: string | null, cliente?: string | null, fecha?: string | null, hora?: any | null, estacionInicio?: string | null, estacionFin?: string | null, fehcaInicio?: string | null, fechaFin?: string | null, cuantoTardoInicioFin?: string | null, createdAt?: any | null, updatedAt?: any | null, cargo?: { __typename?: 'CargoEntityResponse', data?: { __typename?: 'CargoEntity', attributes?: { __typename?: 'Cargo', nombre?: string | null } | null } | null } | null, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null } | null } | null } | null }> } | null };
 
+export type EstacionesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type EstacionesQuery = { __typename?: 'Query', estaciones?: { __typename?: 'EstacioneEntityResponseCollection', data: Array<{ __typename?: 'EstacioneEntity', attributes?: { __typename?: 'Estacione', nombre?: string | null, codigoNFC?: string | null, createdAt?: any | null, updatedAt?: any | null } | null }> } | null };
+
 export type UsersPermissionsUserQueryVariables = Exact<{
   usersPermissionsUserId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
 
-export type UsersPermissionsUserQuery = { __typename?: 'Query', usersPermissionsUser?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', attributes?: { __typename?: 'UsersPermissionsUser', username: string, enlinea?: boolean | null, email: string, nombreCompleto?: string | null, Area?: string | null, cargo?: { __typename?: 'CargoEntityResponse', data?: { __typename?: 'CargoEntity', attributes?: { __typename?: 'Cargo', nombre?: string | null } | null } | null } | null, pedidos?: { __typename?: 'PedidoRelationResponseCollection', data: Array<{ __typename?: 'PedidoEntity', attributes?: { __typename?: 'Pedido', nombrePedido?: string | null, descripcion?: string | null, cliente?: string | null, fecha?: string | null, hora?: any | null, estacionInicio?: string | null, estacionFin?: string | null, fehcaInicio?: string | null, fechaFin?: string | null, cuantoTardoInicioFin?: string | null, estado?: boolean | null } | null }> } | null, turnos?: { __typename?: 'TurnoRelationResponseCollection', data: Array<{ __typename?: 'TurnoEntity', attributes?: { __typename?: 'Turno', fin?: any | null, inicio?: any | null, nombre?: string | null } | null }> } | null } | null } | null } | null };
+export type UsersPermissionsUserQuery = { __typename?: 'Query', usersPermissionsUser?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', attributes?: { __typename?: 'UsersPermissionsUser', username: string, enlinea?: boolean | null, email: string, nombreCompleto?: string | null, ubicacionActual?: string | null, Area?: string | null, cargo?: { __typename?: 'CargoEntityResponse', data?: { __typename?: 'CargoEntity', attributes?: { __typename?: 'Cargo', nombre?: string | null } | null } | null } | null, pedidos?: { __typename?: 'PedidoRelationResponseCollection', data: Array<{ __typename?: 'PedidoEntity', attributes?: { __typename?: 'Pedido', nombrePedido?: string | null, descripcion?: string | null, cliente?: string | null, fecha?: string | null, hora?: any | null, estacionInicio?: string | null, estacionFin?: string | null, fehcaInicio?: string | null, fechaFin?: string | null, cuantoTardoInicioFin?: string | null, estado?: boolean | null } | null }> } | null, turnos?: { __typename?: 'TurnoRelationResponseCollection', data: Array<{ __typename?: 'TurnoEntity', attributes?: { __typename?: 'Turno', fin?: any | null, inicio?: any | null, nombre?: string | null } | null }> } | null } | null } | null } | null };
 
 
 export const LoginDocument = gql`
@@ -1762,6 +1770,47 @@ export function usePedidosLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Pe
 export type PedidosQueryHookResult = ReturnType<typeof usePedidosQuery>;
 export type PedidosLazyQueryHookResult = ReturnType<typeof usePedidosLazyQuery>;
 export type PedidosQueryResult = Apollo.QueryResult<PedidosQuery, PedidosQueryVariables>;
+export const EstacionesDocument = gql`
+    query Estaciones {
+  estaciones {
+    data {
+      attributes {
+        nombre
+        codigoNFC
+        createdAt
+        updatedAt
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useEstacionesQuery__
+ *
+ * To run a query within a React component, call `useEstacionesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEstacionesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEstacionesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useEstacionesQuery(baseOptions?: Apollo.QueryHookOptions<EstacionesQuery, EstacionesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<EstacionesQuery, EstacionesQueryVariables>(EstacionesDocument, options);
+      }
+export function useEstacionesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EstacionesQuery, EstacionesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<EstacionesQuery, EstacionesQueryVariables>(EstacionesDocument, options);
+        }
+export type EstacionesQueryHookResult = ReturnType<typeof useEstacionesQuery>;
+export type EstacionesLazyQueryHookResult = ReturnType<typeof useEstacionesLazyQuery>;
+export type EstacionesQueryResult = Apollo.QueryResult<EstacionesQuery, EstacionesQueryVariables>;
 export const UsersPermissionsUserDocument = gql`
     query UsersPermissionsUser($usersPermissionsUserId: ID) {
   usersPermissionsUser(id: $usersPermissionsUserId) {
@@ -1778,6 +1827,7 @@ export const UsersPermissionsUserDocument = gql`
           }
         }
         nombreCompleto
+        ubicacionActual
         Area
         pedidos {
           data {
