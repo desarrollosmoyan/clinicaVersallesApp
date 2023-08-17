@@ -176,6 +176,13 @@ const PerfilScreen = ({navigation}: Props) => {
                 {/* SELECT */}
                 <SelectDropdown
                   defaultButtonText="Selecciona una estacion"
+                  renderDropdownIcon={() => (
+                    <Icon
+                      name="chevron-down-outline"
+                      size={25}
+                      color={COLORS.white}
+                    />
+                  )}
                   defaultValueByIndex={index}
                   buttonTextStyle={{
                     fontSize: 18,
@@ -184,6 +191,8 @@ const PerfilScreen = ({navigation}: Props) => {
                   }}
                   buttonStyle={{
                     backgroundColor: COLORS.primary,
+                    borderRadius: 10,
+                    width: 180,
                   }}
                   data={dataEstaciones}
                   onSelect={async selectedItem => {
