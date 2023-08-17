@@ -17,6 +17,8 @@ import {useScannerStore} from '../../store/scaner';
 
 import useToggle from '../../hooks/useToggle';
 import ModalObs from '../../view/scaner/ModalObs';
+import {useUsuarioServices} from '../../services/useUsuarioServices';
+import {useAuthStore} from '../../store/auth';
 
 // import NfcManager, {NfcTech} from 'react-native-nfc-manager';
 
@@ -31,7 +33,13 @@ const EscanerScreen = ({navigation, route}: Props) => {
   console.log(route?.params?.id);
   const {onClose, onOpen, isOpen} = useToggle();
 
-  const {UpdatePedido} = usePedidosServices();
+  // STORE
+  const dataAuth = useAuthStore(state => state.dataAuth);
+
+  // LLAMADA A GRAPHQL
+  const {UpdatePedido, Pedido} = usePedidosServices();
+  const {dataPedido} = Pedido({pedidoId: route?.params?.id});
+  const {UpdateUsuario} = useUsuarioServices();
 
   const veces = data.some((item: any) => item.id === route?.params?.id);
   const updatePedidoInicio = async () => {
@@ -120,6 +128,17 @@ const EscanerScreen = ({navigation, route}: Props) => {
     };
   }, []);
 
+  // FUNCION PARA ACTUALIZAR EL USUARIO
+  const handleUpdateUser = async () => {
+    console.log('Me ejecute la funcion de actualizar el usuario');
+    await UpdateUsuario({
+      updateUsersPermissionsUserId: dataAuth.infoUser.user.id,
+      data: {
+        ubicacionActual: dataPedido.attributes?.estacionFin,
+      },
+    });
+  };
+
   return (
     <View style={{flex: 1}}>
       {/* NAVBAR */}
@@ -147,7 +166,12 @@ const EscanerScreen = ({navigation, route}: Props) => {
         </View>
       </View>
       {/* MODAL */}
-      <ModalObs isOpen={isOpen} onClose={onClose} id={route?.params?.id} />
+      <ModalObs
+        onPress={handleUpdateUser}
+        isOpen={isOpen}
+        onClose={onClose}
+        id={route?.params?.id}
+      />
     </View>
   );
 };

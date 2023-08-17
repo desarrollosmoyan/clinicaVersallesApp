@@ -14,12 +14,13 @@ import {useObservacionesServices} from '../../services/useObservacionesServices'
 import {useAuthStore} from '../../store/auth';
 
 interface Props {
+  onPress: () => void;
   onClose: () => void;
   isOpen: boolean;
   id: string;
 }
 
-const ModalObs = ({onClose, isOpen, id}: Props) => {
+const ModalObs = ({onClose, isOpen, id, onPress}: Props) => {
   const [obs, setObs] = useState('');
   const [groupObs, setGroupObs] = useState<{id: string; obs: string}[]>([]);
   const [isAction, setIsAction] = useState('');
@@ -90,6 +91,7 @@ const ModalObs = ({onClose, isOpen, id}: Props) => {
         setObs('');
         setGroupObs([]);
         onClose();
+        onPress();
         navigation.navigate('Pedidos' as never);
       }
     });

@@ -1,8 +1,9 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, useEffect} from 'react';
 
 import {Text, View, ScrollView, Image, ActivityIndicator} from 'react-native';
 
 import {StackScreenProps} from '@react-navigation/stack';
+import {useIsFocused} from '@react-navigation/native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -24,17 +25,26 @@ import SelectDropdown from 'react-native-select-dropdown';
 interface Props extends StackScreenProps<any, any> {}
 
 const PerfilScreen = ({navigation}: Props) => {
+  const isFocused = useIsFocused();
+
   // STORE
   const updateDataAuth = useAuthStore(state => state.updateDataAuth);
   const dataAuth = useAuthStore(state => state.dataAuth);
 
   // LLAMADA GRAPHQL
   const {Usuario, UpdateUsuario} = useUsuarioServices();
-  const {dataUsuario, loadingUsuario} = Usuario({
+  const {dataUsuario, loadingUsuario, refetch} = Usuario({
     usersPermissionsUserId: dataAuth.infoUser.user.id,
   });
   const {Estaciones} = useEstacionesServices();
   const {dataEstaciones, loadingEstaciones} = Estaciones();
+
+  useEffect(() => {
+    if (isFocused) {
+      refetch();
+      console.log('refetch');
+    }
+  }, [isFocused]);
 
   const handleLogot = async () => {
     try {
