@@ -1,6 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 
 import {Switch, Text, TouchableOpacity, View} from 'react-native';
+
+import Toast from 'react-native-toast-message';
 
 import {useNavigation} from '@react-navigation/native';
 
@@ -8,6 +10,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import COLORS from '../constants/color';
 import {useAuthStore} from '../store/auth';
 import {useUsuarioServices} from '../services/useUsuarioServices';
+import {useOnlineStore} from '../store/online';
 
 interface Props {
   title: string;
@@ -23,7 +26,9 @@ const Header = ({
   showSwitch = false,
 }: Props) => {
   const navigate = useNavigation();
-  const [isEnabled, setIsEnabled] = useState(false);
+
+  const isOnline = useOnlineStore(state => state.isOnline);
+  const updateIsOnline = useOnlineStore(state => state.updateIsOnline);
 
   // STORE
   const dataAuth = useAuthStore(state => state.dataAuth);
@@ -34,16 +39,22 @@ const Header = ({
   });
 
   useEffect(() => {
-    setIsEnabled(dataUsuario.attributes?.enlinea ? true : false);
+    updateIsOnline(dataUsuario.attributes?.enlinea ? true : false);
   }, [loadingUsuario]);
 
   const toggleSwitch = async () => {
     const res = await UpdateUsuario({
-      data: {enlinea: !isEnabled},
+      data: {enlinea: !isOnline},
       updateUsersPermissionsUserId: dataAuth.infoUser.user.id,
     });
     if (res.res) {
-      setIsEnabled(res.data?.data?.attributes?.enlinea!);
+      updateIsOnline(res.data?.data?.attributes?.enlinea!);
+    }
+    if (!res.res) {
+      Toast.show({
+        type: 'error',
+        text1: 'No se pudo cambiar el estado',
+      });
     }
   };
   return (
@@ -86,13 +97,13 @@ const Header = ({
               flexDirection: 'row',
             }}>
             <Text style={{fontWeight: '500', color: COLORS.primary}}>
-              {isEnabled ? 'Activo' : 'Inactivo'}
+              {isOnline ? 'Activo' : 'Inactivo'}
             </Text>
             <Switch
               trackColor={{false: '#cccccc', true: '#0A188D80'}}
-              thumbColor={isEnabled ? COLORS.primary : '#dddddd'}
+              thumbColor={isOnline ? COLORS.primary : '#dddddd'}
               onValueChange={toggleSwitch}
-              value={isEnabled}
+              value={isOnline}
             />
           </View>
         )}

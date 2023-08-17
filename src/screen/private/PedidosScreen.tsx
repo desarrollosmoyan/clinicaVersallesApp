@@ -17,6 +17,7 @@ import Header from '../../components/Header';
 import COLORS from '../../constants/color';
 
 import {useAuthStore} from '../../store/auth';
+import {useOnlineStore} from '../../store/online';
 import {PedidoEntity} from '../../generated/graphql';
 
 interface Props extends StackScreenProps<any, any> {}
@@ -25,6 +26,9 @@ const PedidosScreen = ({navigation}: Props) => {
   // STORE
   const dataAuth = useAuthStore(state => state.dataAuth);
   const [indexTab, setIndexTab] = useState(0);
+  // STORE PARA SABER SI ESTA EN LINEA
+  const isOnline = useOnlineStore(state => state.isOnline);
+
   // PROVICIONAL
   const [paginationModel, setPaginationModel] = useState({
     page: 1,
@@ -146,45 +150,57 @@ const PedidosScreen = ({navigation}: Props) => {
               />
             ) : (
               <ScrollView>
-                <View
-                  style={{paddingHorizontal: 20, gap: 20, marginBottom: 20}}>
-                  {tareasAsignadas.length === 0 ? (
-                    <Text
-                      style={{
-                        textAlign: 'center',
-                        fontSize: 30,
-                        fontWeight: '500',
-                        color: COLORS.black,
-                      }}>
-                      No tienes tareas asignadas
-                    </Text>
-                  ) : (
-                    <>
+                {isOnline ? (
+                  <View
+                    style={{paddingHorizontal: 20, gap: 20, marginBottom: 20}}>
+                    {tareasAsignadas.length === 0 ? (
                       <Text
                         style={{
-                          fontSize: 25,
-                          fontWeight: 'bold',
                           textAlign: 'center',
-                          marginBottom: 0,
-                          marginTop: 20,
+                          fontSize: 30,
+                          fontWeight: '500',
                           color: COLORS.black,
                         }}>
-                        Tareas Asignadas
+                        No tienes tareas asignadas
                       </Text>
-                      <View style={{gap: 10}}>
-                        {tareasAsignadas.map((pedido, index) => (
-                          <Card
-                            key={pedido.id}
-                            data={pedido?.attributes!}
-                            id={pedido?.id!}
-                            color={index + 1}
-                            onDetalle={() => handleDetalle(pedido.id!)}
-                          />
-                        ))}
-                      </View>
-                    </>
-                  )}
-                </View>
+                    ) : (
+                      <>
+                        <Text
+                          style={{
+                            fontSize: 25,
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                            marginBottom: 0,
+                            marginTop: 20,
+                            color: COLORS.black,
+                          }}>
+                          Tareas Asignadas
+                        </Text>
+                        <View style={{gap: 10}}>
+                          {tareasAsignadas.map((pedido, index) => (
+                            <Card
+                              key={pedido.id}
+                              data={pedido?.attributes!}
+                              id={pedido?.id!}
+                              color={index + 1}
+                              onDetalle={() => handleDetalle(pedido.id!)}
+                            />
+                          ))}
+                        </View>
+                      </>
+                    )}
+                  </View>
+                ) : (
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      fontSize: 30,
+                      fontWeight: '500',
+                      color: COLORS.black,
+                    }}>
+                    Debes estar en linea para mirar las tareas asignadas
+                  </Text>
+                )}
               </ScrollView>
             )}
           </TabView.Item>
