@@ -19,7 +19,7 @@ query Pedidos($filters: PedidoFiltersInput, $pagination: PaginationArg) {
         fehcaInicio
         fechaFin
         cuantoTardoInicioFin
-
+        finalizado
         createdAt
         updatedAt
         user {

@@ -13,6 +13,7 @@ query Pedido($pedidoId: ID) {
         nombrePedido
         descripcion
         cliente
+        finalizado
         fecha
         hora
         estacionInicio

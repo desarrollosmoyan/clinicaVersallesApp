@@ -68,6 +68,7 @@ const EscanerScreen = ({navigation, route}: Props) => {
       updatePedidoId: route?.params?.id,
       data: {
         fechaFin: new Date().toDateString(),
+        finalizado: true,
       },
     });
     if (resp.res) {

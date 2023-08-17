@@ -53,6 +53,11 @@ const PedidosScreen = ({navigation}: Props) => {
     },
   });
 
+  console.log(
+    'dataPedidos',
+    dataPedidos.map(item => item.attributes?.user?.data),
+  );
+
   // PROVISIONAL
   useEffect(() => {
     if (isFocused) {
@@ -118,10 +123,7 @@ const PedidosScreen = ({navigation}: Props) => {
       pageSize: paginationModel.pageSize === 10 ? 11 : 10,
     });
   };
-  console.log(
-    'data',
-    dataPedidos.map(pedido => pedido.attributes?.user?.data),
-  );
+
   return (
     <>
       <Header title="Tareas" showSwitch />
@@ -185,15 +187,18 @@ const PedidosScreen = ({navigation}: Props) => {
                           Tareas Asignadas
                         </Text>
                         <View style={{gap: 10}}>
-                          {tareasAsignadas.map((pedido, index) => (
-                            <Card
-                              key={pedido.id}
-                              data={pedido?.attributes!}
-                              id={pedido?.id!}
-                              color={index + 1}
-                              onDetalle={() => handleDetalle(pedido.id!)}
-                            />
-                          ))}
+                          {tareasAsignadas.map((pedido, index) => {
+                            if (pedido.attributes?.finalizado) return;
+                            return (
+                              <Card
+                                key={pedido.id}
+                                data={pedido?.attributes!}
+                                id={pedido?.id!}
+                                color={index + 1}
+                                onDetalle={() => handleDetalle(pedido.id!)}
+                              />
+                            );
+                          })}
                         </View>
                       </>
                     )}
@@ -248,6 +253,10 @@ const PedidosScreen = ({navigation}: Props) => {
                       </Text>
                       <View style={{gap: 10}}>
                         {dataPedidos.map((pedido, index) => {
+                          console.log(
+                            'user',
+                            pedido.attributes?.user?.data?.id,
+                          );
                           const existe = tareasAsignadas.some(
                             item => item.id === pedido.id,
                           );
