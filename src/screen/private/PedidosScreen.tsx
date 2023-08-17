@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useMemo, useState, useEffect} from 'react';
 import {View, ScrollView, ActivityIndicator} from 'react-native';
 
 import {Tab, Text, TabView} from '@rneui/themed';
@@ -15,6 +15,7 @@ import Card from '../../components/Card';
 import Header from '../../components/Header';
 
 import COLORS from '../../constants/color';
+import {useIsFocused} from '@react-navigation/native';
 
 import {useAuthStore} from '../../store/auth';
 import {useOnlineStore} from '../../store/online';
@@ -23,6 +24,7 @@ import {PedidoEntity} from '../../generated/graphql';
 interface Props extends StackScreenProps<any, any> {}
 
 const PedidosScreen = ({navigation}: Props) => {
+  const isFocused = useIsFocused();
   // STORE
   const dataAuth = useAuthStore(state => state.dataAuth);
   const [indexTab, setIndexTab] = useState(0);
@@ -37,7 +39,7 @@ const PedidosScreen = ({navigation}: Props) => {
 
   // LLAMADA A GRAPHQL
   const {Pedidos, UpdatePedido} = usePedidosServices();
-  const {dataPedidos, loadingPedidos} = Pedidos({
+  const {dataPedidos, loadingPedidos, refetch, networkStatus} = Pedidos({
     filters: {
       cargo: {
         nombre: {
@@ -50,6 +52,13 @@ const PedidosScreen = ({navigation}: Props) => {
       page: paginationModel.page,
     },
   });
+
+  // PROVISIONAL
+  useEffect(() => {
+    if (isFocused) {
+      refetch();
+    }
+  }, [isFocused, networkStatus === (networkStatus as any).refetch]);
 
   // FUNCION PARA IR A LA PAGINA DE DETALLE
   const handleDetalle = (id: string) => {

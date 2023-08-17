@@ -21,9 +21,11 @@ export const usePedidosServices = () => {
       loading: loadingPedidos,
       error: errorPedidos,
       refetch,
+      networkStatus,
     } = usePedidosQuery({
       fetchPolicy: 'network-only',
       variables: {filters, pagination},
+      notifyOnNetworkStatusChange: true,
     });
 
     const dataPedidos = data?.pedidos?.data ?? [];
@@ -33,6 +35,7 @@ export const usePedidosServices = () => {
       loadingPedidos,
       errorPedidos,
       refetch,
+      networkStatus,
     };
   };
 
