@@ -33,9 +33,11 @@ const PerfilScreen = ({navigation}: Props) => {
 
   // LLAMADA GRAPHQL
   const {Usuario, UpdateUsuario} = useUsuarioServices();
-  const {dataUsuario, loadingUsuario, refetch} = Usuario({
+  const {dataUsuario, loadingUsuario, refetch, networkStatus} = Usuario({
     usersPermissionsUserId: dataAuth.infoUser.user.id,
   });
+  console.log('networkStatus', networkStatus);
+  console.log('loadingUsuario', loadingUsuario);
   const {Estaciones} = useEstacionesServices();
   const {dataEstaciones, loadingEstaciones} = Estaciones();
 
@@ -44,7 +46,7 @@ const PerfilScreen = ({navigation}: Props) => {
       refetch();
       console.log('refetch');
     }
-  }, [isFocused]);
+  }, [isFocused, networkStatus === (networkStatus as any).refetch]);
 
   const handleLogot = async () => {
     try {

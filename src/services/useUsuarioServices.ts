@@ -17,9 +17,11 @@ export const useUsuarioServices = () => {
       loading: loadingUsuario,
       error: errorUsuario,
       refetch,
+      networkStatus,
     } = useUsersPermissionsUserQuery({
       fetchPolicy: 'network-only',
       variables: {usersPermissionsUserId},
+      notifyOnNetworkStatusChange: true,
     });
     const dataUsuario = data?.usersPermissionsUser?.data ?? {};
     return {
@@ -27,6 +29,7 @@ export const useUsuarioServices = () => {
       loadingUsuario,
       errorUsuario,
       refetch,
+      networkStatus,
     };
   };
 
