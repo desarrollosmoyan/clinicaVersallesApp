@@ -11,6 +11,8 @@ import Toast from 'react-native-toast-message';
 
 import {useUsuarioServices} from '../../services/useUsuarioServices';
 
+import Icon from 'react-native-vector-icons/Ionicons';
+
 import ListInfo from '../../components/ListInfo';
 import Button from '../../components/Button';
 
@@ -36,15 +38,13 @@ const PerfilScreen = ({navigation}: Props) => {
   const {dataUsuario, loadingUsuario, refetch, networkStatus} = Usuario({
     usersPermissionsUserId: dataAuth.infoUser.user.id,
   });
-  console.log('networkStatus', networkStatus);
-  console.log('loadingUsuario', loadingUsuario);
+
   const {Estaciones} = useEstacionesServices();
   const {dataEstaciones, loadingEstaciones} = Estaciones();
 
   useEffect(() => {
     if (isFocused) {
       refetch();
-      console.log('refetch');
     }
   }, [isFocused, networkStatus === (networkStatus as any).refetch]);
 
@@ -159,20 +159,32 @@ const PerfilScreen = ({navigation}: Props) => {
                     alignItems: 'center',
                     gap: 10,
                   }}>
-                  {/* <Icon name={icon} size={18} color={COLORS.greySecondary} /> */}
+                  <Icon
+                    name="clipboard-outline"
+                    size={18}
+                    color={COLORS.greySecondary}
+                  />
 
                   <Text
                     style={{
                       fontSize: 18,
                       color: COLORS.greySecondary,
                     }}>
-                    Estaciones
+                    Estación
                   </Text>
                 </View>
                 {/* SELECT */}
                 <SelectDropdown
                   defaultButtonText="Selecciona una estacion"
                   defaultValueByIndex={index}
+                  buttonTextStyle={{
+                    fontSize: 18,
+                    color: COLORS.white,
+                    fontWeight: '700',
+                  }}
+                  buttonStyle={{
+                    backgroundColor: COLORS.primary,
+                  }}
                   data={dataEstaciones}
                   onSelect={async selectedItem => {
                     const res = await UpdateUsuario({

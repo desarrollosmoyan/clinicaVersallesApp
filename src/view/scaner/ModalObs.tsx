@@ -81,8 +81,6 @@ const ModalObs = ({onClose, isOpen, id, onPress}: Props) => {
       }
 
       if (_index === groupObs.length - 1) {
-        console.log('entre y funciono');
-
         setisSend(false);
         Toast.show({
           type: 'success',

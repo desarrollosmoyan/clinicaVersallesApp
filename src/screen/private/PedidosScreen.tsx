@@ -104,7 +104,6 @@ const PedidosScreen = ({navigation}: Props) => {
   // }, []);
 
   const handleSwipe = () => {
-    console.log('me ejecute');
     setPaginationModel({
       page: 1,
       pageSize: paginationModel.pageSize === 10 ? 11 : 10,
