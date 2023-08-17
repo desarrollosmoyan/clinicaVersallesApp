@@ -1,13 +1,18 @@
 import React, {useState} from 'react';
-import {View, Text} from 'react-native';
-import Toast from 'react-native-toast-message';
-import {TabView} from '@rneui/base';
-import {ScrollView} from 'react-native';
-import COLORS from '../../constants/color';
-import {PedidoEntity} from '../../generated/graphql';
-import Card from '../../components/Card';
+import {View, Text, ScrollView} from 'react-native';
+
 import {useNavigation} from '@react-navigation/native';
+
+import Toast from 'react-native-toast-message';
+
+import COLORS from '../../constants/color';
+
+import {PedidoEntity} from '../../generated/graphql';
+
+import Card from '../../components/Card';
+
 import {usePedidosServices} from '../../services/usePedidosServices';
+
 import {useAuthStore} from '../../store/auth';
 
 interface Props {
@@ -56,61 +61,59 @@ const PedidosTodos = ({dataPedidos, tareasAsignadas}: Props) => {
   };
   return (
     <>
-      <TabView.Item style={{width: '100%', flex: 1}}>
-        <ScrollView>
-          <View style={{paddingHorizontal: 20, gap: 20, marginBottom: 20}}>
-            {dataPedidos.length === 0 ? (
+      <ScrollView>
+        <View style={{paddingHorizontal: 20, gap: 20, marginBottom: 20}}>
+          {dataPedidos.length === 0 ? (
+            <Text
+              style={{
+                textAlign: 'center',
+                fontSize: 30,
+                fontWeight: '500',
+                color: COLORS.black,
+              }}>
+              No hay tareas
+            </Text>
+          ) : (
+            <>
               <Text
                 style={{
+                  fontSize: 25,
+                  fontWeight: 'bold',
                   textAlign: 'center',
-                  fontSize: 30,
-                  fontWeight: '500',
+                  marginBottom: 0,
+                  marginTop: 20,
                   color: COLORS.black,
                 }}>
-                No hay tareas
+                Todas las tareas
               </Text>
-            ) : (
-              <>
-                <Text
-                  style={{
-                    fontSize: 25,
-                    fontWeight: 'bold',
-                    textAlign: 'center',
-                    marginBottom: 0,
-                    marginTop: 20,
-                    color: COLORS.black,
-                  }}>
-                  Todas las tareas
-                </Text>
-                <View style={{gap: 10}}>
-                  {dataPedidos.map((pedido, index) => {
-                    const existe = tareasAsignadas.some(
-                      item => item.id === pedido.id,
-                    );
-                    if (pedido.attributes?.user?.data !== null) return;
-                    return (
-                      <Card
-                        key={pedido.id}
-                        data={pedido?.attributes!}
-                        id={pedido?.id!}
-                        color={index + 1}
-                        isAcept={!existe}
-                        onDetalle={() => {
-                          if (existe) {
-                            return handleDetalle(pedido.id!);
-                          } else {
-                            return handleDetalleNotification(pedido.id!);
-                          }
-                        }}
-                      />
-                    );
-                  })}
-                </View>
-              </>
-            )}
-          </View>
-        </ScrollView>
-      </TabView.Item>
+              <View style={{gap: 10}}>
+                {dataPedidos.map((pedido, index) => {
+                  const existe = tareasAsignadas.some(
+                    item => item.id === pedido.id,
+                  );
+                  if (pedido.attributes?.user?.data !== null) return;
+                  return (
+                    <Card
+                      key={pedido.id}
+                      data={pedido?.attributes!}
+                      id={pedido?.id!}
+                      color={index + 1}
+                      isAcept={!existe}
+                      onDetalle={() => {
+                        if (existe) {
+                          return handleDetalle(pedido.id!);
+                        } else {
+                          return handleDetalleNotification(pedido.id!);
+                        }
+                      }}
+                    />
+                  );
+                })}
+              </View>
+            </>
+          )}
+        </View>
+      </ScrollView>
     </>
   );
 };
