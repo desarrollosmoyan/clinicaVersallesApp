@@ -1,10 +1,10 @@
-import { UsersPermissionsMe } from '@generated/graphql'
+import {UsersPermissionsMe} from '@generated/graphql';
 
 export interface StateProps {
-  isLoading: boolean
-  isSignout: boolean
+  isLoading: boolean;
+  isAuth: boolean;
   infoUser: {
-    token: string
-    user: UsersPermissionsMe
-  }
+    token: string;
+    user: UsersPermissionsMe;
+  };
 }

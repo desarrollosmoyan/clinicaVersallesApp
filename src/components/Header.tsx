@@ -31,11 +31,11 @@ const Header = ({
   const updateIsOnline = useOnlineStore(state => state.updateIsOnline);
 
   // STORE
-  const dataAuth = useAuthStore(state => state.dataAuth);
+  const user = useAuthStore(state => state.userAuth);
   // LLAMADA DE GRAPHQL
   const {Usuario, UpdateUsuario} = useUsuarioServices();
   const {dataUsuario, loadingUsuario} = Usuario({
-    usersPermissionsUserId: dataAuth.infoUser.user.id,
+    usersPermissionsUserId: user?.id!,
   });
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const Header = ({
   const toggleSwitch = async () => {
     const res = await UpdateUsuario({
       data: {enlinea: !isOnline},
-      updateUsersPermissionsUserId: dataAuth.infoUser.user.id,
+      updateUsersPermissionsUserId: user?.id!,
     });
     if (res.res) {
       updateIsOnline(res.data?.data?.attributes?.enlinea!);

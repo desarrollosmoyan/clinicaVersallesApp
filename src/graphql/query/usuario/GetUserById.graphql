@@ -1,0 +1,47 @@
+query GetUserById($id: ID!) {
+  usersPermissionsUser(id: $id) {
+    data {
+      attributes {
+        username
+        enlinea
+        email
+        cargo {
+          data {
+            attributes {
+              nombre
+            }
+          }
+        }
+        nombreCompleto
+        ubicacionActual
+        Area
+        pedidos {
+          data {
+            attributes {
+              nombrePedido
+              descripcion
+              cliente
+              fecha
+              hora
+              estacionInicio
+              estacionFin
+              fehcaInicio
+              fechaFin
+              cuantoTardoInicioFin
+              estado
+            }
+          }
+        }
+        turnos {
+          data {
+            attributes {
+              fin
+              inicio
+              nombre
+            }
+          }
+        }
+      }
+    }
+  }
+}

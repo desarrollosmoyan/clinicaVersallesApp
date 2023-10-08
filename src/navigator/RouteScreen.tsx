@@ -6,21 +6,27 @@ import BottonRouteScreen from './BottonRouteScreen';
 
 import {useAuthStore} from '../store/auth';
 import SplashScreen from '../screen/SplashScreen';
+import useAuth from '@/hooks/useAuth';
 
 export type RootStackParams = {
   Login: undefined;
   Wolcome: undefined;
   InicioBottom: undefined;
-  // Splash: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParams>();
 
 const RouteScreen = () => {
-  // DATA DE AUTENTICACION
-  const dataAuth = useAuthStore(state => state.dataAuth);
+  // HOOK QUE VERIFICA SE O USUÁRIO ESTÁ LOGADO
+  useAuth();
 
-  if (dataAuth.isLoading) {
+  // DATA DE AUTENTICACION
+  const {isAuth, isLoading} = useAuthStore(state => ({
+    isAuth: state.isAuth,
+    isLoading: state.isLoading,
+  }));
+
+  if (isLoading) {
     // SPLASH SCREEN
     return <SplashScreen />;
   }
@@ -34,7 +40,7 @@ const RouteScreen = () => {
             backgroundColor: 'white',
           },
         }}>
-        {dataAuth.isSignout ? (
+        {isAuth ? (
           <Stack.Screen name="InicioBottom" component={BottonRouteScreen} />
         ) : (
           <>

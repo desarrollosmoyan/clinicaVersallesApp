@@ -2,7 +2,6 @@ import React, {useMemo, useEffect} from 'react';
 
 import {Text, View, ScrollView, Image, ActivityIndicator} from 'react-native';
 
-import {StackScreenProps} from '@react-navigation/stack';
 import {useIsFocused} from '@react-navigation/native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -24,19 +23,17 @@ import {useAuthStore} from '../../store/auth';
 import {useEstacionesServices} from '../../services/useEstacionesServices';
 import SelectDropdown from 'react-native-select-dropdown';
 
-interface Props extends StackScreenProps<any, any> {}
-
-const PerfilScreen = ({navigation}: Props) => {
+const PerfilScreen = () => {
   const isFocused = useIsFocused();
 
   // STORE
-  const updateDataAuth = useAuthStore(state => state.updateDataAuth);
-  const dataAuth = useAuthStore(state => state.dataAuth);
+  const user = useAuthStore(state => state.userAuth);
+  const logoutAction = useAuthStore(state => state.logoutAction);
 
   // LLAMADA GRAPHQL
   const {Usuario, UpdateUsuario} = useUsuarioServices();
   const {dataUsuario, loadingUsuario, refetch, networkStatus} = Usuario({
-    usersPermissionsUserId: dataAuth.infoUser.user.id,
+    usersPermissionsUserId: user?.id!,
   });
 
   const {Estaciones} = useEstacionesServices();
@@ -51,17 +48,9 @@ const PerfilScreen = ({navigation}: Props) => {
   const handleLogot = async () => {
     try {
       await AsyncStorage.removeItem('token');
-      await AsyncStorage.removeItem('userData');
-      updateDataAuth({
-        isLoading: false,
-        isSignout: false,
-        infoUser: {
-          token: '',
-          user: {id: '', username: ''},
-        },
-      });
+      logoutAction();
 
-      navigation.navigate('Wolcome');
+      // navigation.navigate('Wolcome');
     } catch (error) {
       Toast.show({
         type: 'error',
@@ -197,7 +186,7 @@ const PerfilScreen = ({navigation}: Props) => {
                   data={dataEstaciones}
                   onSelect={async selectedItem => {
                     const res = await UpdateUsuario({
-                      updateUsersPermissionsUserId: dataAuth.infoUser.user.id,
+                      updateUsersPermissionsUserId: user?.id!,
                       data: {
                         ubicacionActual: selectedItem.attributes.nombre,
                       },

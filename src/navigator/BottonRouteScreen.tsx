@@ -1,16 +1,12 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import {StackActions} from '@react-navigation/native';
-
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import PerfilScreen from '../screen/private/PerfilScreen';
 import COLORS from '../constants/color';
 import {RouteSecondary} from './RouteSecondary';
-import {getToken} from '../utils/getToken';
-import {StackScreenProps} from '@react-navigation/stack';
+import PerfilScreen from '../screen/private/PerfilScreen';
 
 export type RootStackParams = {
   Perfil: undefined;
@@ -21,20 +17,7 @@ export type RootStackParams = {
 
 const Tab = createBottomTabNavigator();
 
-interface Props extends StackScreenProps<any, any> {}
-
-function BottonRouteScreen({navigation}: Props) {
-  useEffect(() => {
-    const session = async () => {
-      const value = await getToken();
-      if (!value) {
-        navigation.dispatch(StackActions.replace('Wolcome'));
-      }
-    };
-
-    session();
-  }, []);
-
+function BottonRouteScreen() {
   return (
     <Tab.Navigator
       screenOptions={{

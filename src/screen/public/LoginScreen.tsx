@@ -9,23 +9,19 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import Toast from 'react-native-toast-message';
 
-import {StackScreenProps} from '@react-navigation/stack';
-
 import {useAuthServices} from '../../services/useAuthServices';
 
 import COLORS from '../../constants/color';
 import Button from '../../components/Button';
 import {useAuthStore} from '../../store/auth';
 
-interface Props extends StackScreenProps<any, any> {}
-
-const LoginScreen = ({navigation}: Props) => {
+const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPassword, setIsPassword] = useState(true);
 
   // STORE
-  const updateDataAuth = useAuthStore(state => state.updateDataAuth);
+  const loginAction = useAuthStore(state => state.loginAction);
 
   // LLAMADA DE GRAPHQL
   const {Login, loadingLogin} = useAuthServices();
@@ -34,19 +30,7 @@ const LoginScreen = ({navigation}: Props) => {
     const res = await Login({identifier: email, password});
     if (res.res) {
       await AsyncStorage.setItem('token', JSON.stringify(res?.response?.jwt!));
-      await AsyncStorage.setItem(
-        'userData',
-        JSON.stringify(res?.response?.user!),
-      );
-      updateDataAuth({
-        isLoading: false,
-        isSignout: true,
-        infoUser: {
-          token: res.response?.jwt!,
-          user: res.response?.user!,
-        },
-      });
-      navigation.navigate('InicioBottom');
+      loginAction({token: res.response?.jwt!, userAuth: res.response?.user!});
     } else {
       Toast.show({
         type: 'error',

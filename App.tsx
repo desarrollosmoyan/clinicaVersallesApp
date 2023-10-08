@@ -8,12 +8,8 @@ import {ApolloProvider} from '@apollo/client';
 import client from './src/apollo';
 
 import Toast from 'react-native-toast-message';
-import useAuth from './src/hooks/useAuth';
 
 const App = () => {
-  // HOOK QUE VERIFICA SE O USUÁRIO ESTÁ LOGADO
-  useAuth();
-
   return (
     <>
       <ApolloProvider client={client}>

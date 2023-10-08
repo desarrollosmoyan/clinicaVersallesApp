@@ -20,8 +20,8 @@ import PedidosTodos from '../../view/pedidos/PedidosTodos';
 const PedidosScreen = () => {
   const isFocused = useIsFocused();
   // STORE
-  const dataAuth = useAuthStore(state => state.dataAuth);
   const [indexTab, setIndexTab] = useState(0);
+  const user = useAuthStore(state => state.userAuth);
 
   // PROVICIONAL
   const [paginationModel, setPaginationModel] = useState({
@@ -45,6 +45,8 @@ const PedidosScreen = () => {
     },
   });
 
+  console.log(dataPedidos);
+
   // PROVISIONAL
   useEffect(() => {
     if (isFocused) {
@@ -62,22 +64,13 @@ const PedidosScreen = () => {
       if (pedido.attributes?.user?.data === null) {
         return;
       }
-      if (pedido.attributes?.user?.data?.id === dataAuth?.infoUser.user.id) {
+      if (pedido.attributes?.user?.data?.id === user?.id!) {
         pedidos.push({id: pedido.id, attributes: pedido.attributes});
       }
     });
 
     return pedidos;
   }, [loadingPedidos]);
-
-  // useEffect(() => {
-  //   const unsubscribe = messaging().onMessage(async () => {
-  //     Alert.alert('Nueva tarea');
-  //     refetch();
-  //   });
-
-  //   return unsubscribe;
-  // }, []);
 
   const handleSwipe = () => {
     setPaginationModel({
@@ -89,12 +82,8 @@ const PedidosScreen = () => {
   return (
     <>
       <Header title="Tareas" showSwitch />
-      <GestureRecognizer
-        // config={{velocityThreshold: 0.3, directionalOffsetThreshold: 80}}
-        onSwipeDown={handleSwipe}
-        style={{flex: 1}}>
+      <GestureRecognizer onSwipeDown={handleSwipe} style={{flex: 1}}>
         <Tab
-          // scrollable
           value={indexTab}
           onChange={e => {
             setPaginationModel({

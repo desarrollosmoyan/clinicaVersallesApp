@@ -1,0 +1,4 @@
+[] default vista todas las tareas
+[] No llegan las tareas asignadas
+[] Al primero que se conecta es al primero q recibe
+[] Las tareas llegan por cargo

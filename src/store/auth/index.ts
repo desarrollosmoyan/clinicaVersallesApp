@@ -1,19 +1,40 @@
 import {create} from 'zustand';
-import {StateProps} from '../../interface/auth';
+import {GetUserByIdQuery, UsersPermissionsMe} from '../../generated/graphql';
 
-interface ActionProps {
-  dataAuth: StateProps;
-  updateDataAuth: (data: StateProps) => void;
+type UserAuth = UsersPermissionsMe;
+type UserInfo = GetUserByIdQuery['usersPermissionsUser'];
+
+interface State {
+  token: string;
+  isAuth: boolean;
+  isLoading: boolean;
+  userAuth: UserAuth | null;
+  userInfo: UserInfo | null;
 }
 
-export const useAuthStore = create<ActionProps>()(set => ({
-  dataAuth: {
-    isLoading: true,
-    isSignout: false,
-    infoUser: {
-      token: '',
-      user: {id: '', username: ''},
-    },
+interface Action {
+  logoutAction: () => void;
+  setUserInfo: (data: UserInfo) => void;
+  loginAction: (data: {userAuth: UserAuth; token: string}) => void;
+}
+
+const initalState: State = {
+  token: '',
+  userAuth: null,
+  userInfo: null,
+  isAuth: false,
+  isLoading: true,
+};
+
+export const useAuthStore = create<State & Action>()(set => ({
+  ...initalState,
+  setUserInfo: userInfo => {
+    set({userInfo});
   },
-  updateDataAuth: dataAuth => set(() => ({dataAuth})),
+  loginAction: ({userAuth, token}) => {
+    set({isAuth: true, isLoading: false, userAuth, token});
+  },
+  logoutAction: () => {
+    set({...initalState, isLoading: false});
+  },
 }));
