@@ -71,6 +71,7 @@ const Header = ({
         },
       });
 
+      JSON.stringify(res, null, 2);
       const enlinea =
         res.data?.updateUsersPermissionsUser.data?.attributes?.enlinea;
 

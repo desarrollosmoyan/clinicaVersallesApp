@@ -48,7 +48,6 @@ const useAuth = () => {
 
       if (!token) {
         logoutAction();
-        await AsyncStorage.removeItem('token');
       }
     };
     autentication();

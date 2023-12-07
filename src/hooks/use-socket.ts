@@ -1,8 +1,8 @@
 import {create} from 'zustand';
 import {Socket, io} from 'socket.io-client';
+import enviroment from '@/enviroment';
 
-//const URL = enviroment.URL;
-const URL = 'http://192.168.1.101:8080';
+const URL = enviroment.URL;
 
 export interface NuevoRegistroArgs {
   to: string;
@@ -50,11 +50,13 @@ const useSocket = create<SocketStore>((set, get) => ({
         set({socket: newSocket, isOnline: true});
         resolve(true);
       });
-      newSocket.on('disconnect', () => {
+      newSocket.on('disconnect', error => {
+        console.log({error});
         set({socket: null, isOnline: false});
         resolve(false);
       });
-      newSocket.on('connect_error', () => {
+      newSocket.on('connect_error', error => {
+        console.log({error});
         set({socket: null, isOnline: false});
         resolve(false);
       });

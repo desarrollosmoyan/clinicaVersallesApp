@@ -28,8 +28,9 @@ const LoginScreen = () => {
 
   const handleLogin = async () => {
     const res = await Login({identifier: email, password});
+    console.log({res});
     if (res.res) {
-      await AsyncStorage.setItem('token', JSON.stringify(res?.response?.jwt!));
+      await AsyncStorage.setItem('token', res?.response?.jwt!);
       loginAction({token: res.response?.jwt!, userAuth: res.response?.user!});
     } else {
       Toast.show({
