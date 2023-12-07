@@ -17,24 +17,18 @@ import COLORS from '../../constants/color';
 
 import {ScrollView} from 'react-native-gesture-handler';
 import {RootStackParamsSecondary} from '../../navigator/RouteSecondary';
-import {useScannerStore} from '../../store/scaner';
+import {Enum_Pedido_Stage} from '@/generated/graphql';
 
 interface Props
   extends StackScreenProps<RootStackParamsSecondary, 'Detallepedido'> {}
 
 const DetallePedidoScreen = ({route, navigation}: Props) => {
   const {id} = route.params;
-  const data = useScannerStore(state => state.data);
-  const idVeces = data.length !== 0 && data.find((item: any) => item.id === id);
-  console.log(idVeces);
-  console.log('validacion', idVeces.id === id && idVeces.veces === 2);
-  console.log('validacion id', idVeces.id === id);
-
   const {Pedido} = usePedidosServices();
   const {dataPedido, loadingPedido} = Pedido({pedidoId: id});
 
   const handleClick = () => {
-    if (idVeces.id === id && idVeces.veces === 2) return;
+    if (dataPedido.attributes?.stage === Enum_Pedido_Stage.FinalPoint) return;
     navigation.navigate('LecturaNFC', {id: dataPedido.id!});
   };
 
@@ -227,7 +221,10 @@ const DetallePedidoScreen = ({route, navigation}: Props) => {
                     marginBottom: 20,
                   }}
                   onPress={handleClick}
-                  opacity={idVeces.id === id && idVeces.veces === 2}
+                  opacity={
+                    dataPedido.attributes?.stage ===
+                    Enum_Pedido_Stage.FinalPoint
+                  }
                 />
               </View>
             </View>

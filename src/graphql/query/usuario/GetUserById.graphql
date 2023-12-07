@@ -5,18 +5,12 @@ query GetUserById($id: ID!) {
         username
         enlinea
         email
-        cargo {
-          data {
-            attributes {
-              nombre
-            }
-          }
-        }
         nombreCompleto
         ubicacionActual
         Area
         pedidos {
           data {
+            id
             attributes {
               nombrePedido
               descripcion
@@ -34,10 +28,22 @@ query GetUserById($id: ID!) {
         }
         turnos {
           data {
+            id
             attributes {
               fin
               inicio
               nombre
+            }
+          }
+        }
+        cargo {
+          data {
+            id
+            attributes {
+              nombre
+              estado
+              createdAt
+              updatedAt
             }
           }
         }

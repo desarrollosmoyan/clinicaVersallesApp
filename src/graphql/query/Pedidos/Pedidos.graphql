@@ -4,11 +4,16 @@ query Pedidos($filters: PedidoFiltersInput, $pagination: PaginationArg) {
       attributes {
         cargo {
           data {
+            id
             attributes {
               nombre
+              estado
+              createdAt
+              updatedAt
             }
           }
         }
+        stage
         nombrePedido
         descripcion
         cliente

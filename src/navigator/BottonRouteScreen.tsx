@@ -13,8 +13,6 @@ export type RootStackParams = {
   Inicio: undefined;
 };
 
-// const Stack = createStackNavigator<RootStackParams>();
-
 const Tab = createBottomTabNavigator();
 
 function BottonRouteScreen() {

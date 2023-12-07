@@ -24,7 +24,7 @@ const ModalObs = ({onClose, isOpen, id}: Props) => {
   // LLAMADA DE GRAPHQL
   const {CreateObservacion} = useObservacionesServices();
 
-  const dataAuth = useAuthStore(state => state.dataAuth);
+  const user = useAuthStore(state => state.userAuth);
 
   // FUNCION PARA ELIMINAR UN ELEMENTO DE LA LISTA
   const handleDeleteObs = (id: string) => {
@@ -53,7 +53,7 @@ const ModalObs = ({onClose, isOpen, id}: Props) => {
       const res = await CreateObservacion({
         observacion: obs,
         pedido: id.toString(),
-        users_permissions_user: dataAuth.infoUser.user.id,
+        users_permissions_user: user?.id!,
       });
 
       if (!res.res) {

@@ -5,11 +5,16 @@ query Pedido($pedidoId: ID) {
       attributes {
         cargo {
           data {
+            id
             attributes {
               nombre
+              estado
+              createdAt
+              updatedAt
             }
           }
         }
+        stage
         nombrePedido
         descripcion
         cliente

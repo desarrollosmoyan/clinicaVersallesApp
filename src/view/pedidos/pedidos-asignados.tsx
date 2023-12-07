@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 
 import {View, ScrollView} from 'react-native';
 
@@ -6,40 +6,45 @@ import {useNavigation} from '@react-navigation/native';
 
 import {Text} from '@rneui/themed';
 
-import {useOnlineStore} from '../../store/online';
-
 import {PedidoEntity} from '../../generated/graphql';
 
 import COLORS from '../../constants/color';
 
 import Card from '../../components/Card';
+import {useSocket} from '@/hooks/use-socket';
 
 interface Props {
-  tareasAsignadas: PedidoEntity[];
+  data: PedidoEntity[];
 }
 
-const PedidosUser = ({tareasAsignadas}: Props) => {
+const PedidosAsignados = ({data}: Props) => {
   // STORE PARA SABER SI ESTA EN LINEA
-  const isOnline = useOnlineStore(state => state.isOnline);
   const navigation = useNavigation<any>();
+  const isOnline = useSocket(state => state.isOnline);
 
   const handleDetalle = (id: string) => {
     navigation.navigate('Detallepedido', {id});
   };
+
+  const pedidosAsignados = useMemo(() => {
+    return data.filter(pedido => !pedido.attributes?.finalizado);
+  }, [data]);
+
   return (
     <>
-      <ScrollView>
+      <ScrollView style={{flex: 1}}>
         {isOnline ? (
-          <View style={{paddingHorizontal: 20, gap: 20, marginBottom: 20}}>
-            {tareasAsignadas.length === 0 ? (
+          <View
+            style={{flex: 1, paddingHorizontal: 20, gap: 20, marginBottom: 20}}>
+            {pedidosAsignados.length === 0 ? (
               <Text
                 style={{
-                  textAlign: 'center',
                   fontSize: 30,
                   fontWeight: '500',
+                  textAlign: 'center',
                   color: COLORS.black,
                 }}>
-                No tienes tareas asignadas
+                No tienes tareas
               </Text>
             ) : (
               <>
@@ -52,10 +57,10 @@ const PedidosUser = ({tareasAsignadas}: Props) => {
                     marginTop: 20,
                     color: COLORS.black,
                   }}>
-                  Tareas Asignadas
+                  Tareas Pendientes
                 </Text>
                 <View style={{gap: 10}}>
-                  {tareasAsignadas.map((pedido, index) => (
+                  {pedidosAsignados.map((pedido, index) => (
                     <Card
                       key={pedido.id}
                       data={pedido?.attributes!}
@@ -84,4 +89,4 @@ const PedidosUser = ({tareasAsignadas}: Props) => {
   );
 };
 
-export default PedidosUser;
+export default PedidosAsignados;

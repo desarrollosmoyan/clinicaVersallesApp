@@ -9,8 +9,11 @@ import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import COLORS from '../constants/color';
 import {useAuthStore} from '../store/auth';
-import {useUsuarioServices} from '../services/useUsuarioServices';
-import {useOnlineStore} from '../store/online';
+import {useSocket} from '@/hooks/use-socket';
+import {
+  useGetUserByIdQuery,
+  useUpdateUsersPermissionsUserMutation,
+} from '@/generated/graphql';
 
 interface Props {
   title: string;
@@ -26,37 +29,79 @@ const Header = ({
   showSwitch = false,
 }: Props) => {
   const navigate = useNavigation();
+  const {isOnline, connetSocket, disconnetSocket} = useSocket();
 
-  const isOnline = useOnlineStore(state => state.isOnline);
-  const updateIsOnline = useOnlineStore(state => state.updateIsOnline);
-
-  // STORE
-  const user = useAuthStore(state => state.userAuth);
+  const auth = useAuthStore();
   // LLAMADA DE GRAPHQL
-  const {Usuario, UpdateUsuario} = useUsuarioServices();
-  const {dataUsuario, loadingUsuario} = Usuario({
-    usersPermissionsUserId: user?.id!,
+  const {data, loading} = useGetUserByIdQuery({
+    variables: {
+      id: auth.userAuth?.id!,
+    },
   });
 
+  const [updateIsOnline] = useUpdateUsersPermissionsUserMutation();
+
   useEffect(() => {
-    updateIsOnline(dataUsuario.attributes?.enlinea ? true : false);
-  }, [loadingUsuario]);
+    const enlinea = data?.usersPermissionsUser?.data?.attributes?.enlinea;
+
+    if (typeof enlinea !== 'boolean') {
+      disconnetSocket();
+    }
+
+    console.log({userInfo: auth.userInfo});
+
+    if (typeof enlinea === 'boolean') {
+      if (enlinea) {
+        connetSocket({
+          userId: auth.userAuth?.id!,
+          cargoId: auth.userInfo?.data?.attributes?.cargo?.data?.id!,
+        });
+      } else {
+        disconnetSocket();
+      }
+    }
+  }, [auth, data?.usersPermissionsUser?.data?.attributes?.enlinea]);
 
   const toggleSwitch = async () => {
-    const res = await UpdateUsuario({
-      data: {enlinea: !isOnline},
-      updateUsersPermissionsUserId: user?.id!,
-    });
-    if (res.res) {
-      updateIsOnline(res.data?.data?.attributes?.enlinea!);
-    }
-    if (!res.res) {
+    try {
+      const res = await updateIsOnline({
+        variables: {
+          data: {enlinea: !isOnline},
+          updateUsersPermissionsUserId: auth.userAuth?.id!,
+        },
+      });
+
+      const enlinea =
+        res.data?.updateUsersPermissionsUser.data?.attributes?.enlinea;
+
+      if (typeof enlinea !== 'boolean') {
+        console.log('[ERROR_UPDATE_USER]');
+        disconnetSocket();
+
+        Toast.show({
+          type: 'error',
+          text1: 'No se pudo cambiar el estado',
+        });
+        return;
+      }
+
+      if (enlinea) {
+        connetSocket({
+          userId: auth.userAuth?.id!,
+          cargoId: auth.userInfo?.data?.attributes?.cargo?.data?.id!,
+        });
+      } else {
+        disconnetSocket();
+      }
+    } catch (error) {
+      console.log('[ERROR_UPDATE_USER]');
       Toast.show({
         type: 'error',
         text1: 'No se pudo cambiar el estado',
       });
     }
   };
+
   return (
     <>
       <View
@@ -104,6 +149,7 @@ const Header = ({
               thumbColor={isOnline ? COLORS.primary : '#dddddd'}
               onValueChange={toggleSwitch}
               value={isOnline}
+              disabled={loading}
             />
           </View>
         )}
