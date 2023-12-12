@@ -14,23 +14,49 @@ import {useAuthServices} from '../../services/useAuthServices';
 import COLORS from '../../constants/color';
 import Button from '../../components/Button';
 import {useAuthStore} from '../../store/auth';
+import {useGetUserByIdLazyQuery} from '@/generated/graphql';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPassword, setIsPassword] = useState(true);
 
+  const [getUserById] = useGetUserByIdLazyQuery();
+
   // STORE
   const loginAction = useAuthStore(state => state.loginAction);
+  const setUserInfo = useAuthStore(state => state.setUserInfo);
 
   // LLAMADA DE GRAPHQL
   const {Login, loadingLogin} = useAuthServices();
 
   const handleLogin = async () => {
     const res = await Login({identifier: email, password});
-    console.log({res});
     if (res.res) {
-      await AsyncStorage.setItem('token', res?.response?.jwt!);
+      const user = res.response?.user;
+      if (!user) {
+        Toast.show({
+          type: 'error',
+          text1: 'Error desconocido',
+        });
+        return;
+      }
+
+      await AsyncStorage.setItem('token', res.response?.jwt!);
+
+      const getUserByIdQuery = await getUserById({
+        variables: {id: user.id},
+      });
+
+      const userById =
+        getUserByIdQuery.data?.usersPermissionsUser?.data?.attributes;
+
+      if (!userById) {
+        await AsyncStorage.removeItem('token');
+        return;
+      }
+
+      setUserInfo(getUserByIdQuery.data?.usersPermissionsUser);
       loginAction({token: res.response?.jwt!, userAuth: res.response?.user!});
     } else {
       Toast.show({

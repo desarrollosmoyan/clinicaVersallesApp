@@ -42,6 +42,8 @@ const PedidosScreen = (props: Props) => {
       cargoId: string;
       pedidoId: string;
     }) => {
+      console.log('NEW_ORDER: ', args);
+
       try {
         const res = await updatePedido({
           variables: {

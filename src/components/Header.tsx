@@ -48,8 +48,6 @@ const Header = ({
       disconnetSocket();
     }
 
-    console.log({userInfo: auth.userInfo});
-
     if (typeof enlinea === 'boolean') {
       if (enlinea) {
         connetSocket({
