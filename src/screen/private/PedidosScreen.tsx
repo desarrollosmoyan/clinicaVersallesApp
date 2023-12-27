@@ -26,9 +26,11 @@ const PedidosScreen = (props: Props) => {
   }));
 
   // LLAMADA A GRAPHQL
-  const [updatePedido] = useUpdatePedidoMutation();
+  const [updatePedido, {error}] = useUpdatePedidoMutation();
+  console.log(JSON.stringify(error, null, 2));
   const {data, loading, refetch} = usePedidosQuery({
     variables: {
+      sort: 'createdAt:desc',
       pagination: {page: 1, pageSize: 10},
       filters: {
         user: {id: {eq: userAuth?.id!}},

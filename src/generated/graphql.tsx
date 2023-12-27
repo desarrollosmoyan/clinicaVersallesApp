@@ -51,7 +51,6 @@ export type Cargo = {
   estado?: Maybe<Scalars['Boolean']['output']>;
   nombre?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  user?: Maybe<UsersPermissionsUserEntityResponse>;
 };
 
 export type CargoEntity = {
@@ -80,13 +79,11 @@ export type CargoFiltersInput = {
   not?: InputMaybe<CargoFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<CargoFiltersInput>>>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
-  user?: InputMaybe<UsersPermissionsUserFiltersInput>;
 };
 
 export type CargoInput = {
   estado?: InputMaybe<Scalars['Boolean']['input']>;
   nombre?: InputMaybe<Scalars['String']['input']>;
-  user?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type DateTimeFilterInput = {
@@ -1483,6 +1480,7 @@ export type PedidoQuery = { __typename?: 'Query', pedido?: { __typename?: 'Pedid
 export type PedidosQueryVariables = Exact<{
   filters?: InputMaybe<PedidoFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
 }>;
 
 
@@ -1735,8 +1733,8 @@ export type PedidoQueryHookResult = ReturnType<typeof usePedidoQuery>;
 export type PedidoLazyQueryHookResult = ReturnType<typeof usePedidoLazyQuery>;
 export type PedidoQueryResult = Apollo.QueryResult<PedidoQuery, PedidoQueryVariables>;
 export const PedidosDocument = gql`
-    query Pedidos($filters: PedidoFiltersInput, $pagination: PaginationArg) {
-  pedidos(filters: $filters, pagination: $pagination) {
+    query Pedidos($filters: PedidoFiltersInput, $pagination: PaginationArg, $sort: [String] = []) {
+  pedidos(filters: $filters, pagination: $pagination, sort: $sort) {
     data {
       attributes {
         cargo {
@@ -1790,6 +1788,7 @@ export const PedidosDocument = gql`
  *   variables: {
  *      filters: // value for 'filters'
  *      pagination: // value for 'pagination'
+ *      sort: // value for 'sort'
  *   },
  * });
  */

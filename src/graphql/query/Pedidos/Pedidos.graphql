@@ -1,5 +1,9 @@
-query Pedidos($filters: PedidoFiltersInput, $pagination: PaginationArg) {
-  pedidos(filters: $filters, pagination: $pagination) {
+query Pedidos(
+  $filters: PedidoFiltersInput
+  $pagination: PaginationArg
+  $sort: [String] = []
+) {
+  pedidos(filters: $filters, pagination: $pagination, sort: $sort) {
     data {
       attributes {
         cargo {

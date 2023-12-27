@@ -6,7 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 
 import {Text} from '@rneui/themed';
 
-import {PedidoEntity} from '../../generated/graphql';
+import {Enum_Pedido_Stage, PedidoEntity} from '../../generated/graphql';
 
 import COLORS from '../../constants/color';
 
@@ -27,8 +27,23 @@ const PedidosAsignados = ({data}: Props) => {
   };
 
   const pedidosAsignados = useMemo(() => {
-    return data.filter(pedido => !pedido.attributes?.finalizado);
+    return data.filter(
+      pedido => pedido.attributes?.stage !== Enum_Pedido_Stage.FinalPoint,
+    );
   }, [data]);
+
+  console.log(
+    JSON.stringify(
+      {
+        items: data.map(pedido => ({
+          title: pedido.attributes?.cliente,
+          stage: pedido.attributes?.stage,
+        })),
+      },
+      null,
+      2,
+    ),
+  );
 
   return (
     <>

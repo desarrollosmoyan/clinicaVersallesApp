@@ -11,7 +11,7 @@ import COLORS from '../constants/color';
 import {useAuthStore} from '../store/auth';
 import {useSocket} from '@/hooks/use-socket';
 import {
-  useGetUserByIdQuery,
+  useGetUserByIdLazyQuery,
   useUpdateUsersPermissionsUserMutation,
 } from '@/generated/graphql';
 
@@ -33,32 +33,45 @@ const Header = ({
 
   const auth = useAuthStore();
   // LLAMADA DE GRAPHQL
-  const {data, loading} = useGetUserByIdQuery({
-    variables: {
-      id: auth.userAuth?.id!,
-    },
-  });
+  const [getUserById, {loading}] = useGetUserByIdLazyQuery();
 
   const [updateIsOnline] = useUpdateUsersPermissionsUserMutation();
 
   useEffect(() => {
-    const enlinea = data?.usersPermissionsUser?.data?.attributes?.enlinea;
+    const initSocket = async () => {
+      try {
+        const store = useAuthStore.getState();
+        if (!store.userAuth?.id) return;
 
-    if (typeof enlinea !== 'boolean') {
-      disconnetSocket();
-    }
-
-    if (typeof enlinea === 'boolean') {
-      if (enlinea) {
-        connetSocket({
-          userId: auth.userAuth?.id!,
-          cargoId: auth.userInfo?.data?.attributes?.cargo?.data?.id!,
+        const res = await getUserById({
+          variables: {
+            id: store?.userAuth?.id!,
+          },
         });
-      } else {
+
+        const userId = store.userAuth?.id!;
+        const cargoId = store.userInfo?.data?.attributes?.cargo?.data?.id!;
+        const enlinea =
+          res.data?.usersPermissionsUser?.data?.attributes?.enlinea;
+
+        if (typeof enlinea !== 'boolean') {
+          disconnetSocket();
+          return;
+        }
+
+        if (enlinea) {
+          connetSocket({userId, cargoId});
+        } else {
+          disconnetSocket();
+        }
+      } catch (error) {
+        console.log('[ERROR_GET_USER_BY_ID]: ', error);
         disconnetSocket();
       }
-    }
-  }, [auth, data?.usersPermissionsUser?.data?.attributes?.enlinea]);
+    };
+
+    initSocket();
+  }, []);
 
   const toggleSwitch = async () => {
     try {
@@ -69,7 +82,6 @@ const Header = ({
         },
       });
 
-      JSON.stringify(res, null, 2);
       const enlinea =
         res.data?.updateUsersPermissionsUser.data?.attributes?.enlinea;
 

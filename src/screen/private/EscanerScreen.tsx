@@ -38,6 +38,8 @@ const EscanerScreen = ({navigation, route}: Props) => {
   const {dataPedido} = Pedido({pedidoId: route?.params?.id});
 
   const updatePedidoInicio = async () => {
+    console.log({as: route?.params?.id});
+
     const resp = await UpdatePedido({
       updatePedidoId: route?.params?.id,
       data: {
