@@ -22,8 +22,11 @@ import COLORS from '../../constants/color';
 import {useAuthStore} from '../../store/auth';
 import {useEstacionesServices} from '../../services/useEstacionesServices';
 import SelectDropdown from 'react-native-select-dropdown';
+import ModalCambioTurno from '@/components/ModalCambioTurno';
+import useToggle from '@/hooks/useToggle';
 
 const PerfilScreen = () => {
+  const toggle = useToggle();
   const isFocused = useIsFocused();
 
   // STORE
@@ -45,20 +48,6 @@ const PerfilScreen = () => {
     }
   }, [isFocused, networkStatus === (networkStatus as any).refetch]);
 
-  const handleLogot = async () => {
-    try {
-      await AsyncStorage.removeItem('token');
-      logoutAction();
-
-      // navigation.navigate('Wolcome');
-    } catch (error) {
-      Toast.show({
-        type: 'error',
-        text1: 'Lo sentimos no se cerro sesion',
-      });
-    }
-  };
-
   const index = useMemo(
     () =>
       dataEstaciones.findIndex(
@@ -76,7 +65,7 @@ const PerfilScreen = () => {
         <View style={{paddingHorizontal: 20}}>
           <View style={{alignItems: 'center', marginTop: 20}}>
             <Image
-              source={require('../../../images/image-profile.png')}
+              source={require('../../../images/doctor_2.png')}
               style={{
                 height: 300,
                 width: 300,
@@ -215,16 +204,20 @@ const PerfilScreen = () => {
           )}
 
           <Button
-            title="Cerrar sesion"
             filled
+            title="Cambio de turno"
             style={{
               marginTop: 20,
               marginBottom: 20,
             }}
-            onPress={handleLogot}
+            onPress={() => {
+              toggle.onOpen();
+            }}
           />
         </View>
       </ScrollView>
+
+      <ModalCambioTurno isOpen={toggle.isOpen} onClose={toggle.onClose} />
     </>
   );
 };

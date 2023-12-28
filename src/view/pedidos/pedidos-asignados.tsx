@@ -32,19 +32,6 @@ const PedidosAsignados = ({data}: Props) => {
     );
   }, [data]);
 
-  console.log(
-    JSON.stringify(
-      {
-        items: data.map(pedido => ({
-          title: pedido.attributes?.cliente,
-          stage: pedido.attributes?.stage,
-        })),
-      },
-      null,
-      2,
-    ),
-  );
-
   return (
     <>
       <ScrollView style={{flex: 1}}>

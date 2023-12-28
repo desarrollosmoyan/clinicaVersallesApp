@@ -51,6 +51,14 @@ export type Cargo = {
   estado?: Maybe<Scalars['Boolean']['output']>;
   nombre?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  users?: Maybe<UsersPermissionsUserRelationResponseCollection>;
+};
+
+
+export type CargoUsersArgs = {
+  filters?: InputMaybe<UsersPermissionsUserFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type CargoEntity = {
@@ -79,11 +87,13 @@ export type CargoFiltersInput = {
   not?: InputMaybe<CargoFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<CargoFiltersInput>>>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  users?: InputMaybe<UsersPermissionsUserFiltersInput>;
 };
 
 export type CargoInput = {
   estado?: InputMaybe<Scalars['Boolean']['input']>;
   nombre?: InputMaybe<Scalars['String']['input']>;
+  users?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
 };
 
 export type DateTimeFilterInput = {
@@ -637,6 +647,7 @@ export type Pedido = {
   __typename?: 'Pedido';
   cargo?: Maybe<CargoEntityResponse>;
   cliente?: Maybe<Scalars['String']['output']>;
+  creadoPor?: Maybe<UsersPermissionsUserEntityResponse>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   cuantoTardoInicioFin?: Maybe<Scalars['String']['output']>;
   descripcion?: Maybe<Scalars['String']['output']>;
@@ -678,6 +689,7 @@ export type PedidoFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<PedidoFiltersInput>>>;
   cargo?: InputMaybe<CargoFiltersInput>;
   cliente?: InputMaybe<StringFilterInput>;
+  creadoPor?: InputMaybe<UsersPermissionsUserFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   cuantoTardoInicioFin?: InputMaybe<StringFilterInput>;
   descripcion?: InputMaybe<StringFilterInput>;
@@ -704,6 +716,7 @@ export type PedidoFiltersInput = {
 export type PedidoInput = {
   cargo?: InputMaybe<Scalars['ID']['input']>;
   cliente?: InputMaybe<Scalars['String']['input']>;
+  creadoPor?: InputMaybe<Scalars['ID']['input']>;
   cuantoTardoInicioFin?: InputMaybe<Scalars['String']['input']>;
   descripcion?: InputMaybe<Scalars['String']['input']>;
   estacionFin?: InputMaybe<Scalars['String']['input']>;
@@ -1347,6 +1360,7 @@ export type UsersPermissionsUser = {
   nombreCompleto?: Maybe<Scalars['String']['output']>;
   observacione?: Maybe<ObservacioneEntityResponse>;
   pedidos?: Maybe<PedidoRelationResponseCollection>;
+  pedidosCreados?: Maybe<PedidoRelationResponseCollection>;
   provider?: Maybe<Scalars['String']['output']>;
   role?: Maybe<UsersPermissionsRoleEntityResponse>;
   turnos?: Maybe<TurnoRelationResponseCollection>;
@@ -1358,6 +1372,13 @@ export type UsersPermissionsUser = {
 
 
 export type UsersPermissionsUserPedidosArgs = {
+  filters?: InputMaybe<PedidoFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+
+export type UsersPermissionsUserPedidosCreadosArgs = {
   filters?: InputMaybe<PedidoFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
@@ -1404,6 +1425,7 @@ export type UsersPermissionsUserFiltersInput = {
   or?: InputMaybe<Array<InputMaybe<UsersPermissionsUserFiltersInput>>>;
   password?: InputMaybe<StringFilterInput>;
   pedidos?: InputMaybe<PedidoFiltersInput>;
+  pedidosCreados?: InputMaybe<PedidoFiltersInput>;
   provider?: InputMaybe<StringFilterInput>;
   resetPasswordToken?: InputMaybe<StringFilterInput>;
   role?: InputMaybe<UsersPermissionsRoleFiltersInput>;
@@ -1426,6 +1448,7 @@ export type UsersPermissionsUserInput = {
   observacione?: InputMaybe<Scalars['ID']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
   pedidos?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  pedidosCreados?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   provider?: InputMaybe<Scalars['String']['input']>;
   resetPasswordToken?: InputMaybe<Scalars['String']['input']>;
   role?: InputMaybe<Scalars['ID']['input']>;
@@ -1490,6 +1513,15 @@ export type EstacionesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type EstacionesQuery = { __typename?: 'Query', estaciones?: { __typename?: 'EstacioneEntityResponseCollection', data: Array<{ __typename?: 'EstacioneEntity', attributes?: { __typename?: 'Estacione', nombre?: string | null, codigoNFC?: string | null, createdAt?: any | null, updatedAt?: any | null } | null }> } | null };
+
+export type GetAllUsersQueryVariables = Exact<{
+  filters?: InputMaybe<UsersPermissionsUserFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
+}>;
+
+
+export type GetAllUsersQuery = { __typename?: 'Query', users?: { __typename?: 'UsersPermissionsUserEntityResponseCollection', meta: { __typename?: 'ResponseCollectionMeta', pagination: { __typename?: 'Pagination', total: number, page: number, pageSize: number, pageCount: number } }, data: Array<{ __typename?: 'UsersPermissionsUserEntity', id?: string | null, attributes?: { __typename?: 'UsersPermissionsUser', username: string, email: string, nombreCompleto?: string | null } | null }> } | null };
 
 export type GetUserByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -1844,6 +1876,62 @@ export function useEstacionesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type EstacionesQueryHookResult = ReturnType<typeof useEstacionesQuery>;
 export type EstacionesLazyQueryHookResult = ReturnType<typeof useEstacionesLazyQuery>;
 export type EstacionesQueryResult = Apollo.QueryResult<EstacionesQuery, EstacionesQueryVariables>;
+export const GetAllUsersDocument = gql`
+    query GetAllUsers($filters: UsersPermissionsUserFiltersInput, $pagination: PaginationArg = {}, $sort: [String] = []) {
+  users: usersPermissionsUsers(
+    sort: $sort
+    filters: $filters
+    pagination: $pagination
+  ) {
+    meta {
+      pagination {
+        total
+        page
+        pageSize
+        pageCount
+      }
+    }
+    data {
+      id
+      attributes {
+        username
+        email
+        nombreCompleto
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetAllUsersQuery__
+ *
+ * To run a query within a React component, call `useGetAllUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllUsersQuery({
+ *   variables: {
+ *      filters: // value for 'filters'
+ *      pagination: // value for 'pagination'
+ *      sort: // value for 'sort'
+ *   },
+ * });
+ */
+export function useGetAllUsersQuery(baseOptions?: Apollo.QueryHookOptions<GetAllUsersQuery, GetAllUsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllUsersQuery, GetAllUsersQueryVariables>(GetAllUsersDocument, options);
+      }
+export function useGetAllUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllUsersQuery, GetAllUsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllUsersQuery, GetAllUsersQueryVariables>(GetAllUsersDocument, options);
+        }
+export type GetAllUsersQueryHookResult = ReturnType<typeof useGetAllUsersQuery>;
+export type GetAllUsersLazyQueryHookResult = ReturnType<typeof useGetAllUsersLazyQuery>;
+export type GetAllUsersQueryResult = Apollo.QueryResult<GetAllUsersQuery, GetAllUsersQueryVariables>;
 export const GetUserByIdDocument = gql`
     query GetUserById($id: ID!) {
   usersPermissionsUser(id: $id) {

@@ -20,7 +20,7 @@ const WelcomeScreen = ({navigation}: Props) => {
       <View style={{flex: 1}}>
         <View>
           <Image
-            source={require('../../../images/hero1.jpg')}
+            source={require('../../../images/doctor_6.png')}
             style={{
               height: 100,
               width: 100,
@@ -36,7 +36,7 @@ const WelcomeScreen = ({navigation}: Props) => {
           />
 
           <Image
-            source={require('../../../images/hero3.jpg')}
+            source={require('../../../images/doctor_3.png')}
             style={{
               height: 100,
               width: 100,
@@ -53,7 +53,7 @@ const WelcomeScreen = ({navigation}: Props) => {
           />
 
           <Image
-            source={require('../../../images/hero3.jpg')}
+            source={require('../../../images/doctor_2.png')}
             style={{
               width: 100,
               height: 100,
@@ -70,7 +70,7 @@ const WelcomeScreen = ({navigation}: Props) => {
           />
 
           <Image
-            source={require('../../../images/hero2.jpg')}
+            source={require('../../../images/doctor_1.png')}
             style={{
               height: 200,
               width: 200,

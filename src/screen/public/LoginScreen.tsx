@@ -187,6 +187,7 @@ const LoginScreen = () => {
           </View>
 
           <Button
+            onPress={handleLogin}
             loading={loadingLogin}
             title="Iniciar sesión"
             filled
@@ -194,7 +195,6 @@ const LoginScreen = () => {
               marginTop: 18,
               marginBottom: 4,
             }}
-            onPress={handleLogin}
           />
         </View>
       </SafeAreaView>

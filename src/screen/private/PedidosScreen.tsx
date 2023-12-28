@@ -13,6 +13,7 @@ import {usePedidosQuery, useUpdatePedidoMutation} from '@/generated/graphql';
 import {useSocket} from '@/hooks/use-socket';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamsSecondary} from '@/navigator/RouteSecondary';
+import {useRefreshOnFocus} from '@/hooks/use-refresh-on-focus';
 
 type Props = StackScreenProps<RootStackParamsSecondary, 'Pedidos'>;
 
@@ -26,8 +27,8 @@ const PedidosScreen = (props: Props) => {
   }));
 
   // LLAMADA A GRAPHQL
-  const [updatePedido, {error}] = useUpdatePedidoMutation();
-  console.log(JSON.stringify(error, null, 2));
+  const [updatePedido] = useUpdatePedidoMutation();
+
   const {data, loading, refetch} = usePedidosQuery({
     variables: {
       sort: 'createdAt:desc',
@@ -39,13 +40,13 @@ const PedidosScreen = (props: Props) => {
     },
   });
 
+  useRefreshOnFocus(refetch);
+
   useEffect(() => {
     const handleNewOrder = async (args: {
       cargoId: string;
       pedidoId: string;
     }) => {
-      console.log('NEW_ORDER: ', args);
-
       try {
         const res = await updatePedido({
           variables: {
