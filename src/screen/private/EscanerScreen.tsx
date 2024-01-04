@@ -42,7 +42,7 @@ const EscanerScreen = ({navigation, route}: Props) => {
       updatePedidoId: route?.params?.id,
       data: {
         stage: Enum_Pedido_Stage.InitialPoint,
-        fehcaInicio: new Date().toDateString(),
+        fehcaInicio: new Date().toISOString(),
       },
     });
     if (resp.res) {
@@ -57,7 +57,7 @@ const EscanerScreen = ({navigation, route}: Props) => {
       data: {
         finalizado: true,
         stage: Enum_Pedido_Stage.FinalPoint,
-        fechaFin: new Date().toDateString(),
+        fechaFin: new Date().toISOString(),
       },
     });
     if (resp.res) {
@@ -74,7 +74,7 @@ const EscanerScreen = ({navigation, route}: Props) => {
         text1: 'NFC escaneado correctamente',
       });
 
-      if (dataPedido.attributes?.stage === Enum_Pedido_Stage.StandBy) {
+      if (dataPedido.attributes?.stage === Enum_Pedido_Stage.Read) {
         updatePedidoInicio();
       }
 

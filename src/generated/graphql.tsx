@@ -123,6 +123,7 @@ export type DateTimeFilterInput = {
 export enum Enum_Pedido_Stage {
   FinalPoint = 'FINAL_POINT',
   InitialPoint = 'INITIAL_POINT',
+  Read = 'READ',
   StandBy = 'STAND_BY'
 }
 
@@ -662,6 +663,7 @@ export type Pedido = {
   identificacion?: Maybe<Scalars['String']['output']>;
   nombrePedido?: Maybe<Scalars['String']['output']>;
   observacione?: Maybe<ObservacioneEntityResponse>;
+  readDate?: Maybe<Scalars['String']['output']>;
   stage?: Maybe<Enum_Pedido_Stage>;
   tipoIdentificacion?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
@@ -707,6 +709,7 @@ export type PedidoFiltersInput = {
   not?: InputMaybe<PedidoFiltersInput>;
   observacione?: InputMaybe<ObservacioneFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<PedidoFiltersInput>>>;
+  readDate?: InputMaybe<StringFilterInput>;
   stage?: InputMaybe<StringFilterInput>;
   tipoIdentificacion?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
@@ -730,6 +733,7 @@ export type PedidoInput = {
   identificacion?: InputMaybe<Scalars['String']['input']>;
   nombrePedido?: InputMaybe<Scalars['String']['input']>;
   observacione?: InputMaybe<Scalars['ID']['input']>;
+  readDate?: InputMaybe<Scalars['String']['input']>;
   stage?: InputMaybe<Enum_Pedido_Stage>;
   tipoIdentificacion?: InputMaybe<Scalars['String']['input']>;
   user?: InputMaybe<Scalars['ID']['input']>;
@@ -1498,7 +1502,7 @@ export type PedidoQueryVariables = Exact<{
 }>;
 
 
-export type PedidoQuery = { __typename?: 'Query', pedido?: { __typename?: 'PedidoEntityResponse', data?: { __typename?: 'PedidoEntity', id?: string | null, attributes?: { __typename?: 'Pedido', stage?: Enum_Pedido_Stage | null, nombrePedido?: string | null, descripcion?: string | null, cliente?: string | null, finalizado?: boolean | null, fecha?: string | null, hora?: any | null, estacionInicio?: string | null, estacionFin?: string | null, fehcaInicio?: string | null, fechaFin?: string | null, cuantoTardoInicioFin?: string | null, createdAt?: any | null, updatedAt?: any | null, cargo?: { __typename?: 'CargoEntityResponse', data?: { __typename?: 'CargoEntity', id?: string | null, attributes?: { __typename?: 'Cargo', nombre?: string | null, estado?: boolean | null, createdAt?: any | null, updatedAt?: any | null } | null } | null } | null, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', attributes?: { __typename?: 'UsersPermissionsUser', nombreCompleto?: string | null } | null } | null } | null } | null } | null } | null };
+export type PedidoQuery = { __typename?: 'Query', pedido?: { __typename?: 'PedidoEntityResponse', data?: { __typename?: 'PedidoEntity', id?: string | null, attributes?: { __typename?: 'Pedido', stage?: Enum_Pedido_Stage | null, nombrePedido?: string | null, descripcion?: string | null, cliente?: string | null, finalizado?: boolean | null, fecha?: string | null, hora?: any | null, estacionInicio?: string | null, estacionFin?: string | null, fehcaInicio?: string | null, fechaFin?: string | null, readDate?: string | null, identificacion?: string | null, tipoIdentificacion?: string | null, cuantoTardoInicioFin?: string | null, createdAt?: any | null, updatedAt?: any | null, cargo?: { __typename?: 'CargoEntityResponse', data?: { __typename?: 'CargoEntity', id?: string | null, attributes?: { __typename?: 'Cargo', nombre?: string | null, estado?: boolean | null, createdAt?: any | null, updatedAt?: any | null } | null } | null } | null, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', attributes?: { __typename?: 'UsersPermissionsUser', nombreCompleto?: string | null } | null } | null } | null } | null } | null } | null };
 
 export type PedidosQueryVariables = Exact<{
   filters?: InputMaybe<PedidoFiltersInput>;
@@ -1507,7 +1511,7 @@ export type PedidosQueryVariables = Exact<{
 }>;
 
 
-export type PedidosQuery = { __typename?: 'Query', pedidos?: { __typename?: 'PedidoEntityResponseCollection', data: Array<{ __typename?: 'PedidoEntity', id?: string | null, attributes?: { __typename?: 'Pedido', stage?: Enum_Pedido_Stage | null, nombrePedido?: string | null, descripcion?: string | null, cliente?: string | null, fecha?: string | null, hora?: any | null, estacionInicio?: string | null, estacionFin?: string | null, fehcaInicio?: string | null, fechaFin?: string | null, cuantoTardoInicioFin?: string | null, finalizado?: boolean | null, createdAt?: any | null, updatedAt?: any | null, cargo?: { __typename?: 'CargoEntityResponse', data?: { __typename?: 'CargoEntity', id?: string | null, attributes?: { __typename?: 'Cargo', nombre?: string | null, estado?: boolean | null, createdAt?: any | null, updatedAt?: any | null } | null } | null } | null, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null } | null } | null } | null }> } | null };
+export type PedidosQuery = { __typename?: 'Query', pedidos?: { __typename?: 'PedidoEntityResponseCollection', data: Array<{ __typename?: 'PedidoEntity', id?: string | null, attributes?: { __typename?: 'Pedido', stage?: Enum_Pedido_Stage | null, nombrePedido?: string | null, descripcion?: string | null, cliente?: string | null, fecha?: string | null, hora?: any | null, estacionInicio?: string | null, estacionFin?: string | null, fehcaInicio?: string | null, fechaFin?: string | null, cuantoTardoInicioFin?: string | null, readDate?: string | null, identificacion?: string | null, tipoIdentificacion?: string | null, finalizado?: boolean | null, createdAt?: any | null, updatedAt?: any | null, cargo?: { __typename?: 'CargoEntityResponse', data?: { __typename?: 'CargoEntity', id?: string | null, attributes?: { __typename?: 'Cargo', nombre?: string | null, estado?: boolean | null, createdAt?: any | null, updatedAt?: any | null } | null } | null } | null, user?: { __typename?: 'UsersPermissionsUserEntityResponse', data?: { __typename?: 'UsersPermissionsUserEntity', id?: string | null } | null } | null } | null }> } | null };
 
 export type EstacionesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1721,6 +1725,9 @@ export const PedidoDocument = gql`
         estacionFin
         fehcaInicio
         fechaFin
+        readDate
+        identificacion
+        tipoIdentificacion
         cuantoTardoInicioFin
         user {
           data {
@@ -1791,6 +1798,9 @@ export const PedidosDocument = gql`
         fehcaInicio
         fechaFin
         cuantoTardoInicioFin
+        readDate
+        identificacion
+        tipoIdentificacion
         finalizado
         createdAt
         updatedAt

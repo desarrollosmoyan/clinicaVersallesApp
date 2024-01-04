@@ -25,6 +25,9 @@ query Pedido($pedidoId: ID) {
         estacionFin
         fehcaInicio
         fechaFin
+        readDate
+        identificacion
+        tipoIdentificacion
         cuantoTardoInicioFin
         user {
           data {

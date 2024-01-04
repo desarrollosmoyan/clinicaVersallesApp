@@ -3,6 +3,7 @@ import {Socket, io} from 'socket.io-client';
 import enviroment from '@/enviroment';
 
 const URL = enviroment.URL;
+console.log({URL});
 
 export interface NuevoRegistroArgs {
   to: string;

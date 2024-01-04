@@ -30,6 +30,7 @@ const Card = ({data, color, onDetalle, id, isAcept = false}: Props) => {
       <View style={{...styles.container, backgroundColor: COLORS.primary}}>
         <View style={styles.containerTitle}>
           <Text style={styles.title}>{data.cliente!}</Text>
+
           <TouchableOpacity
             activeOpacity={0.8}
             style={{
@@ -51,9 +52,11 @@ const Card = ({data, color, onDetalle, id, isAcept = false}: Props) => {
             />
           </TouchableOpacity>
         </View>
+        <Text style={styles.subtitle}>{data.identificacion}</Text>
         <Text style={styles.subtitle}>
           {data.cargo?.data?.attributes?.nombre}
         </Text>
+
         <Text style={styles.subtitle}>{data.descripcion}</Text>
 
         {/* CARDS OF ESTACIONES */}

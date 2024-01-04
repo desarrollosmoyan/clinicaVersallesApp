@@ -28,6 +28,9 @@ query Pedidos(
         fehcaInicio
         fechaFin
         cuantoTardoInicioFin
+        readDate
+        identificacion
+        tipoIdentificacion
         finalizado
         createdAt
         updatedAt
